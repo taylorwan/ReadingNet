@@ -32,9 +32,9 @@ class Database(object):
 
     def __connect( self ):
         """Connect to the database"""
-        self.conn = pymysql.connect(self.opts.DB_HOST, self.opts.DB_USER,
-                                    self.opts.DB_PASSWORD, self.opts.DB_NAME)
-        # self.conn = pymysql.connect('localhost','user280', 'p4ssw0rd', 'project280' )
+        # self.conn = pymysql.connect(self.opts.DB_HOST, self.opts.DB_USER,
+                                    # self.opts.DB_PASSWORD, self.opts.DB_NAME)
+        self.conn = pymysql.connect('localhost','user280', 'p4ssw0rd', 'project280' )
 
     def search( self, query ):
         print "in search in database"
