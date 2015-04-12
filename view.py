@@ -2,17 +2,17 @@
 from flask import (Flask, render_template, request)
 
 # project modules
-# import config
-# from logic import Database
+import config
+from logic import Database
 
 # instanciate application and database object
 app = Flask(__name__)
-# db = Database(config)
+db = Database(config)
 
 # configure the web abb according to the config object
-# app.host = config.APP_HOST
-# app.port = config.APP_PORT
-# app.debug = config.APP_DEBUG
+app.host = config.APP_HOST
+app.port = config.APP_PORT
+app.debug = config.APP_DEBUG
 
 
 @app.route('/')
