@@ -36,10 +36,12 @@ class Database(object):
                                     # self.opts.DB_PASSWORD, self.opts.DB_NAME)
         self.conn = pymysql.connect('localhost','user280', 'p4ssw0rd', 'project280' )
 
-    def search( self, query ):
+    def search( self, isbn, title, author, publisher):
         print "In search" 
         cur = self.conn.cursor( pymysql.cursors.DictCursor )
         query = pymysql.escape_string( query )
-        cur.execute( 'SELECT * FROM levels'.format( query ) )
+        cur.execute( 'SELECT * FROM book_inventory WHERE title like '%".$title."%' AND isbn like '%".$isbn."%' AND author like '%".$author."%' AND publisher like '%".$publisher."%''.format( query ) )
+        
+        
 
         return CursorIterator( cur )

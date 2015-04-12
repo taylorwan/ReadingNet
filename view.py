@@ -23,11 +23,23 @@ def splash():
 
 @app.route( '/search', methods=['GET'] )
 def results():
-    query = request.args.get( 'query' )
-    results = db.search( query )
+    isbn = request.args.get( 'isbn' )
+    title = request.args.get( 'title' )
+    author = request.args.get( 'author' )
+    publisher = request.args.get( 'publisher' )
+
+    if isbn == "": 
+    	isbn = "IS NOT NULL"
+    if title == "":
+    	title = "IS NOT NULL"
+    if author == "":
+    	author = "IS NOT NULL"
+    if publisher == "":
+    	publisher = "IS NOT NULL"
+
+    results = db.search( isbn, title, author, publisher)
     print "routing to results"
     return render_template( 'results.html', results = results )
-    # return render_template( 'results.html' )
 
 if __name__ == '__main__':
     app.run()
