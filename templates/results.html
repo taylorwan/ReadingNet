@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="results">
+
+	    <table id="search-results">
+	        <tr>
+	            <td><b id="table-header">Reading Level</b></td>
+	        </tr>
+	        {% for r in results %}
+	            <tr>
+	                <td>{{ r['reading_level'] }}</td>
+	            </tr>
+	        {% endfor %}
+	    </table>
+
+  </div>
+{% endblock %}
