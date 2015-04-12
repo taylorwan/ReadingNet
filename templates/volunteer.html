@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+  
+<form action="addDonor">
+	<input type="text" name="donorID" id="addDonorDonorID" placeholder="donorID">
+	<input type="text" name="phoneNum" id="addDonorPhoneNum" placeholder="phoneNum">
+	<input type="text" name="email" id="addDonorEmail" placeholder="email">
+	<input type="text" name="firstName" id="addDonorFirstName" placeholder="firstName">
+	<input type="text" name="lastName" id="addDonorLastName" placeholder="lastName">
+	<input type="text" name="DOB" id="addDonorDOB" placeholder="DOB">
+	<input type="text" name="zipCode" id="addDonorZipCode" placeholder="zipCode">
+	<input type="text" name="gender" id="addDonorGender" placeholder="gender">
+	<input type="submit" id="submitButton" >
+</form>
+
+<form action="addVolunteer">
+	<input type="text" name="VolunteerID" id="addVolunteerVolunteerID" placeholder="VolunteerID">
+	<input type="text" name="phoneNum" id="addVolunteerPhoneNum" placeholder="phoneNum">
+	<input type="text" name="email" id="addVolunteerEmail" placeholder="email">
+	<input type="text" name="firstName" id="addVolunteerFirstName" placeholder="firstName">
+	<input type="text" name="lastName" id="addVolunteerLastName" placeholder="lastName">
+	<input type="text" name="DOB" id="addVolunteerDOB" placeholder="DOB">
+	<input type="text" name="zipCode" id="addVolunteerZipCode" placeholder="zipCode">
+	<input type="text" name="gender" id="addVolunteerGender" placeholder="gender">
+	<input type="submit" id="submitButton" >
+</form>
+
+<form action="enterBook">
+	<input type="text" name="isbn" id="insertIsbn" placeholder="isbn">
+	<input type="text" name="bookStatus" id="insertBookStatus" placeholder="bookStatus">
+	<input type="text" name="title" id="insertTitle" placeholder="title">
+	<input type="text" name="readingLevel" id="insertReadingLevel" placeholder="readingLevel">
+	<input type="text" name="edition" id="insertEdition" placeholder="edition">
+	<input type="text" name="author" id="insertAuthor" placeholder="author">
+	<input type="text" name="publisher" id="insertPublisher" placeholder="publisher">
+	<input type="text" name="genre" id="insertGenre" placeholder="genre">
+	<input type="text" name="count" id="insertCount" placeholder="count">
+	<input type="text" name="donationDate" id="insertDonationDate" placeholder="donationDate">
+	<input type="text" name="donor" id="insertDonor" placeholder="donor">
+	<input type="submit" id="submitButton" >
+</form>
+
+
+<form action="cashDonation">
+	<input type="text" name="donor" id="cashDonor" placeholder="donor">
+	<input type="text" name="amount" id="cashAmount" placeholder="amount">
+	<input type="text" name="donationDate" id="cashDonationDate" placeholder="donationDate">
+	<input type="submit" id="submitButton" >
+</form>
+
+<form action="bookPurchase">
+	<input type="text" name="volunteerID" id="purchaseVolunteerID" placeholder="volunteerID">
+	<input type="text" name="amount" id="purchaseAmount" placeholder="amount">
+	<input type="text" name="donationDate" id="purchaseDonationDate" placeholder="donationDate">
+	<input type="submit" id="submitButton" >
+</form>
+
+<form action="addTokens">
+	<input type="text" name="clientID" id="addTokenClientID" placeholder="clientID">
+	<input type="text" name="tokenCount" id="addTokenTokenCount" placeholder="tokenCount">
+	<input type="submit" id="submitButton" >
+</form>
+
+
+
+
+{% endblock %}
