@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.png">
+    {% block css %}{% endblock %}
+</head>
+<body>
+    <nav id="top-banner">
+        <div class="wrap">
+            <div class="logo left" id="top-logo">
+                <a href="/" class="no-decoration">Y'all Enjoy Looking at Plates</a>
+            </div>
+            <ul class="nav-links right">
+                <li id="browse">Browse</li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="base-content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
