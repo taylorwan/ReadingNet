@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
   
-<form action="search" id="searchform">
-	<input type="text" name="query" id="searchbox" onfocus="emptySearchBox()" onblur="setDefaultValueSearchBox()" value="">
-	<input type="submit" value="Search" id="submit-search-button">
+<form action="search">
+	<input type="text" name="isbn" id="searchIsbn">
+	<input type="text" name="title" id="searchTitle">
+	<input type="text" name="author" id="searchAuthor">
+	<input type="text" name="publisher" id="searchPublisher">
+	<input type="submit" id="submitButton" >
 </form>
-
 
 {% endblock %}
