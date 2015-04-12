@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="search">
-    <h2>Search books<h2>
-    <form>
-    	<input type="text" name="query" placeholder="Title, Author, etc.">
-    	<input type="submit" value="Search" id="searchButton">
-    </form>
+  
+<form action="search" id="searchform">
+	<input type="text" name="query" id="searchbox" onfocus="emptySearchBox()" onblur="setDefaultValueSearchBox()" value="">
+	<input type="submit" value="Search" id="submit-search-button">
+</form>
 
-  </div>
+
 {% endblock %}

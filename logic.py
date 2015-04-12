@@ -37,7 +37,7 @@ class Database(object):
         self.conn = pymysql.connect('localhost','user280', 'p4ssw0rd', 'project280' )
 
     def search( self, query ):
-        print "in search in database"
+        print "In search" 
         cur = self.conn.cursor( pymysql.cursors.DictCursor )
         query = pymysql.escape_string( query )
         cur.execute( 'SELECT * FROM levels'.format( query ) )
