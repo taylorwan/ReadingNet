@@ -1,5 +1,7 @@
 # third party modules
 from flask import (Flask, render_template, request)
+import Tkinter
+import tkMessageBox
 
 # project modules
 import config
@@ -53,6 +55,8 @@ def add_new_donor():
 	if request.method == 'POST':
 		print "its a post"
 		donorID = request.form[ 'donorID' ]
+		if donorID == "":
+			render_template('/error.html')
 		phoneNum = request.form[ 'phoneNum' ]
 		email = request.form[ 'email' ]
 		firstName = request.form[ 'firstName' ]
