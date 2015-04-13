@@ -6,6 +6,105 @@
        url('equal-regular-webfont.woff') format('woff'), /* Pretty Modern Browsers */
        url('equal-regular-webfont.ttf')  format('truetype'), /* Safari, Android, iOS */
        url('equal-regular-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'facile_sansregular';
+    src: url('facile_sans-webfont.eot');
+    src: url('facile_sans-webfont.eot?#iefix') format('embedded-opentype'),
+         url('facile_sans-webfont.woff2') format('woff2'),
+         url('facile_sans-webfont.woff') format('woff'),
+         url('facile_sans-webfont.ttf') format('truetype'),
+         url('facile_sans-webfont.svg#facile_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'dual300';
+    src: url('dual-300-webfont.eot');
+    src: url('dual-300-webfont.eot?#iefix') format('embedded-opentype'),
+         url('dual-300-webfont.woff2') format('woff2'),
+         url('dual-300-webfont.woff') format('woff'),
+         url('dual-300-webfont.ttf') format('truetype'),
+         url('dual-300-webfont.svg#dual300') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ralewayregular';
+    src: url('raleway-regular-webfont.eot');
+    src: url('raleway-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('raleway-regular-webfont.woff2') format('woff2'),
+         url('raleway-regular-webfont.woff') format('woff'),
+         url('raleway-regular-webfont.ttf') format('truetype'),
+         url('raleway-regular-webfont.svg#ralewayregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'bebas_neuebold';
+    src: url('bebasneue_bold-webfont.eot');
+    src: url('bebasneue_bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('bebasneue_bold-webfont.woff2') format('woff2'),
+         url('bebasneue_bold-webfont.woff') format('woff'),
+         url('bebasneue_bold-webfont.ttf') format('truetype'),
+         url('bebasneue_bold-webfont.svg#bebas_neuebold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'simplificasimplifica';
+    src: url('simplifica_typeface-webfont.eot');
+    src: url('simplifica_typeface-webfont.eot?#iefix') format('embedded-opentype'),
+         url('simplifica_typeface-webfont.woff2') format('woff2'),
+         url('simplifica_typeface-webfont.woff') format('woff'),
+         url('simplifica_typeface-webfont.ttf') format('truetype'),
+         url('simplifica_typeface-webfont.svg#simplificasimplifica') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+h2.facile{
+	font-size: 25px;
+	color: #3366CC;
+	font-family: 'facile_sansregular', sans-serif;
+	text-transform: lowercase;
+}
+
+h1.dual300{
+	font-size: 25px;
+	color: #3366CC;
+	font-family: 'dual300', sans-serif;
+}
+
+h1.raleway{
+	font-size: 35px;
+	color: #3366CC;
+	text-shadow: 1px 1px #909090;
+	font-family: 'ralewayregular', sans-serif;
+}
+
+.inline .bebas{
+	font-size: 20px;
+	font-family: 'bebas_neuebold', sans-serif;
+	text-align: center
+}
+
+h2.simplifica{
+	font-size: 35px;
+	color: #505050 ;
+	font-family: 'simplificasimplifica', sans-serif;
+	font-weight: bold;
+
 }
 
 h3.volunteer{
@@ -30,4 +129,21 @@ form.volinputs input[type=text]:focus{
 
 ul.inputs{
 	list-style-type: none;
+}
+
+.inputs .inline{
+	display:inline-block !important;
+	margin-right:10px;
+}
+
+.volinputs .submit{
+	padding: 4px;
+	  border: solid 5px #3366CC;
+	  margin-bottom: 5px;
+	  margin-right: 5px;
+	  background-color: #3366CC;
+	  font-family: "bebas_neuebold";
+	  font-size: 25px;
+	  color: white;
+	  letter-spacing: 1px;
 }
