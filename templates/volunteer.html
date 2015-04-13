@@ -1,61 +1,69 @@
 {% extends "base.html" %}
 {% block content %}
   
-<form action="addDonor">
-	<input type="text" name="donorID" id="addDonorDonorID" placeholder="donorID">
-	<input type="text" name="phoneNum" id="addDonorPhoneNum" placeholder="phoneNum">
-	<input type="text" name="email" id="addDonorEmail" placeholder="email">
-	<input type="text" name="firstName" id="addDonorFirstName" placeholder="firstName">
-	<input type="text" name="lastName" id="addDonorLastName" placeholder="lastName">
-	<input type="text" name="DOB" id="addDonorDOB" placeholder="DOB">
-	<input type="text" name="zipCode" id="addDonorZipCode" placeholder="zipCode">
-	<input type="text" name="gender" id="addDonorGender" placeholder="gender">
+<h3 class="volunteer"> Add a new donor to the database </h3>
+<form action="/add_new_donor" method="POST" class="volinputs">
+	<ul class="inputs">
+	<li> Donor ID <input type="text" name="donorID" id="newDonor_DonorID" placeholder="Donor ID"></li>
+	<li> Phone Number <input type="text" name="phoneNum" id="newDonor_PhoneNum" placeholder="Phone Number"></li>
+	<li> Email Address <input type="text" name="email" id="newDonor_Email" placeholder="Email Address"></li>
+	<li> First Name <input type="text" name="firstName" id="newDonor_FirstName" placeholder="First Name"></li>
+	<li> Last Name <input type="text" name="lastName" id="newDonor_LastName" placeholder="Last Name"></li>
+	<li> Date of Birth <input type="text" name="DOB" id="newDonor_DOB" placeholder="Date of Birth"></li>
+	<li> Street Address <input type="text" name="streetAddress" id="newDonor_StreetAddress" placeholder="Street Address"></li>
+	<li> Zip Code <input type="text" name="zipCode" id="newDonor_ZipCode" placeholder="Zip Code"></li>
+	<li> Gender <input type="text" name="gender" id="newDonor_Gender" placeholder="Gender"></li>
+	<li><input type="submit" id="submitButton"></li>
+	</ul>
+</form>
+
+<h3 class="volunteer"> Add a new volunteer to the database </h3>
+<form action="/add_new_volunteer" method="POST" class="volinputs">
+	<input type="text" name="VolunteerID" id="newVolunteer_VolunteerID" placeholder="Volunteer ID">
+	<input type="text" name="phoneNum" id="newVolunteer_PhoneNum" placeholder="Phone Number">
+	<input type="text" name="email" id="newVolunteer_Email" placeholder="Email Address">
+	<input type="text" name="firstName" id="newVolunteer_FirstName" placeholder="First Name">
+	<input type="text" name="lastName" id="newVolunteer_LastName" placeholder="Last Name">
+	<input type="text" name="DOB" id="newVolunteer_DOB" placeholder="Date of Birth">
+	<input type="text" name="zipCode" id="newVolunteer_ZipCode" placeholder="Zip Code">
+	<input type="text" name="gender" id="newVolunteer_Gender" placeholder="Gender">
 	<input type="submit" id="submitButton" >
 </form>
 
-<form action="addVolunteer">
-	<input type="text" name="VolunteerID" id="addVolunteerVolunteerID" placeholder="VolunteerID">
-	<input type="text" name="phoneNum" id="addVolunteerPhoneNum" placeholder="phoneNum">
-	<input type="text" name="email" id="addVolunteerEmail" placeholder="email">
-	<input type="text" name="firstName" id="addVolunteerFirstName" placeholder="firstName">
-	<input type="text" name="lastName" id="addVolunteerLastName" placeholder="lastName">
-	<input type="text" name="DOB" id="addVolunteerDOB" placeholder="DOB">
-	<input type="text" name="zipCode" id="addVolunteerZipCode" placeholder="zipCode">
-	<input type="text" name="gender" id="addVolunteerGender" placeholder="gender">
+<h3 class="volunteer"> Add a new book to the inventory </h3>
+<form action="/add_new_book" method="POST" class="volinputs">
+	<input type="text" name="isbn" id="new_book_Isbn" placeholder="ISBN">
+	<input type="text" name="bookStatus" id="new_book_BookStatus" placeholder="Book Status">
+	<input type="text" name="title" id="new_book_Title" placeholder="Title">
+	<input type="text" name="readingLevel" id="new_book_ReadingLevel" placeholder="Reading Level">
+	<input type="text" name="edition" id="new_book_Edition" placeholder="Edition">
+	<input type="text" name="author" id="new_book_Author" placeholder="Author">
+	<input type="text" name="publisher" id="new_book_Publisher" placeholder="Publisher">
+	<input type="text" name="genre" id="new_book_Genre" placeholder="Genre">
+	<input type="text" name="count" id="new_book_Count" placeholder="Quantity">
+	<input type="text" name="donationDate" id="new_book_DonationDate" placeholder="Date of Donation">
+	<input type="text" name="donor" id="new_book_Donor" placeholder="Donor ID">
 	<input type="submit" id="submitButton" >
 </form>
 
-<form action="enterBook">
-	<input type="text" name="isbn" id="insertIsbn" placeholder="isbn">
-	<input type="text" name="bookStatus" id="insertBookStatus" placeholder="bookStatus">
-	<input type="text" name="title" id="insertTitle" placeholder="title">
-	<input type="text" name="readingLevel" id="insertReadingLevel" placeholder="readingLevel">
-	<input type="text" name="edition" id="insertEdition" placeholder="edition">
-	<input type="text" name="author" id="insertAuthor" placeholder="author">
-	<input type="text" name="publisher" id="insertPublisher" placeholder="publisher">
-	<input type="text" name="genre" id="insertGenre" placeholder="genre">
-	<input type="text" name="count" id="insertCount" placeholder="count">
-	<input type="text" name="donationDate" id="insertDonationDate" placeholder="donationDate">
-	<input type="text" name="donor" id="insertDonor" placeholder="donor">
+<h3 class="volunteer"> Add a new cash donation to the database </h3>
+<form action="/add_new_cashDonation" method="POST" class="volinputs">
+	<input type="text" name="donor" id="new_cashDonation_Donor" placeholder="Donor ID">
+	<input type="text" name="amount" id="new_cashDonation_Amount" placeholder="Donation Amount">
+	<input type="text" name="donationDate" id="new_cashDonation_DonationDate" placeholder="Date of Donation">
 	<input type="submit" id="submitButton" >
 </form>
 
-
-<form action="cashDonation">
-	<input type="text" name="donor" id="cashDonor" placeholder="donor">
-	<input type="text" name="amount" id="cashAmount" placeholder="amount">
-	<input type="text" name="donationDate" id="cashDonationDate" placeholder="donationDate">
+<h3 class="volunteer"> Purchase a new book </h3>
+<form action="/add_new_bookPurchase" method="POST" class="volinputs">
+	<input type="text" name="volunteerID" id="new_bookPurchase_VolunteerID" placeholder="Volunteer ID">
+	<input type="text" name="donationDate" id="new_bookPurchase_Date" placeholder="Date of Purchase">
+	<input type="text" name="quantity" id="new_bookPurchase_Quantity" placeholder="Quantity">
 	<input type="submit" id="submitButton" >
 </form>
 
-<form action="bookPurchase">
-	<input type="text" name="volunteerID" id="purchaseVolunteerID" placeholder="volunteerID">
-	<input type="text" name="amount" id="purchaseAmount" placeholder="amount">
-	<input type="text" name="donationDate" id="purchaseDonationDate" placeholder="donationDate">
-	<input type="submit" id="submitButton" >
-</form>
-
-<form action="addTokens">
+<h3 class="volunteer"> Add tokens </h3>
+<form action="/addTokens" method="POST" class="volinputs">
 	<input type="text" name="clientID" id="addTokenClientID" placeholder="clientID">
 	<input type="text" name="tokenCount" id="addTokenTokenCount" placeholder="tokenCount">
 	<input type="submit" id="submitButton" >

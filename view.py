@@ -41,5 +41,32 @@ def results():
     print "routing to results"
     return render_template( 'results.html', results = results )
 
+@app.route( '/volunteer', methods=['GET'] )
+def load_forms():
+	print "loading the volunteer forms"
+	return render_template( 'volunteer.html')
+
+
+@app.route( '/add_new_donor', methods=['GET','POST'] )
+def add_new_donor():
+	print ("we are in")
+	if request.method == 'POST':
+		print "its a post"
+		donorID = request.form[ 'donorID' ]
+		phoneNum = request.form[ 'phoneNum' ]
+		email = request.form[ 'email' ]
+		firstName = request.form[ 'firstName' ]
+		lastName = request.form[ 'lastName' ]
+		DOB = request.form[ 'DOB' ]
+		streetAddress = request.form[ 'streetAddress' ]
+		zipCode = request.form[ 'zipCode' ]
+		gender = request.form[ 'gender' ]
+		print("the donor id is: " + donorID)
+		db.addDonor(donorID, phoneNum, email, firstName, lastName, DOB, streetAddress, zipCode, gender)
+		return render_template( 'success.html' )
+	
+	else:
+		return render_template('/volunteer.html')
+
 if __name__ == '__main__':
     app.run()

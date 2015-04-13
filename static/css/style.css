@@ -1,0 +1,33 @@
+@font-face {
+  font-family: 'Equal';
+  src: url('equal-regular-webfont.eot'); /* IE9 Compat Modes */
+  src: url('equal-regular-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('equal-regular-webfont.woff2') format('woff2'), /* Super Modern Browsers */
+       url('equal-regular-webfont.woff') format('woff'), /* Pretty Modern Browsers */
+       url('equal-regular-webfont.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('equal-regular-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+
+h3.volunteer{
+	color: #3366CC;
+	font-size: 22pt;
+	font-family: "Equal", serif;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+
+form.volinputs input[type=text]{
+	padding: 10px;
+  	border: solid 5px #c9c9c9;
+  	margin-bottom: 5px;
+	margin-right: 5px;
+	transition: border 0.3s;
+}
+
+form.volinputs input[type=text]:focus{
+ border: solid 5px #969696;
+}
+
+ul.inputs{
+	list-style-type: none;
+}
