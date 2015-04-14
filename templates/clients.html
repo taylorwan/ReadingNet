@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="client"> Purchase a book </h3>
+<form action="/add_new_donor" method="POST" class="volinputs">
+	<ul class="inputs">
+		<li class="inline" > <div class="bebas"> Donor ID </div> <input type="text" name="donorID" id="newDonor_DonorID" placeholder="Donor ID"></li>
+		<li class="inline"> <div class="bebas">First Name </div> <input type="text" name="firstName" id="newDonor_FirstName" placeholder="First Name"></li>
+		<li class="inline"> <div class="bebas">Last Name </div> <input type="text" name="lastName" id="newDonor_LastName" placeholder="Last Name"></li>
+		<li class="inline"> <div class="bebas">Date of Birth </div> <input type="text" name="DOB" id="newDonor_DOB" placeholder="Date of Birth"></li>
+		<li class="inline"> <div class="bebas">Gender </div> <input type="text" name="gender" id="newDonor_Gender" placeholder="Gender"></li>
+		<li class="inline"> <div class="bebas"> Phone Number</div> <input type="text" name="phoneNum" id="newDonor_PhoneNum" placeholder="Phone Number"></li>
+		<li class="inline"> <div class="bebas">Email Address</div> <input type="text" name="email" id="newDonor_Email" placeholder="Email Address"></li>
+		<li class="inline"> <div class="bebas">Street Address </div> <input type="text" name="streetAddress" id="newDonor_StreetAddress" placeholder="Street Address"></li>
+		<li class="inline"> <div class="bebas">City</div> <input type="text" name="city" id="newDonor_City" placeholder="City"></li>
+		<li class="inline"> <div class="bebas">State </div> <input type="text" name="state" id="newDonor_state" placeholder="State"></li>
+		<li class="inline"> <div class="bebas">Zip Code </div> <input type="text" name="zipCode" id="newDonor_ZipCode" placeholder="Zip Code"></li>
+		<li class="inline"><input type="submit" id="submitButton" class="submit"></li>
+		</ul>
+</form>
