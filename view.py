@@ -71,6 +71,17 @@ def see_all_volunteers():
 def load_forms():
 	return render_template( 'volunteer.html')
 
+@app.route( '/add_genre', methods=['GET','POST'] )
+def add_genre():
+	if request.method == 'POST':
+		print "its a post"
+		genre = request.form[ 'genre' ]
+		desc = request.form[ 'description' ]
+		db.add_genre(genre, desc)
+		return render_template( 'success.html' )
+	else:
+		return render_template('/volunteer.html')
+	
 
 # Add a new donor to the database
 # if any of the input fields are left blank, redirects to an error page
@@ -206,7 +217,7 @@ def add_new_book():
 		donationDate = request.form[ 'donationDate' ]		
 
 		db.add_book(isbn, title, readingLevel, genre, bookStatus, edition, publisher, quantity, author_fn, author_ln, donorID, donationDate)
-		return redner_template('success.html')
+		return render_template('success.html')
 	else:
 		return render_template('/volunteer.html')
 

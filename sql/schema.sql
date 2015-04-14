@@ -1,5 +1,4 @@
 # create database
-DROP DATABASE IF EXISTS readingNet;
 CREATE DATABASE readingNet;
 USE readingNet;
 
@@ -125,37 +124,40 @@ CREATE TABLE book_author(
 		ON DELETE CASCADE
 );
 
-CREATE TABLE book_donations( 
+CREATE TABLE book_donations(
+	book_donation_id INT AUTO_INCREMENT NOT NULL,
 	isbn INT NOT NULL, 
     title VARCHAR(500) NOT NULL,
     book_status ENUM('New','Gently used') NOT NULL,
     donor_id INT NOT NULL, 
     date_donated DATE NOT NULL, 
     quantity INT NOT NULL,
-    PRIMARY KEY(isbn, donor_id, date_donated),
+    PRIMARY KEY(book_donation_id),
     FOREIGN KEY(donor_id) 
 		REFERENCES donors(donor_id),
     FOREIGN KEY(isbn) 
 		REFERENCES book_inventory(isbn)
 );
 
-CREATE TABLE cash_donations( 
+CREATE TABLE cash_donations(
+	cash_donation_id INT AUTO_INCREMENT NOT NULL,
 	donor_id INT NOT NULL, 
     amount FLOAT(2) NOT NULL, 
     date_donated DATE NOT NULL,
-    PRIMARY KEY(donor_id, amount, date_donated),
+    PRIMARY KEY(cash_donation_id),
     FOREIGN KEY(donor_id) 
 		REFERENCES donors(donor_id)
 );
 
-CREATE TABLE volunteer_books_purchased( 
+CREATE TABLE volunteer_books_purchased(
+	book_purchase_id INT AUTO_INCREMENT NOT NULL,
 	volunteer_id INT NOT NULL, 
     isbn INT NOT NULL,  
     date_purchased DATE NOT NULL, 
     book_status ENUM('New','Gently used') NOT NULL, 
     quantity INT NOT NULL,
     book_cost INT NOT NULL,
-    PRIMARY KEY(volunteer_id, isbn, date_purchased, book_status),
+    PRIMARY KEY(book_purchase_id),
     FOREIGN KEY(volunteer_id) 
 		REFERENCES volunteers(volunteer_id)
 );

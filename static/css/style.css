@@ -73,6 +73,15 @@
 
 }
 
+li.button{
+    list-style: none;
+    display: inline;
+}
+
+ul.button form{
+    display:inline;
+}
+
 h2.facile{
 	font-size: 25px;
 	color: #3366CC;
