@@ -36,9 +36,10 @@ class Database(object):
                                     # self.opts.DB_PASSWORD, self.opts.DB_NAME)
         self.conn = pymysql.connect('localhost','readingNet280', 'p4ssw0rd', 'readingNet' )
 
-    def search( self, isbn, title, author, publisher):
+    def search(self, isbn, title, author_fn, author_ln, publisher):
         print "In search" 
-        cur = self.conn.cursor( pymysql.cursors.DictCursor )
+        cur = self.conn.cursor()
+
         isbn = pymysql.escape_string( isbn )
         title = pymysql.escape_string( title )
         author = pymysql.escape_string( author )
@@ -48,9 +49,12 @@ class Database(object):
         print author 
         print publisher
         #cur.execute("SELECT * FROM book_inventory WHERE title like '%%title%' AND isbn like '%%isbn%' AND author like '%%author%' AND publisher like '%%publisher%'",(title, isbn, author, publisher))
-        cur.execute("SELECT * FROM book_inventory WHERE title = %s AND isbn = %s AND author = %s AND publisher = %s",(title, isbn, author, publisher))
+        cur.execute("SELECT * FROM book_inventory WHERE title = %s AND isbn = %s AND author_ = %s AND publisher = %s",(title, isbn, author, publisher))
+        data = cur.fetchall()
 
-        return CursorIterator( cur )
+        colnames = [desc[0] for desc in cur.description]
+
+        return data, colnames
 
     def addDonor( self, donorID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode):
         print "in addDonor"

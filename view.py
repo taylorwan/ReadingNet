@@ -23,25 +23,30 @@ def splash():
     print "loading search"
     return render_template( 'search.html' )
 
+@app.route( '/volunteer', methods=['GET'] )
+def load_forms():
+	return render_template( 'volunteer.html')
+
 @app.route( '/search', methods=['GET'] )
 def results():
     isbn = request.args.get( 'isbn' )
     title = request.args.get( 'title' )
-    author = request.args.get( 'author' )
+    author_fn = request.args.get( 'author_fn' )
+    author_ln = request.args.get( 'author_fn' )
     publisher = request.args.get( 'publisher' )
 
-    if isbn == "": 
-    	isbn = "IS NOT NULL"
-    if title == "":
-    	title = "IS NOT NULL"
-    if author == "":
-    	author = "IS NOT NULL"
-    if publisher == "":
-    	publisher = "IS NOT NULL"
+    # if isbn == "": 
+    # 	isbn = "IS NOT NULL"
+    # if title == "":
+    # 	title = "IS NOT NULL"
+    # if author == "":
+    # 	author = "IS NOT NULL"
+    # if publisher == "":
+    # 	publisher = "IS NOT NULL"
 
-    results = db.search( isbn, title, author, publisher)
+    results, colnames = db.search(isbn, title, author_fn, author_ln, publisher)
     print "routing to results"
-    return render_template( 'results.html', results = results )
+    return render_template('results.html', results=results, colnames=colnames)
 
 @app.route('/see_all_levels', methods=['GET', 'POST'])
 def see_all_levels():
@@ -99,10 +104,6 @@ def see_cash_reserves():
 		return render_template('results.html',data=data, colnames=colnames)
 	else:
 		return render_template('/volunteer.html')
-
-@app.route( '/volunteer', methods=['GET'] )
-def load_forms():
-	return render_template( 'volunteer.html')
 
 @app.route('/add_genre', methods=['GET','POST'] )
 def add_genre():
