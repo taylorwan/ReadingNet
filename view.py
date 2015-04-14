@@ -67,6 +67,22 @@ def see_all_volunteers():
 	else:
 		return render_template('/volunteer.html')
 
+@app.route('/see_all_book_inventory', methods=['GET', 'POST'])
+def see_all_book_inventory():
+	if request.method == 'POST':
+			db.see_all_book_inventory()
+			return render_template( 'success.html' )
+	else:
+		return render_template('/volunteer.html')
+
+@app.route('/see_all_donations', methods=['GET', 'POST'])
+def see_all_donations():
+	if request.method == 'POST':
+			db.see_all_donations()
+			return render_template( 'success.html' )
+	else:
+		return render_template('/volunteer.html')
+
 @app.route( '/volunteer', methods=['GET'] )
 def load_forms():
 	return render_template( 'volunteer.html')

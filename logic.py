@@ -169,6 +169,28 @@ class Database(object):
             for row in data:
                 print row
 
+    def see_all_book_inventory(self):
+        print "seeing all books hopefully"
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT * FROM book_inventory")
+            data = cur.fetchall()
+            print cur.rowcount
+            for row in data:
+                print row
+
+    def see_all_donations(self):
+        print "seeing all donations hopefully"
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT * FROM book_donations")
+            data = cur.fetchall()
+            print cur.rowcount
+            for row in data:
+                print row
+
     def add_book(self, isbn, title, readingLevel, genre, bookStatus, edition, publisher, quantity, author_fn, author_ln, donorID, donationDate):
         print "in addbook"
         
@@ -191,31 +213,18 @@ class Database(object):
 
             cur.execute("SELECT * FROM book_inventory WHERE isbn = %s AND book_status = %s",(isbn, bookStatus))
             exists = cur.fetchone()
-            print "printing exists"
-            print exists
-            print type(quantity)
-            print "printing the quantity of books just donated: "
-            print quantity
 
             if exists == None:
-                print "in none"
                 cur.execute("INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",(isbn, title, readingLevel, genre, bookStatus, edition, publisher, quantity))
-                cur.execute("INSERT INTO book_donations(book_donation_id, isbn, title, book_status, donor_id, date_donated, quantity) VALUES (%s, %s, %s, %s, %s, %s)",(isbn, title, bookStatus, donorID, donationDate, quantity))
+                cur.execute("INSERT INTO book_donations(isbn, title, book_status, donor_id, date_donated, quantity) VALUES (%s, %s, %s, %s, %s, %s)",(isbn, title, bookStatus, donorID, donationDate, quantity))
             else:
-                print "in else"
                 existing_quant = 0
                 existing_quant = exists[7]
-                print "printing existing quant: "
-                print existing_quant
-                print "printing quantity of books just donated: "
-                print quantity
                 new_quantity = existing_quant + quantity
-                print quantity
                 cur.execute("UPDATE book_inventory SET quantity=%s WHERE isbn=%s AND book_status=%s",(new_quantity, isbn, bookStatus))
-
+                cur.execute("INSERT INTO book_donations(isbn, title, book_status, donor_id, date_donated, quantity) VALUES (%s, %s, %s, %s, %s, %s)",(isbn, title, bookStatus, donorID, donationDate, quantity))
 
             cur.execute("SELECT * FROM book_inventory")
-            
             data = cur.fetchall()
             print "printing book_inventory"
             for row in data:
@@ -223,6 +232,7 @@ class Database(object):
 
             cur.execute("SELECT * FROM book_donations")
             data = cur.fetchall()
+            print cur.rowcount
             print "printing donations"
             for row in data:
                 print row;
