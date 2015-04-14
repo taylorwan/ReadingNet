@@ -87,7 +87,7 @@ def see_all_donations():
 def load_forms():
 	return render_template( 'volunteer.html')
 
-@app.route( '/add_genre', methods=['GET','POST'] )
+@app.route('/add_genre', methods=['GET','POST'] )
 def add_genre():
 	if request.method == 'POST':
 		print "its a post"
@@ -237,6 +237,17 @@ def add_new_book():
 	else:
 		return render_template('/volunteer.html')
 
+@app.route('/add_new_cash_donation', methods=['GET', 'POST'])
+def add_new_cash_donation():
+	if request.method == 'POST':
+		donor_ID = request.form[ 'donorID' ]
+		amount = request.form[ 'amount' ]
+		donation_date = request.form[ 'donation_date' ]
+
+		db.new_cash_donation(donor_ID, amount, donation_date)
+		return render_template('success.html')
+	else:
+		return render_template('/volunteer.html')
 
 if __name__ == '__main__':
     app.run()

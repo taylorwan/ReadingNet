@@ -241,8 +241,22 @@ class Database(object):
 
             return cur
 
+    def new_cash_donation(self, donor_ID, amount, donation_date):
+        print "in cash donation"
+        
+        with self.conn:
+            cur = self.conn.cursor()
 
+            donor_ID = pymysql.escape_string( donor_ID )
+            amount = pymysql.escape_string( amount )
+            amount = float(amount)
+            donation_date = pymysql.escape_string( donation_date )
 
+            cur.execute("INSERT INTO cash_donations(donor_id, amount, date_donated) VALUES (%s, %s, %s)",(donor_ID, amount, donation_date))
+
+            self.conn.commit()
+
+            return cur
 
 
 

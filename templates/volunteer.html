@@ -74,11 +74,12 @@
 </form>
 
 <h3 class="volunteer"> Add a new cash donation to the database </h3>
-<form action="/add_new_cashDonation" method="POST" class="volinputs">
-	<input type="text" name="donor" id="new_cashDonation_Donor" placeholder="Donor ID">
-	<input type="text" name="amount" id="new_cashDonation_Amount" placeholder="Donation Amount">
-	<input type="text" name="donationDate" id="new_cashDonation_DonationDate" placeholder="Date of Donation">
-	<input type="submit" id="submitButton" >
+<form action="/add_new_cash_donation" method="POST" class="volinputs">
+<ul class="inputs">
+	<li class="inline"> <div class="bebas">Donor ID</div><input type="text" name="donorID" id="new_cash_donation_Donor" placeholder="Donor ID"></li>
+	<li class="inline"> <div class="bebas">Donation Amount</div><input type="text" name="amount" id="new_cashDonation_Amount" placeholder="Donation Amount"></li>
+	<li class="inline"> <div class="bebas">Donation Date</div><input type="text" name="donation_date" id="new_cashDonation_DonationDate" placeholder="Date of Donation"></li>
+	<li class="inline"><input type="submit" id="submitButton" class="submit"></li>
 </form>
 
 <h3 class="volunteer"> Purchase a new book </h3>
