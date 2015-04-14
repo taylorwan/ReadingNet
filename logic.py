@@ -292,6 +292,27 @@ class Database(object):
             for row in data:
                 print row
 
+    def add_tokens(self, client_ID, token_amount):
+        print "in add tokens"
+
+        #client_tokens
+        with self.conn:
+            cur = self.conn.cursor()
+
+            client_ID = pymysql.escape_string( client_ID )
+            token_amount = pymysql.escape_string( token_amount )
+            token_amount = int(token_amount)
+
+            cur.execute("SELECT * FROM clients WHERE client_id = %s",(client_ID))
+            data = cur.fetchone()
+            client_current_tokens = data[8]
+            new_token_amount = client_current_tokens + token_amount
+            cur.execute("UPDATE clients SET client_tokens = %s WHERE client_id = %s",(new_token_amount, client_ID))
+
+            self.conn.commit()
+
+            return cur
+
     def purchase_new_book(self, volunteer_ID, isbn, title, reading_level, genre, book_status, edition, publisher, quantity, author_fn, author_ln, purchase_date, cost):
         print "in cash donation"
         

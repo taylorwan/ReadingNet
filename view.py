@@ -290,5 +290,16 @@ def purchase_new_book():
 	else:
 		return render_template('/volunteer.html')
 
+@app.route('/add_tokens', methods=['GET', 'POST'])
+def add_tokens():
+	if request.method == 'POST':
+		client_ID = request.form[ 'client_ID' ]		
+		token_amount = request.form[ 'token_amount' ]
+
+		db.add_tokens(client_ID, token_amount)
+		return render_template('success.html')
+	else:
+		return render_template('/volunteer.html')
+
 if __name__ == '__main__':
     app.run()
