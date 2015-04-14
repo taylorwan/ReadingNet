@@ -292,6 +292,17 @@ class Database(object):
             for row in data:
                 print row
 
+    def add_client(self, client_ID, organization_name, client_phone_num, email, street_address, city, state, zipCode, tokens, new_count, used_count):
+        print "int add client"
+
+        with self.conn:
+            cur = self.conn.cursor()
+            cur.execute("INSERT INTO clients(client_id, organization_name, client_phone_num, client_email, client_street_address, client_city, client_state, client_zipcode, client_tokens, new_count, used_count) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",(client_ID, organization_name, client_phone_num, email, street_address, city, state, zipCode, tokens, new_count, used_count))
+
+            self.conn.commit()
+
+            return cur
+
     def add_tokens(self, client_ID, token_amount):
         print "in add tokens"
 

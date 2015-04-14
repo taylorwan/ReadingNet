@@ -209,6 +209,29 @@ def add_new_volunteer():
 	else:
 		return render_template('/volunteer.html')
 
+@app.route('/add_new_client', methods=['GET','POST'])
+def add_new_client():
+	if request.method == 'POST':
+		client_ID = request.form[ 'client_ID' ]
+		organization_name = request.form[ 'organization_name' ]
+		client_phone_num = request.form[ 'client_phone_num' ]
+		email = request.form[ 'email' ]
+		street_address = request.form[ 'street_address' ]
+		city = request.form[ 'city' ]
+		state = request.form[ 'state' ]
+		zipCode = request.form[ 'zipCode' ]
+		tokens = request.form[ 'tokens' ]
+		new_count = request.form[ 'new_count' ]
+		used_count = request.form[ 'used_count' ]
+		
+		db.add_client(client_ID, organization_name, client_phone_num, email, street_address, city, state, zipCode, tokens, new_count, used_count)
+
+		return render_template('success.html')
+
+	else:
+		return render_template('/volunteer.html')
+
+
 @app.route('/add_reading_level', methods=['GET','POST'])
 def add_reading_level():
 	if request.method == 'POST':
