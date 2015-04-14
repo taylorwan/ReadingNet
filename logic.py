@@ -54,7 +54,7 @@ class Database(object):
 
     def addDonor( self, donorID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode):
         print "in addDonor"
-        cur = self.conn.cursor( pymysql.cursors.DictCursor )
+        cur = self.conn.cursor()
         
         print donorID
         donorID = pymysql.escape_string( donorID )
@@ -78,11 +78,12 @@ class Database(object):
         for row in data :
             print row
 
+        self.conn.commit()
         return cur
 
     def add_volunteer(self, volunteerID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode):
         print "in add_volunteer"
-        cur = self.conn.cursor( pymysql.cursors.DictCursor )
+        cur = self.conn.cursor( )
 
         volunteerID = pymysql.escape_string( volunteerID )
         firstName = pymysql.escape_string( firstName )
@@ -104,11 +105,12 @@ class Database(object):
         for row in data :
             print row
 
+        self.conn.commit()
         return cur
 
     def add_reading_level(self, reading_level):
         print "in add level"
-        cur = self.conn.cursor( pymysql.cursors.DictCursor )  
+        cur = self.conn.cursor()  
         reading_level = pymysql.escape_string( reading_level ) 
 
         cur.execute("INSERT INTO reading_levels(reading_level) VALUES (%s)",(reading_level))
@@ -118,7 +120,44 @@ class Database(object):
         for row in data:
             print row
 
+        self.conn.commit()
+
         return cur
+
+    def see_all_levels(self):
+        print "seeing all levels hopefully"
+        cur = self.conn.cursor()  
+
+        cur.execute("SELECT * FROM reading_levels")
+        data = cur.fetchone()
+        print cur.rowcount
+
+        #for row in data :
+            #print row[0], row[1]
+
+        print data
+
+
+    def see_all_donors(self):
+        print "seeing all donors hopefully"
+        cur = self.conn.cursor()
+
+        cur.execute("SELECT * FROM donors")
+        data = cur.fetchone()
+        print cur.rowcount
+
+        print data
+
+    def see_all_volunteers(self):
+        print "seeing all volunteers hopefully"
+        cur = self.conn.cursor()
+
+        cur.execute("SELECT * FROM volunteers")
+        data = cur.fetchall()
+        print cur.rowcount
+
+        for row in data:
+            print row
 
     def add_book(self, isbn, title, readingLevel, genre, bookStatus, edition, publisher, quantity, author_fn, author_ln, donorID, donationDate):
         print "in addbook"

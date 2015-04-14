@@ -43,6 +43,30 @@ def results():
     print "routing to results"
     return render_template( 'results.html', results = results )
 
+@app.route('/see_all_levels', methods=['GET', 'POST'])
+def see_all_levels():
+	if request.method == 'POST':
+		db.see_all_levels();
+		return render_template( 'success.html' )
+	else:
+		return render_template('/volunteer.html')
+
+@app.route('/see_all_donors', methods=['GET', 'POST'])
+def see_all_donors():
+	if request.method == 'POST':
+		db.see_all_donors();
+		return render_template( 'success.html' )
+	else:
+		return render_template('/volunteer.html')
+
+@app.route('/see_all_volunteers', methods=['GET', 'POST'])
+def see_all_volunteers():
+	if request.method == 'POST':
+		db.see_all_volunteers();
+		return render_template( 'success.html' )
+	else:
+		return render_template('/volunteer.html')
+
 @app.route( '/volunteer', methods=['GET'] )
 def load_forms():
 	return render_template( 'volunteer.html')

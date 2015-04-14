@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
   
+ <form action="/see_all_donors" method="POST" class="volinputs">
+ <li class="inline">see all donors<input type="submit" id="submitButton" class="submit"></li></form>
+
+ <form action="/see_all_levels" method="POST" class="volinputs">
+ <li class="inline">see all levels<input type="submit" id="submitButton" class="submit"></li></form>
+
+ <form action="/see_all_volunteers" method="POST" class="volinputs">
+ <li class="inline">see all volunteers<input type="submit" id="submitButton" class="submit"></li></form>
+
 <h3 class="volunteer"> Add a new donor to the database </h3>
 <form action="/add_new_donor" method="POST" class="volinputs">
 	<ul class="inputs">
