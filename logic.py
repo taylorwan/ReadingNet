@@ -58,7 +58,7 @@ class Database(object):
         with self.conn:
             cur = self.conn.cursor()
             
-            donorID = pymysql.escape_string( donorID )
+            #donorID = pymysql.escape_string( donorID )
             firstName = pymysql.escape_string( firstName )
             lastName = pymysql.escape_string( lastName )
             DOB = pymysql.escape_string( DOB )
@@ -134,62 +134,76 @@ class Database(object):
 
 
     def see_all_levels(self):
-        print "seeing all levels hopefully"
         with self.conn:      
             cur = self.conn.cursor()  
 
             cur.execute("SELECT * FROM reading_levels")
             data = cur.fetchall()
-            print cur.rowcount
+            colnames = [desc[0] for desc in cur.description]
 
-            for row in data :
-                print row
+            return data, colnames
 
     def see_all_donors(self):
-        print "seeing all donors hopefully"
         with self.conn:
             cur = self.conn.cursor()
 
             cur.execute("SELECT * FROM donors")
             data = cur.fetchall()
-            print cur.rowcount
-
-            for row in data:
-                print row
+            colnames = [desc[0] for desc in cur.description]
+        
+            return data, colnames
 
     def see_all_volunteers(self):
-        print "seeing all volunteers hopefully"
         with self.conn:
             cur = self.conn.cursor()
 
             cur.execute("SELECT * FROM volunteers")
             data = cur.fetchall()
-            print cur.rowcount
-
-            for row in data:
-                print row
+            colnames = [desc[0] for desc in cur.description]
+            
+            return data, colnames
 
     def see_all_book_inventory(self):
-        print "seeing all books hopefully"
         with self.conn:
             cur = self.conn.cursor()
 
             cur.execute("SELECT * FROM book_inventory")
             data = cur.fetchall()
-            print cur.rowcount
-            for row in data:
-                print row
+            colnames = [desc[0] for desc in cur.description]
+
+            return data, colnames
 
     def see_all_donations(self):
-        print "seeing all donations hopefully"
         with self.conn:
             cur = self.conn.cursor()
 
             cur.execute("SELECT * FROM book_donations")
             data = cur.fetchall()
-            print cur.rowcount
-            for row in data:
-                print row
+            colnames = [desc[0] for desc in cur.description]
+
+            return data, colnames
+
+    def see_all_cash_donations(self):
+        with self.conn:
+            cur = self.conn.cursor()
+            
+            cur.execute("SELECT * FROM cash_donations")
+            data = cur.fetchall()
+            
+            colnames = [desc[0] for desc in cur.description]
+
+            return data, colnames
+
+    def see_cash_reserves(self):
+        with self.conn:
+            cur = self.conn.cursor()
+            
+            cur.execute("SELECT * FROM cash_reserves")
+            data = cur.fetchall()
+            
+            colnames = [desc[0] for desc in cur.description]
+
+            return data, colnames
 
     def add_book(self, isbn, title, readingLevel, genre, bookStatus, edition, publisher, quantity, author_fn, author_ln, donorID, donationDate):
         print "in addbook"
@@ -243,30 +257,7 @@ class Database(object):
 
             return cur
 
-    def see_all_cash_donations(self):
-        print "in see cash donation"
-
-        with self.conn:
-            cur = self.conn.cursor()
-            cur.execute("SELECT * FROM cash_donations")
-            data = cur.fetchall()
-            print cur.rowcount
-            print "printing cash donations"
-            for row in data:
-                print row
-
-    def see_cash_reserves(self):
-        print "in see cash reserves"
-
-        with self.conn:
-            cur = self.conn.cursor()
-            cur.execute("SELECT * FROM cash_reserves")
-            data = cur.fetchall()
-            print cur.rowcount
-            print "printing cash reserves"
-            for row in data:
-                print row
-
+    
     def add_client(self, client_ID, organization_name, client_phone_num, email, street_address, city, state, zipCode, tokens, new_count, used_count):
         print "int add client"
 

@@ -46,40 +46,57 @@ def results():
 @app.route('/see_all_levels', methods=['GET', 'POST'])
 def see_all_levels():
 	if request.method == 'POST':
-		db.see_all_levels();
-		return render_template( 'success.html' )
+		data, colnames = db.see_all_levels();
+		return render_template('results.html', data=data, colnames=colnames)
 	else:
 		return render_template('/volunteer.html')
 
 @app.route('/see_all_donors', methods=['GET', 'POST'])
 def see_all_donors():
 	if request.method == 'POST':
-		db.see_all_donors();
-		return render_template( 'success.html' )
+		data, colnames = db.see_all_donors();
+		return render_template( 'results.html', data=data, colnames=colnames )
 	else:
 		return render_template('/volunteer.html')
 
 @app.route('/see_all_volunteers', methods=['GET', 'POST'])
 def see_all_volunteers():
 	if request.method == 'POST':
-		db.see_all_volunteers();
-		return render_template( 'success.html' )
+		data, colnames = db.see_all_volunteers();
+		return render_template( 'results.html', data=data, colnames=colnames )
 	else:
 		return render_template('/volunteer.html')
 
 @app.route('/see_all_book_inventory', methods=['GET', 'POST'])
 def see_all_book_inventory():
 	if request.method == 'POST':
-			db.see_all_book_inventory()
-			return render_template( 'success.html' )
+			data, colnames = db.see_all_book_inventory()
+			return render_template( 'results.html', data=data, colnames=colnames)
 	else:
 		return render_template('/volunteer.html')
 
 @app.route('/see_all_donations', methods=['GET', 'POST'])
 def see_all_donations():
 	if request.method == 'POST':
-			db.see_all_donations()
-			return render_template( 'success.html' )
+			data, colnames = db.see_all_donations()
+			return render_template('results.html',data=data, colnames=colnames)
+	else:
+		return render_template('/volunteer.html')
+
+@app.route('/see_all_cash_donations', methods=['GET', 'POST'])
+def see_all_cash_donations():
+	if request.method == 'POST':
+		data, colnames = db.see_all_cash_donations()
+		return render_template('results.html',data=data, colnames=colnames)
+	else:
+		return render_template('/volunteer.html')
+
+
+@app.route('/see_cash_reserves', methods=['GET', 'POST'])	
+def see_cash_reserves():
+	if request.method == 'POST':
+		data, colnames = db.see_cash_reserves()
+		return render_template('results.html',data=data, colnames=colnames)
 	else:
 		return render_template('/volunteer.html')
 
@@ -106,9 +123,7 @@ def add_new_donor():
 	if request.method == 'POST':
 		print "its a post"
 		donorID = request.form[ 'donorID' ]
-		if donorID == "":
-			render_template('/error.html')
-
+		
 		firstName = request.form[ 'firstName' ]
 		if firstName =="":
 			render_template('/error.html')
@@ -271,25 +286,6 @@ def add_new_cash_donation():
 		return render_template('success.html')
 	else:
 		return render_template('/volunteer.html')
-
-
-@app.route('/see_all_cash_donations', methods=['GET', 'POST'])
-def see_all_cash_donations():
-	if request.method == 'POST':
-		db.see_all_cash_donations()
-		return render_template('success.html')
-	else:
-		return render_template('/volunteer.html')
-
-
-@app.route('/see_cash_reserves', methods=['GET', 'POST'])	
-def see_cash_reserves():
-	if request.method == 'POST':
-		db.see_cash_reserves()
-		return render_template('success.html')
-	else:
-		return render_template('/volunteer.html')
-
 
 @app.route('/purchase_new_book', methods=['GET', 'POST'])	
 def purchase_new_book():
