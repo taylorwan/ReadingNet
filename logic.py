@@ -34,7 +34,7 @@ class Database(object):
         """Connect to the database"""
         # self.conn = pymysql.connect(self.opts.DB_HOST, self.opts.DB_USER,
                                     # self.opts.DB_PASSWORD, self.opts.DB_NAME)
-        self.conn = pymysql.connect('localhost','user280', 'p4ssw0rd', 'project280' )
+        self.conn = pymysql.connect('localhost','readingNet280', 'p4ssw0rd', 'readingNet' )
 
     def search( self, isbn, title, author, publisher):
         print "In search" 
@@ -52,12 +52,39 @@ class Database(object):
 
         return CursorIterator( cur )
 
-    def addDonor( self, donorID, phoneNum, email, firstName, lastName, DOB, streetAddress, zipCode, gender):
+    def addDonor( self, donorID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode):
         print "in addDonor"
         cur = self.conn.cursor( pymysql.cursors.DictCursor )
         
         print donorID
         donorID = pymysql.escape_string( donorID )
+        firstName = pymysql.escape_string( firstName )
+        lastName = pymysql.escape_string( lastName )
+        DOB = pymysql.escape_string( DOB )
+        gender = pymysql.escape_string( gender )
+        phoneNum = pymysql.escape_string( phoneNum )
+        email = pymysql.escape_string( email )
+        streetAddress = pymysql.escape_string( streetAddress )
+        city = pymysql.escape_string( city )
+        state = pymysql.escape_string( state )
+        zipCode = pymysql.escape_string( zipCode )
+        
+        cur.execute("INSERT INTO donors VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )",(donorID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode))
+        #return CursorIterator( cur )
+
+        cur.execute("SELECT * FROM donors")
+        data = cur.fetchall()
+
+        for row in data :
+            print row
+
+        return cur
+
+    def add_volunteer(self, volunteerID, phoneNum, email, firstName, lastName, DOB, zipCode, gender):
+        print "in add_volunteer"
+        cur = self.conn.cursor( pymysql.cursors.DictCursor )
+
+        volunteerID = pymysql.escape_string( volunteerID )
         phoneNum = pymysql.escape_string( phoneNum )
         email = pymysql.escape_string( email )
         firstName = pymysql.escape_string( firstName )
@@ -67,7 +94,4 @@ class Database(object):
         gender = pymysql.escape_string( gender )
 
         cur.execute("INSERT INTO donors (donor_id, phone_num, email, first_name, last_name, street_address, dob, zip_code, gender) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s )",(donorID, phoneNum, email, firstName, lastName, streetAddress, DOB, zipCode, gender))
-        print "did we insert?"
-        return CursorIterator( cur )
-
 

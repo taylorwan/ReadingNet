@@ -1,179 +1,187 @@
-DROP USER 'user280'@'localhost';
-DROP DATABASE IF EXISTS project280;
+# create database
+DROP DATABASE IF EXISTS readingNet;
+CREATE DATABASE readingNet;
+USE readingNet;
 
 # create user
-CREATE DATABASE project280;
-CREATE USER 'user280'@'localhost' IDENTIFIED BY 'p4ssw0rd';
-USE project280;
-GRANT ALL ON project280.* TO 'user280'@'localhost';
-
-# create database
-DROP DATABASE IF EXISTS project280;
-CREATE DATABASE project280;
-USE project280;
+CREATE USER 'readingNet280'@'localhost' IDENTIFIED BY 'p4ssw0rd';
+GRANT ALL ON readingNet.* TO 'readingNet280'@'localhost';
+USE readingNet;
 
 CREATE TABLE donors( 
-	donor_id INT NOT NULL, 
-    phone_num INT NOT NULL, 
-    email varchar(200) NOT NULL, 
-    street_address varchar(200) NOT NULL, 
-    first_name varchar(120) NOT NULL, 
-    last_name varchar(120) NOT NULL, 
-    dob DATE NOT NULL, 
-    zip_code varchar(10) NOT NULL, #varchar bc some zipcodes have a 4 digit extension 
-    gender enum('M','F','Other'), #gender is not a binary
+	donor_id INT AUTO_INCREMENT NOT NULL, 
+    donor_first_name VARCHAR(120) NOT NULL, 
+    donor_last_name VARCHAR(120) NOT NULL,
+    donor_dob DATE NOT NULL, 
+    donor_gender enum('M','F','Other'), #gender is not a binary
+    donor_phone_num BIGINT NOT NULL, 
+    donor_email VARCHAR(200) NOT NULL, 
+    donor_street_address VARCHAR(250) NOT NULL,
+    donor_city VARCHAR(250) NOT NULL,
+    donor_state VARCHAR(2) NOT NULL,
+    donor_zipcode BIGINT NOT NULL, #varchar bc some zipcodes have a 4 digit extension 
     PRIMARY KEY(donor_id)
 ); 
 
-CREATE TABLE genres( 
-	genre varchar(120) NOT NULL, 
-    description MEDIUMTEXT NOT NULL,
-    PRIMARY KEY (genre)
-);
-
-INSERT INTO genres(genre, description)
-VALUES ("fiction","interesting made up stories");
-
-CREATE TABLE levels( 
-	reading_level enum('Level 1','Level 2','Level 3') NOT NULL,
-    PRIMARY KEY(reading_level)
-);
-
-CREATE TABLE book_status( 
-	book_status enum('New','Gently used') NOT NULL, 
-    cost INT NOT NULL,
-    PRIMARY KEY(book_status)
-);
-
-INSERT INTO book_status(book_status, cost)
-values('New',3);
-
 CREATE TABLE volunteers( 
-	volunteer_id INT NOT NULL, 
-    phone_num INT NOT NULL, 
-    email varchar(200) NOT NULL, 
-    street_address varchar(200) NOT NULL,
-    first_name varchar(120) NOT NULL, 
-    last_name varchar(120) NOT NULL, 
-    dob DATE NOT NULL, 
-    zip_code varchar(10) NOT NULL, #varchar bc some zipcodes have a 4 digit extension  
-    gender enum('M','F','Other'), #gender is not a binary
+	volunteer_id INT AUTO_INCREMENT NOT NULL,
+    volunteer_first_name VARCHAR(120) NOT NULL,
+    volunteer_last_name VARCHAR(120) NOT NULL, 
+    volunteer_dob DATE NOT NULL,
+    volunteer_gender ENUM('M','F','Other'), #gender is not a binary
+    vounteer_phone_num BIGINT NOT NULL, 
+    volunteer_email VARCHAR(200) NOT NULL, 
+    vounteer_street_address VARCHAR(200) NOT NULL,
+    volunteer_city VARCHAR(250) NOT NULL,
+    volunteer_state VARCHAR(2) NOT NULL,
+    volunteer_zipcode BIGINT NOT NULL, #varchar bc some zipcodes have a 4 digit extension  
     PRIMARY KEY(volunteer_id)
 );
 
-INSERT INTO volunteers
-values(456, 202202202, 'a@b.com', '1 1st St', 'Sam', 'Smith', '1990-01-01', 20057, 'M');
-
 CREATE TABLE clients( 
-	client_id INT NOT NULL, 
-    organization_name varchar(200) NOT NULL,  
-    phone_num INT NOT NULL, 
-    email varchar(200) NOT NULL,  
-    street_address varchar(200) NOT NULL,
-    contact_person varchar(200), 
-    tokens INT NOT NULL, 
+	client_id INT AUTO_INCREMENT NOT NULL, 
+    organization_name VARCHAR(200) NOT NULL,  
+    client_phone_num INT NOT NULL, 
+    client_email VARCHAR(200) NOT NULL,  
+    client_street_address VARCHAR(200) NOT NULL,
+    client_city VARCHAR(250) NOT NULL,
+    client_state VARCHAR(2) NOT NULL,
+    client_zipcode BIGINT NOT NULL,
+    client_tokens INT NOT NULL, 
     new_count INT NOT NULL, 
     used_count INT NOT NULL,
     PRIMARY KEY(client_id)
 );
 
-INSERT INTO clients
-VALUES (222, 'Georgetown', 800555555, 'a@a.com', '2 2nd St', 'Sandy Smith', 2, 0, 0);
+CREATE TABLE clients_contactperson(
+	client_id INT NOT NULL, 
+    client_cp_fn VARCHAR(120) NOT NULL, 
+    client_cp_ln VARCHAR(120) NOT NULL,
+	PRIMARY KEY(client_id, client_cp_fn, client_cp_ln),
+    FOREIGN KEY (client_id) 
+		REFERENCES clients(client_id)
+		ON DELETE CASCADE
+);
+
+CREATE TABLE reading_levels( 
+	reading_level INT NOT NULL,
+    PRIMARY KEY(reading_level)
+);
+
+-- CREATE TABLE book_status( 
+-- 	book_status ENUM('New','Gently used') NOT NULL, 
+--     cost INT NOT NULL,
+--     PRIMARY KEY(book_status)
+-- );
+-- 
+-- INSERT INTO book_status(book_status, cost)
+-- values('New',3);
+-- 
 
 CREATE TABLE clients_readinglevel(
 	client_id INT NOT NULL,
-    reading_level enum('Level 1','Level 2','Level 3'),
+    reading_level INT NOT NULL,
     PRIMARY KEY(client_id, reading_level),
-    FOREIGN KEY(client_id) REFERENCES clients(client_id),
-    FOREIGN KEY(reading_level) REFERENCES levels(reading_level)
+    FOREIGN KEY(client_id) 
+		REFERENCES clients(client_id)
+        ON DELETE CASCADE,
+    FOREIGN KEY(reading_level) 
+		REFERENCES reading_levels(reading_level)
+        ON DELETE CASCADE
 );
 
-insert into clients_readinglevel
-values (222,'Level 1');
-    
-    
-CREATE TABLE book_inventory( 
+CREATE TABLE genres( 
+	genre_type varchar(120) NOT NULL, 
+    description MEDIUMTEXT NOT NULL,
+    PRIMARY KEY (genre_type)
+);
+
+CREATE TABLE book_inventory(
 	isbn INT NOT NULL, 
-    book_status enum('New','Gently used') NOT NULL,
-    title varchar(300) NOT NULL, 
-    reading_level enum('Level 1','Level 2','Level 3') NOT NULL, 
+    title VARCHAR(500) NOT NULL,
+    reading_level INT NOT NULL, 
+    genre_type VARCHAR(120) NOT NULL,
+    book_status ENUM('New','Gently used') NOT NULL,
     edition INT NOT NULL, 
-    publisher varchar(200) NOT NULL, 
-    genre varchar(120) NOT NULL, 
-    count INT NOT NULL,
-    author varchar(250) NOT NULL,
-    PRIMARY KEY(isbn),
-    FOREIGN KEY(book_status) REFERENCES book_status(book_status),
-    FOREIGN KEY(reading_level) REFERENCES levels(reading_level),
-    FOREIGN KEY(genre) REFERENCES genres(genre)
+    publisher VARCHAR(200) NOT NULL,
+    quantity INT NOT NULL,
+    PRIMARY KEY (isbn, book_status),
+	FOREIGN KEY(reading_level)
+		REFERENCES reading_levels(reading_level)
+        ON DELETE CASCADE,
+    FOREIGN KEY(genre_type) 
+		REFERENCES genres(genre_type)
+        ON DELETE CASCADE
 );
 
-insert into book_inventory
-values (123123, 'New', 'Harry Potter', 'Level 1', 2, 'Random House', 'Fiction', 1);
+CREATE TABLE book_author(
+	isbn INT NOT NULL, 
+    title VARCHAR(500) NOT NULL,
+    author_fn VARCHAR(120) NOT NULL,
+    author_ln VARCHAR(120) NOT NULL,
+    PRIMARY KEY(isbn, author_fn, author_ln),
+    FOREIGN KEY(isbn)
+		REFERENCES book_inventory(isbn)
+		ON DELETE CASCADE
+);
 
 CREATE TABLE book_donations( 
 	isbn INT NOT NULL, 
+    title VARCHAR(500) NOT NULL,
+    book_status ENUM('New','Gently used') NOT NULL,
     donor_id INT NOT NULL, 
     date_donated DATE NOT NULL, 
     quantity INT NOT NULL,
     PRIMARY KEY(isbn, donor_id, date_donated),
-    FOREIGN KEY(donor_id) REFERENCES donors(donor_id),
-    FOREIGN KEY(isbn) REFERENCES book_inventory(isbn)
+    FOREIGN KEY(donor_id) 
+		REFERENCES donors(donor_id),
+    FOREIGN KEY(isbn) 
+		REFERENCES book_inventory(isbn)
 );
-
-insert into book_donations
-values(123123, 123, '2015-04-12',1);
 
 CREATE TABLE cash_donations( 
 	donor_id INT NOT NULL, 
     amount FLOAT(2) NOT NULL, 
     date_donated DATE NOT NULL,
     PRIMARY KEY(donor_id, amount, date_donated),
-    FOREIGN KEY(donor_id) REFERENCES donors(donor_id)
+    FOREIGN KEY(donor_id) 
+		REFERENCES donors(donor_id)
 );
 
-insert into cash_donations
-values(123, 12.00, '2015-04-12');
-
-CREATE TABLE purchased ( 
+CREATE TABLE volunteer_books_purchased( 
 	volunteer_id INT NOT NULL, 
     isbn INT NOT NULL,  
     date_purchased DATE NOT NULL, 
-    book_status enum('New','Gently used') NOT NULL, 
+    book_status ENUM('New','Gently used') NOT NULL, 
     quantity INT NOT NULL,
+    book_cost INT NOT NULL,
     PRIMARY KEY(volunteer_id, isbn, date_purchased, book_status),
-    FOREIGN KEY(volunteer_id) REFERENCES volunteers(volunteer_id)
+    FOREIGN KEY(volunteer_id) 
+		REFERENCES volunteers(volunteer_id)
 );
 
-insert into purchased
-values (456, 12345, '2015-04-12', 'Gently used', 1);
-
-drop table requests;
-CREATE TABLE requests( 
+CREATE TABLE client_book_requests( 
 	client_id INT NOT NULL, 
     isbn INT NOT NULL,
+    book_status ENUM('New','Gently used') NOT NULL, 
+    quantity INT NOT NULL,
     request_date DATE NOT NULL,
+    request_status ENUM('Approved','Declined','In Progress') NOT NULL DEFAULT 'In Progress', 
     PRIMARY KEY(client_id, isbn, request_date),
-    FOREIGN KEY(client_id) REFERENCES clients(client_id),
-    FOREIGN KEY(isbn) REFERENCES book_inventory(isbn)
+    FOREIGN KEY(client_id) 
+		REFERENCES clients(client_id)
+        ON DELETE CASCADE,
+    FOREIGN KEY(isbn) 
+		REFERENCES book_inventory(isbn)
+        ON DELETE CASCADE
 );
 
-insert into requests
-values(222, 123123, '2015-04-12');
-
-CREATE TABLE author_book( 
-	isbn INT NOT NULL, 
-    author_fn VARCHAR(250) NOT NULL,
-    author_ln VARCHAR(250) NOT NULL,
-    PRIMARY KEY(isbn, author_fn, author_ln),
-    FOREIGN KEY(isbn) REFERENCES book_inventory(isbn)
-);
-
-
-
-INSERT INTO levels(reading_level) 
-VALUES ('Level 1');
-
-INSERT INTO donors(donor_id, phone_num, email, street_address, first_name, last_name, dob, zip_code, gender) 
-VALUES (123, 2019568701, "test@test.com", "1 Main Street", "Sophia", "Kleyman", '1994-08-09', 07410, 'F');
-	
+CREATE TABLE client_book_purchases(
+	client_id INT NOT NULL, 
+    total_books_purchased INT NOT NULL,
+    used_book_purchased INT NOT NULL,
+    PRIMARY KEY (client_id),
+    FOREIGN KEY (client_id)
+		REFERENCES clients(client_id)
+        ON DELETE CASCADE
+);	

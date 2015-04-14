@@ -1,5 +1,5 @@
-DB_USER = 'user280'
-DB_NAME = 'project280'
+DB_USER = 'readingNet280'
+DB_NAME = 'readingNet'
 DB_PASSWORD = 'p4ssw0rd'
 DB_HOST = 'localhost'
 
