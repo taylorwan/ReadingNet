@@ -243,31 +243,6 @@ class Database(object):
 
             return cur
 
-    def new_cash_donation(self, donor_ID, amount, donation_date):
-        print "in cash donation"
-        
-        with self.conn:
-            cur = self.conn.cursor()
-
-            donor_ID = pymysql.escape_string( donor_ID )
-            amount = pymysql.escape_string( amount )
-            amount = float(amount)
-            donation_date = pymysql.escape_string( donation_date )
-
-            cur.execute("INSERT INTO cash_donations(donor_id, amount, date_donated) VALUES (%s, %s, %s)",(donor_ID, amount, donation_date))
-            cur.execute("SELECT * FROM cash_reserves WHERE cash_id = 1")
-            
-            data = cur.fetchone()
-            print cur.rowcount
-            current_cash_reserves = data[0]
-            new_cash = current_cash_reserves + amount;
-
-            cur.execute("UPDATE cash_reserves SET cash_amount = %s WHERE cash_id = 1",(new_cash))
-
-            self.conn.commit()
-
-            return cur
-
     def see_all_cash_donations(self):
         print "in see cash donation"
 
@@ -310,8 +285,7 @@ class Database(object):
         with self.conn:
             cur = self.conn.cursor()
 
-            client_ID = pymysql.escape_string( client_ID )
-            token_amount = pymysql.escape_string( token_amount )
+            print client_ID
             token_amount = int(token_amount)
 
             cur.execute("SELECT * FROM clients WHERE client_id = %s",(client_ID))
@@ -319,6 +293,41 @@ class Database(object):
             client_current_tokens = data[8]
             new_token_amount = client_current_tokens + token_amount
             cur.execute("UPDATE clients SET client_tokens = %s WHERE client_id = %s",(new_token_amount, client_ID))
+
+            self.conn.commit()
+
+            return cur
+
+    def new_cash_donation(self, donor_ID, amount, donation_date):
+        print "in cash donation"
+        
+        with self.conn:
+            cur = self.conn.cursor()
+
+            donor_ID = pymysql.escape_string( donor_ID )
+            amount = pymysql.escape_string( amount )
+            amount = float(amount)
+            donation_date = pymysql.escape_string( donation_date )
+
+            cur.execute("INSERT INTO cash_donations(donor_id, amount, date_donated) VALUES (%s, %s, %s)",(donor_ID, amount, donation_date))
+            cur.execute("SELECT * FROM cash_reserves WHERE cash_id = 1")
+            
+            data = cur.fetchone()
+            print cur.rowcount
+            current_cash_reserves = data[0]
+            new_cash = current_cash_reserves + amount;
+
+            cur.execute("UPDATE cash_reserves SET cash_amount = %s WHERE cash_id = 1",(new_cash))
+
+            # threshold for dispersing tokens will be $500
+            if new_cash > 500:
+                cur.execute("SELECT * FROM clients")
+                row = cur.fetchone()
+                while row is not None:
+                    client_ID = row[0]
+                    print client_ID
+                    self.add_tokens(client_ID, 3)
+                    row = cur.fetchone()
 
             self.conn.commit()
 
