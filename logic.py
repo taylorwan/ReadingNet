@@ -253,12 +253,42 @@ class Database(object):
             donation_date = pymysql.escape_string( donation_date )
 
             cur.execute("INSERT INTO cash_donations(donor_id, amount, date_donated) VALUES (%s, %s, %s)",(donor_ID, amount, donation_date))
+            cur.execute("SELECT * FROM cash_reserves WHERE cash_id = 1")
+            
+            data = cur.fetchone()
+            print cur.rowcount
+            current_cash_reserves = data[0]
+            new_cash = current_cash_reserves + amount;
+
+            cur.execute("UPDATE cash_reserves SET cash_amount = %s WHERE cash_id = 1",(new_cash))
 
             self.conn.commit()
 
             return cur
 
+    def see_all_cash_donations(self):
+        print "in see cash donation"
 
+        with self.conn:
+            cur = self.conn.cursor()
+            cur.execute("SELECT * FROM cash_donations")
+            data = cur.fetchall()
+            print cur.rowcount
+            print "printing cash donations"
+            for row in data:
+                print row
+
+    def see_cash_reserves(self):
+        print "in see cash reserves"
+
+        with self.conn:
+            cur = self.conn.cursor()
+            cur.execute("SELECT * FROM cash_reserves")
+            data = cur.fetchall()
+            print cur.rowcount
+            print "printing cash reserves"
+            for row in data:
+                print row
 
 
 

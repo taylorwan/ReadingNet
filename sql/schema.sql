@@ -1,4 +1,5 @@
 # create database
+DROP DATABASE readingNet;
 CREATE DATABASE readingNet;
 USE readingNet;
 
@@ -111,6 +112,12 @@ CREATE TABLE book_inventory(
     FOREIGN KEY(genre_type) 
 		REFERENCES genres(genre_type)
         ON DELETE CASCADE
+);
+
+CREATE TABLE cash_reserves(
+	cash_amount FLOAT DEFAULT 0,
+    cash_id INT NOT NULL DEFAULT 1,
+    PRIMARY KEY(cash_id)
 );
 
 CREATE TABLE book_author(

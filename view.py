@@ -249,5 +249,23 @@ def add_new_cash_donation():
 	else:
 		return render_template('/volunteer.html')
 
+
+@app.route('/see_all_cash_donations', methods=['GET', 'POST'])
+def see_all_cash_donations():
+	if request.method == 'POST':
+		db.see_all_cash_donations()
+		return render_template('success.html')
+	else:
+		return render_template('/volunteer.html')
+
+
+@app.route('/see_cash_reserves', methods=['GET', 'POST'])	
+def see_cash_reserves():
+	if request.method == 'POST':
+		db.see_cash_reserves()
+		return render_template('success.html')
+	else:
+		return render_template('/volunteer.html')
+
 if __name__ == '__main__':
     app.run()
