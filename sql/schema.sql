@@ -1,10 +1,10 @@
 # create database
-DROP DATABASE readingNet;
+#DROP DATABASE readingNet;
 CREATE DATABASE readingNet;
 USE readingNet;
 
 # create user
-CREATE USER 'readingNet280'@'localhost' IDENTIFIED BY 'p4ssw0rd';
+#CREATE USER 'readingNet280'@'localhost' IDENTIFIED BY 'p4ssw0rd';
 GRANT ALL ON readingNet.* TO 'readingNet280'@'localhost';
 USE readingNet;
 

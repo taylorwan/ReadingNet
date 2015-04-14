@@ -214,9 +214,11 @@ class Database(object):
             cur.execute("SELECT * FROM book_inventory WHERE isbn = %s AND book_status = %s",(isbn, bookStatus))
             exists = cur.fetchone()
 
+            #if the book is not already in the database
             if exists == None:
                 cur.execute("INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",(isbn, title, readingLevel, genre, bookStatus, edition, publisher, quantity))
                 cur.execute("INSERT INTO book_donations(isbn, title, book_status, donor_id, date_donated, quantity) VALUES (%s, %s, %s, %s, %s, %s)",(isbn, title, bookStatus, donorID, donationDate, quantity))
+                cur.execute("INSERT INTO book_author(isbn, title, author_fn, author_ln) VALUES (%s, %s, %s, %s)",(isbn, title, author_fn, author_ln))
             else:
                 existing_quant = 0
                 existing_quant = exists[7]
@@ -332,6 +334,7 @@ class Database(object):
                 if exists == None:
                     cur.execute("INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",(isbn, title, reading_level, genre, book_status, edition, publisher, quantity))
                     cur.execute("INSERT INTO volunteer_books_purchased(volunteer_id, isbn, date_purchased, book_status, quantity, book_cost) VALUES (%s, %s, %s, %s, %s, %s)",(volunteer_ID, isbn, purchase_date, book_status, quantity, cost))
+                    cur.execute("INSERT INTO book_author(isbn, title, author_fn, author_ln) VALUES (%s, %s, %s, %s)",(isbn, title, author_fn, author_ln))
                 #if the book already exists, you are just adding to the quantity
                 else:
                     existing_quant = exists[7]
