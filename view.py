@@ -267,5 +267,28 @@ def see_cash_reserves():
 	else:
 		return render_template('/volunteer.html')
 
+
+@app.route('/purchase_new_book', methods=['GET', 'POST'])	
+def purchase_new_book():
+	if request.method == 'POST':
+		volunteer_ID = request.form[ 'volunteer_ID' ]		
+		isbn = request.form[ 'isbn' ]
+		title = request.form[ 'title' ]
+		reading_level = request.form[ 'reading_level' ]
+		genre = request.form[ 'genre' ]
+		book_status = request.form[ 'book_status' ]
+		edition = request.form[ 'edition' ]	
+		publisher = request.form[ 'publisher' ]	
+		quantity = request.form[ 'quantity' ]	
+		author_fn = request.form[ 'author_fn' ]	
+		author_ln = request.form[ 'author_ln' ]		
+		purchase_date = request.form[ 'purchase_date']
+		cost = request.form[ 'cost']
+		
+		db.purchase_new_book(volunteer_ID, isbn, title, reading_level, genre, book_status, edition, publisher, quantity, author_fn, author_ln, purchase_date, cost) 		
+		return render_template('success.html')
+	else:
+		return render_template('/volunteer.html')
+
 if __name__ == '__main__':
     app.run()

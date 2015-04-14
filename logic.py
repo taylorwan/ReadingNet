@@ -290,5 +290,57 @@ class Database(object):
             for row in data:
                 print row
 
+    def purchase_new_book(self, volunteer_ID, isbn, title, reading_level, genre, book_status, edition, publisher, quantity, author_fn, author_ln, purchase_date, cost):
+        print "in cash donation"
+        
+        with self.conn:
+            cur = self.conn.cursor()
+
+            volunteer_ID = pymysql.escape_string( volunteer_ID )
+            isbn = pymysql.escape_string( isbn )
+            title = pymysql.escape_string( title )
+            reading_level = pymysql.escape_string( reading_level )
+            reading_level = int(reading_level)
+            genre = pymysql.escape_string( genre )
+            book_status = pymysql.escape_string( book_status )
+            edition = pymysql.escape_string( edition )
+            edition = int(edition)
+            publisher = pymysql.escape_string( publisher )
+            quantity = pymysql.escape_string( quantity )
+            quantity = int(quantity)
+            author_fn = pymysql.escape_string( author_fn )
+            author_ln = pymysql.escape_string( author_ln )
+            purchase_date = pymysql.escape_string( purchase_date )
+            cost=pymysql.escape_string( cost )
+            cost = int(cost)
+
+            cur.execute("SELECT * FROM cash_reserves WHERE cash_id = 1")
+            data = cur.fetchone()
+            cash_on_hand = data[0]
+
+            if cost > cash_on_hand:
+                print "transation cancelled"
+                return cur
+            else:
+                new_cash_amount = cash_on_hand - cost
+                cur.execute("UPDATE cash_reserves SET cash_amount = %s WHERE cash_id = 1",(new_cash_amount))
+
+                cur.execute("SELECT * FROM book_inventory WHERE isbn = %s AND book_status = %s",(isbn, book_status))
+                exists = cur.fetchone()
+
+                # if the book doesn't already exist in the DB, first add it to the inventory, then add it to the purchase history
+                if exists == None:
+                    cur.execute("INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",(isbn, title, reading_level, genre, book_status, edition, publisher, quantity))
+                    cur.execute("INSERT INTO volunteer_books_purchased(volunteer_id, isbn, date_purchased, book_status, quantity, book_cost) VALUES (%s, %s, %s, %s, %s, %s)",(volunteer_ID, isbn, purchase_date, book_status, quantity, cost))
+                #if the book already exists, you are just adding to the quantity
+                else:
+                    existing_quant = exists[7]
+                    new_quantity = existing_quant + quantity
+                    cur.execute("UPDATE book_inventory SET quantity=%s WHERE isbn=%s AND book_status=%s",(new_quantity, isbn, book_status))
+                    cur.execute("INSERT INTO volunteer_books_purchased(volunteer_id, isbn, date_purchased, book_status, quantity, book_cost) VALUES (%s, %s, %s, %s, %s, %s)",(volunteer_ID, isbn, purchase_date, book_status, quantity, cost))
+
+            self.conn.commit()
+
+            return cur
 
 

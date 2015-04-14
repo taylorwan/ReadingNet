@@ -4,23 +4,17 @@
  <ul class="button">
 	 <form action="/see_all_donors" method="POST" class="volinputs">
 	 <li class="button"><input type="submit" value="See All Donors" id="submitButton" class="submit"></li></form>
-
 	 <form action="/see_all_levels" method="POST" class="volinputs">
 	 <li class="button"><input type="submit" value = "See All Levels" id="submitButton" class="submit"></li></form>
-
 	 <form action="/see_all_volunteers" method="POST" class="volinputs">
 	 <li class="button"><input type="submit" value="See All Volunteers" id="submitButton" class="submit"></li></form>
-
 	 <form action="/see_all_book_inventory" method="POST" class="volinputs">
 	 <li class="button"><input type="submit" value="See All Books in Inventory" id="submitButton" class="submit"></li></form>
-
 	 <form action="/see_all_donations" method="POST" class="volinputs">
 	 <li class="button"><input type="submit" value="See Book Donation History" id="submitButton" class="submit"></li></form>
-
 	 <form action="/see_all_cash_donations" method="POST" class="volinputs">
 	 <li class="button"><input type="submit" value="See Cash Donation History" id="submitButton" class="submit"></li></form>
-
-	  <form action="/see_cash_reserves" method="POST" class="volinputs">
+	 <form action="/see_cash_reserves" method="POST" class="volinputs">
 	 <li class="button"><input type="submit" value="See Cash Reserves" id="submitButton" class="submit"></li></form>
 </ul>
 
@@ -87,14 +81,28 @@
 	<li class="inline"> <div class="bebas">Donation Date</div><input type="text" name="donation_date" id="new_cashDonation_DonationDate" placeholder="Date of Donation"></li>
 	<li class="inline"><input type="submit" id="submitButton" class="submit"></li>
 </form>
+</ul>
 
 <h3 class="volunteer"> Purchase a new book </h3>
-<form action="/add_new_bookPurchase" method="POST" class="volinputs">
-	<input type="text" name="volunteerID" id="new_bookPurchase_VolunteerID" placeholder="Volunteer ID">
-	<input type="text" name="donationDate" id="new_bookPurchase_Date" placeholder="Date of Purchase">
-	<input type="text" name="quantity" id="new_bookPurchase_Quantity" placeholder="Quantity">
-	<input type="submit" id="submitButton" >
+<form action="/purchase_new_book" method="POST" class="volinputs">
+<ul class="inputs">
+		<li class="inline"> <div class="bebas">Volunteer ID</div><input type="text" name="volunteer_ID" id="purchase_book_volID" placeholder="Volunteer ID"></li>
+		<li class="inline"> <div class="bebas">ISBN</div><input type="text" name="isbn" id="new_purchase_isbn" placeholder="ISBN"></li>
+		<li class="inline"> <div class="bebas">Title</div><input type="text" name="title" id="new_purchase_Title" placeholder="Title"></li>
+		<li class="inline"> <div class="bebas">Reading Level</div><input type="text" name="reading_level" id="new_purchase_ReadingLevel" placeholder="Reading Level"></li>
+		<li class="inline"> <div class="bebas">Genre</div><input type="text" name="genre" id="new_purchase_genre" placeholder="Genre"></li>
+		<li class="inline"> <div class="bebas">Book Status</div><input type="text" name="book_status" id="new_purchase_BookStatus" placeholder="Book Status"></li>
+		<li class="inline"> <div class="bebas">Edition</div><input type="text" name="edition" id="new_purchase_edition" placeholder="Edition"></li>
+		<li class="inline"> <div class="bebas">Publisher</div><input type="text" name="publisher" id="new_purchase_publisher" placeholder="Publisher"></li>
+		<li class="inline"> <div class="bebas">Quantity</div><input type="text" name="quantity" id="new_purchase_quantity" placeholder="Quantity"></li>
+		<li class="inline"> <div class="bebas">Author First Name</div><input type="text" name="author_fn" id="new_purchase_Author_fn" placeholder="Author First Name"></li>
+		<li class="inline"> <div class="bebas">Author Last Name</div><input type="text" name="author_ln" id="new_purchase_Author_ln" placeholder="Author Last Name"></li>
+		<li class="inline"> <div class="bebas">Date Purchased</div><input type="text" name="purchase_date" id="new_purchase_Purchase_Date" placeholder="Date of Purchase"></li>
+		<li class="inline"> <div class="bebas">Cost</div><input type="text" name="cost" id="new_purchase_Purchase_Date" placeholder="Date of Purchase"></li>
+		<li class="inline"><input type="submit" id="submitButton" class="submit"></li>
+	</ul>
 </form>
+
 
 <h3 class="volunteer"> Add tokens </h3>
 <form action="/addTokens" method="POST" class="volinputs">
