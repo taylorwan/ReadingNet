@@ -193,4 +193,4 @@ CREATE TABLE client_book_purchases(
     FOREIGN KEY (client_id)
 		REFERENCES clients(client_id)
         ON DELETE CASCADE
-);	
+);

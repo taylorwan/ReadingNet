@@ -36,7 +36,3 @@ INSERT INTO cash_reserves(cash_amount, cash_id) VALUES (0,1);
 INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity) VALUES (444, 'Harry Potter', 1, 'Fiction', 'New', 1, 'Random House', 1);
 
 INSERT INTO book_author(isbn, title, author_fn, author_ln) VALUES (444, 'Harry Potter', 'JK', 'Rowling');
-
-
-
-    
