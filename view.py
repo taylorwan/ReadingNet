@@ -111,6 +111,22 @@ def add_new_volunteer():
 		if volunteerID == "":
 			render_template('/error.html')
 
+		firstName = request.form[ 'firstName' ]
+		if firstName == "":
+			render_template('/error.html')			
+
+		lastName = request.form[ 'lastName' ]
+		if lastName == "":
+			render_template('/error.html')			
+
+		DOB = request.form[ 'DOB' ]
+		if DOB == "":
+			render_template('/error.html')
+
+		gender = request.form[ 'gender' ]
+		if gender == "":
+			render_template('/error.html')	
+
 		phoneNum = request.form[ 'phoneNum' ]
 		if phoneNum == "":
 			render_template('/error.html')
@@ -119,35 +135,57 @@ def add_new_volunteer():
 		if email == "":
 			render_template('/error.html')
 
-		firstName = request.form[ 'firstName' ]
-		if firstName == "":
-			render_template('/error.html')			
-
-		lastName = request.form[ 'firstName' ]
-		if lastName == "":
-			render_template('/error.html')			
-
-		DOB = request.form[ 'DOB' ]
-		if DOB == "":
-			render_template('/error.html')
-
 		streetAddress = request.form[ 'streetAddress' ]
 		if streetAddress == "":
+			render_template('/error.html')
+
+		city = request.form[ 'city' ]
+		if city == "":
 			render_template('/error.html')			
+
+		state = request.form[ 'state' ]
+		if state == "":
+			render_template('/error.html')
 
 		zipCode = request.form[ 'zipCode' ]
 		if zipCode == "":
 			render_template('/error.html')
 
-		gender = request.form[ 'gender' ]
-		if gender == "":
-			render_template('/error.html')			
 
-		db.add_volunteer(volunteerID, phoneNum, email, firstName, lastName, DOB, streetAddress, zipCode, gender)
+		db.add_volunteer(volunteerID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode)
 		return render_template('success.html')
 
 	else:
 		return render_template('/volunteer.html')
+
+@app.route('/add_reading_level', methods=['GET','POST'])
+def add_reading_level():
+	if request.method == 'POST':
+		reading_level = request.form[ 'reading_level' ]
+		db.add_reading_level(reading_level)
+		return render_template('success.html')
+
+@app.route('/add_new_book', methods=['GET', 'POST'])
+def add_new_book():
+	if request.method == 'POST':
+		isbn = request.form[ 'isbn' ]
+		title = request.form[ 'title' ]
+		readingLevel = request.form[ 'readingLevel' ]
+		genre = request.form[ 'genre' ]
+		bookStatus = request.form[ 'bookStatus' ]
+		edition = request.form[ 'edition' ]	
+		publisher = request.form[ 'publisher' ]	
+		quantity = request.form[ 'quantity' ]	
+		author_fn = request.form[ 'author_fn' ]	
+		author_ln = request.form[ 'author_ln' ]		
+		donorID = request.form[ 'donorID' ]		
+		donationDate = request.form[ 'donationDate' ]		
+
+		db.add_book(isbn, title, readingLevel, genre, bookStatus, edition, publisher, quantity, author_fn, author_ln, donorID, donationDate)
+		return redner_template('success.html')
+	else:
+		return render_template('/volunteer.html')
+
 
 if __name__ == '__main__':
     app.run()
