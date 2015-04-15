@@ -15,12 +15,14 @@ INSERT INTO volunteers(volunteer_id, volunteer_first_name, volunteer_last_name, 
 INSERT INTO volunteers(volunteer_id, volunteer_first_name, volunteer_last_name, volunteer_dob, volunteer_gender, vounteer_phone_num, volunteer_email, vounteer_street_address, volunteer_city, volunteer_state, volunteer_zipcode)
 	VALUES (3, 'Sarah','Jones', '1998-08-09', 'F', 800800800, 's@j.com', '1 First Street', 'Washington','DC',20057);
 
-INSERT INTO clients(client_id, organization_name, client_phone_num, client_email, client_street_address, client_city, client_state, client_zipcode, client_tokens, new_count, used_count)
-	VALUES(1, 'Booksasarus', 800800800, 'books@books.com', '14 Main St', 'Washington','DC',20057,8,0,0);
-INSERT INTO clients(client_id, organization_name, client_phone_num, client_email, client_street_address, client_city, client_state, client_zipcode, client_tokens, new_count, used_count)
-	VALUES(2, 'Books-A-Million', 800800800, 'hi@bam.com', '4 Dupont Circle', 'Washington','DC',20023,4,0,0);
-INSERT INTO clients(client_id, organization_name, client_phone_num, client_email, client_street_address, client_city, client_state, client_zipcode, client_tokens, new_count, used_count)
-	VALUES(3, 'Barnes Noble', 800800800, 'support@bn.com', '423 Metro Center', 'Washington','DC',20001,4,0,0);
+INSERT INTO clients(client_id, organization_name, client_phone_num, client_email, client_street_address, client_city, client_state, client_zipcode, client_tokens)
+	VALUES(1, 'Booksasarus', 800800800, 'books@books.com', '14 Main St', 'Washington','DC',20057,8);
+INSERT INTO clients(client_id, organization_name, client_phone_num, client_email, client_street_address, client_city, client_state, client_zipcode, client_tokens)
+	VALUES(2, 'Books-A-Million', 800800800, 'hi@bam.com', '4 Dupont Circle', 'Washington','DC',20023,4);
+INSERT INTO clients(client_id, organization_name, client_phone_num, client_email, client_street_address, client_city, client_state, client_zipcode, client_tokens)
+	VALUES(3, 'Barnes Noble', 800800800, 'support@bn.com', '423 Metro Center', 'Washington','DC',20001,4);
+INSERT INTO clients(client_id, organization_name, client_phone_num, client_email, client_street_address, client_city, client_state, client_zipcode, client_tokens)
+	VALUES(4, 'B3', 800800800, 'support@bn.com', '423 Metro Center', 'Washington','DC',20001,4);
 
 INSERT INTO clients_contactperson(client_id, client_cp_fn, client_cp_ln) VALUES (1, 'Sandra', 'Stern');
 
@@ -33,6 +35,7 @@ INSERT INTO clients_readinglevel(client_id, reading_level) VALUES (1, 1);
 INSERT INTO clients_readinglevel(client_id, reading_level) VALUES (1, 2);
 INSERT INTO clients_readinglevel(client_id, reading_level) VALUES (2, 1);
 INSERT INTO clients_readinglevel(client_id, reading_level) VALUES (2, 2);
+INSERT INTO clients_readinglevel(client_id, reading_level) VALUES (4, 1);
 
 INSERT INTO genres(genre_type, description) VALUES ("Fiction", "Interesting made up stories");
 INSERT INTO genres(genre_type, description) VALUES ("Non-Fiction", "Stories based on mostly true happenings");
@@ -42,18 +45,6 @@ INSERT INTO cash_reserves(cash_amount, cash_id) VALUES (0,1);
 
 # insert client_book_purchases
 # insert client_book_requests
-
-# we need to make it so volunteers can approve requests
-INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )
-	VALUES ( 1, 446, 'New', 1, '2014-03-10', 'In Progress' );
-INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )
-	VALUES ( 1, 447, 'New', 1, '2014-03-12', 'In Progress' );
-INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )
-	VALUES ( 2, 445, 'New', 1, '2012-04-12', 'Approved' );
-INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )
-	VALUES ( 2, 447, 'New', 1, '2014-04-12', 'In Progress' );
-INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )
-	VALUES ( 3, 444, 'New', 1, '2012-04-12', 'Approved' );
 
 INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity)
 	VALUES (444, 'Harry Potter', 1, 'Fiction', 'New', 1, 'Random House', 1);
@@ -70,7 +61,7 @@ INSERT INTO book_author(isbn, author_fn, author_ln) VALUES (446, 'Jane', 'Doe');
 INSERT INTO book_author(isbn, author_fn, author_ln) VALUES (447, 'Jane', 'Doe');
 
 INSERT INTO book_donations ( book_donation_id, isbn, book_status, donor_id, date_donated, quantity )
-    VALUES ( 4920384, 444, 'New', 4, '2012-02-10', 1);
+    VALUES ( 4920386, 444, 'New', 4, '2012-02-10', 1);
 INSERT INTO book_donations ( book_donation_id, isbn, book_status, donor_id, date_donated, quantity )
     VALUES ( 4920385, 445, 'New', 4, '2012-02-15', 1);
 INSERT INTO book_donations ( book_donation_id, isbn, book_status, donor_id, date_donated, quantity )
@@ -78,8 +69,25 @@ INSERT INTO book_donations ( book_donation_id, isbn, book_status, donor_id, date
 INSERT INTO book_donations ( book_donation_id, isbn, book_status, donor_id, date_donated, quantity )
     VALUES ( 4920387, 447, 'New', 3, '2014-02-15', 1);
 
-INSERT INTO cash_donations( cash_donation_id, donor_id, amount, date_donated ) VALUES ( 1, 1, 23, '2015-01-02' )
-INSERT INTO cash_donations( cash_donation_id, donor_id, amount, date_donated ) VALUES ( 2, 2, 32, '2015-01-03' )
-INSERT INTO cash_donations( cash_donation_id, donor_id, amount, date_donated ) VALUES ( 3, 3, 53, '2015-01-01' )
+INSERT INTO cash_donations( cash_donation_id, donor_id, amount, date_donated ) VALUES ( 1, 1, 23, '2015-01-02' );
+INSERT INTO cash_donations( cash_donation_id, donor_id, amount, date_donated ) VALUES ( 2, 2, 32, '2015-01-03' );
+INSERT INTO cash_donations( cash_donation_id, donor_id, amount, date_donated ) VALUES ( 3, 3, 53, '2015-01-01' );
+
+INSERT INTO client_book_purchases(client_id, total_books_purchased, used_book_purchased) values (1, 0, 0);
+INSERT INTO client_book_purchases(client_id, total_books_purchased, used_book_purchased) values (4, 0, 0);
+
+
+# we need to make it so volunteers can approve requests
+INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )
+	VALUES ( 1, 446, 'New', 1, '2014-03-10', 'In Progress' );
+INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )
+	VALUES ( 1, 447, 'New', 1, '2014-03-12', 'In Progress' );
+INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )
+	VALUES ( 2, 445, 'New', 1, '2012-04-12', 'Approved' );
+INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )
+	VALUES ( 2, 447, 'New', 1, '2014-04-12', 'In Progress' );
+INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )
+	VALUES ( 3, 444, 'New', 1, '2012-04-12', 'Approved' );
+
 
 # insert volunteer_books_purchased

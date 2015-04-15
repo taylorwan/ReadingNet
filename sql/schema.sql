@@ -1,5 +1,5 @@
 # create database
-# DROP DATABASE readingNet;
+DROP DATABASE readingNet;
 CREATE DATABASE readingNet;
 USE readingNet;
 
@@ -48,8 +48,6 @@ CREATE TABLE clients(
     client_state VARCHAR(2) NOT NULL,
     client_zipcode BIGINT NOT NULL,
     client_tokens INT NOT NULL, 
-    new_count INT NOT NULL, 
-    used_count INT NOT NULL,
     PRIMARY KEY(client_id)
 );
 
@@ -106,6 +104,7 @@ CREATE TABLE book_inventory(
     publisher VARCHAR(200) NOT NULL,
     quantity INT NOT NULL,
     PRIMARY KEY (isbn, book_status),
+    KEY ( book_status ),
 	FOREIGN KEY(reading_level)
 		REFERENCES reading_levels(reading_level)
         ON DELETE CASCADE,
@@ -137,11 +136,16 @@ CREATE TABLE book_donations(
     donor_id INT NOT NULL, 
     date_donated DATE NOT NULL, 
     quantity INT NOT NULL,
-    PRIMARY KEY(book_donation_id),
-    FOREIGN KEY(donor_id) 
-		REFERENCES donors(donor_id),
-    FOREIGN KEY(isbn) 
-		REFERENCES book_inventory(isbn)
+    PRIMARY KEY(book_donation_id)
+    #FOREIGN KEY(donor_id) 
+	#	REFERENCES donors(donor_id)
+     #   ON DELETE NO ACTION,
+    #FOREIGN KEY(isbn) 
+	#	REFERENCES book_inventory(isbn)
+     #   ON DELETE NO ACTION,
+	#FOREIGN KEY (book_status)
+	#	REFERENCES book_inventory(book_status)
+     #   ON DELETE NO ACTION
 );
 
 CREATE TABLE cash_donations(
@@ -152,6 +156,7 @@ CREATE TABLE cash_donations(
     PRIMARY KEY(cash_donation_id),
     FOREIGN KEY(donor_id)
 		REFERENCES donors(donor_id)
+        ON DELETE NO ACTION
 );
 
 CREATE TABLE volunteer_books_purchased(
@@ -165,21 +170,32 @@ CREATE TABLE volunteer_books_purchased(
     PRIMARY KEY(book_purchase_id),
     FOREIGN KEY(volunteer_id) 
 		REFERENCES volunteers(volunteer_id)
+        ON DELETE NO ACTION
+	#FOREIGN KEY (isbn)
+	#	REFERENCES book_inventory(isbn)
+    #    ON DELETE NO ACTION,
+	#FOREIGN KEY (book_status)
+	#	REFERENCES book_inventory(book_status)
+    #    ON DELETE NO ACTION
 );
 
 CREATE TABLE client_book_requests( 
-	client_id INT NOT NULL, 
+	request_id INT AUTO_INCREMENT NOT NULL,
+    client_id INT NOT NULL, 
     isbn INT NOT NULL,
     book_status ENUM('New','Gently used') NOT NULL, 
     quantity INT NOT NULL,
     request_date DATE NOT NULL,
     request_status ENUM('Approved','Declined','In Progress') NOT NULL DEFAULT 'In Progress', 
-    PRIMARY KEY(client_id, isbn, request_date),
+    PRIMARY KEY(request_id),
     FOREIGN KEY(client_id) 
 		REFERENCES clients(client_id)
         ON DELETE CASCADE,
     FOREIGN KEY(isbn) 
 		REFERENCES book_inventory(isbn)
+        ON DELETE CASCADE,
+	FOREIGN KEY (book_status)
+		REFERENCES book_inventory(book_status)
         ON DELETE CASCADE
 );
 
@@ -190,14 +206,14 @@ CREATE TABLE client_shopping_cart(
     PRIMARY KEY(isbn, book_status),
     FOREIGN KEY(isbn) 
 		REFERENCES book_inventory(isbn)
+        ON DELETE CASCADE,
+	FOREIGN KEY (book_status)
+		REFERENCES book_inventory(book_status)
         ON DELETE CASCADE
-	#FOREIGN KEY (book_status)
-		#REFERENCES book_inventory(book_status)
-        #ON DELETE CASCADE
 );
 
 CREATE TABLE client_transaction_history(
-	purchase_id INT NOT NULL,
+	purchase_id INT AUTO_INCREMENT NOT NULL,
 	client_id INT NOT NULL,
     isbn INT NOT NULL,
     book_status ENUM('New','Gently used') NOT NULL, 
@@ -205,11 +221,14 @@ CREATE TABLE client_transaction_history(
     quantity INT NOT NULL,
     PRIMARY KEY (purchase_id),
     FOREIGN KEY (client_id)
-		REFERENCES clients(client_id),
-	FOREIGN KEY (isbn)
-		REFERENCES book_inventory(isbn)
+		REFERENCES clients(client_id)
+        ON DELETE NO ACTION
+	#FOREIGN KEY (isbn)
+	#	REFERENCES book_inventory(isbn)
+    #    ON DELETE NO ACTION,
 	#FOREIGN KEY (book_status)
 	#	REFERENCES book_inventory(book_status)
+    #    ON DELETE NO ACTION
 );
 
 CREATE TABLE client_book_purchases(

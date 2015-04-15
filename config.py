@@ -1,6 +1,6 @@
 DB_USER = 'readingNet280'
 DB_NAME = 'readingNet'
-DB_PASSWORD = ''
+DB_PASSWORD = 'p4ssw0rd'
 DB_HOST = 'localhost'
 
 APP_HOST = '127.0.0.1'

@@ -30,19 +30,24 @@ def results():
     isbn = request.args.get( 'isbn' )
     title = request.args.get( 'title' )
     author_fn = request.args.get( 'author_fn' )
-    author_ln = request.args.get( 'author_fn' )
+    author_ln = request.args.get( 'author_ln' )
     publisher = request.args.get( 'publisher' )
+    status = request.args.get( 'status' )
 
     # if isbn == "": 
-    # 	isbn = "IS NOT NULL"
+    #  	isbn = "IS NOT NULL"
     # if title == "":
-    # 	title = "IS NOT NULL"
-    # if author == "":
-    # 	author = "IS NOT NULL"
+    #  	title = "IS NOT NULL"
+    # if author_fn == "":
+    #  	author_fn = "IS NOT NULL"
+    # if author_ln =="":
+    # 	author_ln = "IS NOT NULL"
     # if publisher == "":
-    # 	publisher = "IS NOT NULL"
+    #  	publisher = "IS NOT NULL"
+    # if status == "":
+    # 	status = "IS NOT NULL"
 
-    data, colnames = db.search(isbn, title, author_fn, author_ln, publisher)
+    data, colnames = db.search(isbn, title, author_fn, author_ln, publisher, status)
     return render_template('search_results.html', data=data, colnames=colnames)
 
 @app.route('/buy_books', methods=['GET', 'POST'])
@@ -54,6 +59,22 @@ def buy_books():
 		return render_template('success.html')
 	else:
 		return render_template('/search.html')
+
+@app.route('/checkout', methods=['GET'])
+def checkout():
+	return render_template('get_info.html')
+
+@app.route('/checkout_info', methods=['POST'])
+def checkout_info():
+	if request.method == 'POST':
+		client_ID = request.form['client_ID']
+		error = db.checkout(client_ID)
+		if error > 0:
+			return render_template('error.html')
+		else:
+			return render_template('success.html')
+	return render_template('/search.html')
+
 
 @app.route('/see_all_levels', methods=['GET', 'POST'])
 def see_all_levels():

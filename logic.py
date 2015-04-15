@@ -35,7 +35,7 @@ class Database(object):
                                     self.opts.DB_PASSWORD, self.opts.DB_NAME)
         # self.conn = pymysql.connect('localhost','readingNet280', 'p4ssw0rd', 'readingNet' )
 
-    def search(self, isbn, title, author_fn, author_ln, publisher):
+    def search(self, isbn, title, author_fn, author_ln, publisher, status):
         print "In search" 
         
         with self.conn:
@@ -46,16 +46,140 @@ class Database(object):
             author_fn = pymysql.escape_string( author_fn )
             author_ln = pymysql.escape_string( author_ln )
             publisher = pymysql.escape_string( publisher )
-            print isbn
-            print title
-            print author_fn 
-            print publisher
+            status = pymysql.escape_string( status )
+
             #cur.execute("SELECT * FROM book_inventory WHERE title like '%%title%' AND isbn like '%%isbn%' AND author like '%%author%' AND publisher like '%%publisher%'",(title, isbn, author, publisher))
-            cur.execute("SELECT book_inventory.title, book_inventory.isbn, book_author.author_fn, book_author.author_ln, book_inventory.publisher, book_inventory.book_status, book_inventory.quantity FROM book_inventory INNER JOIN book_author ON book_inventory.isbn = book_author.isbn WHERE book_inventory.isbn = %s OR book_inventory.title = %s OR book_author.author_fn = %s OR book_author.author_ln = %s OR book_inventory.publisher = %s;",(isbn, title, author_fn, author_ln, publisher))
+            cur.execute("SELECT book_inventory.title, book_inventory.isbn, book_author.author_fn, book_author.author_ln, book_inventory.publisher, book_inventory.book_status, book_inventory.quantity FROM book_inventory INNER JOIN book_author ON book_inventory.isbn = book_author.isbn WHERE book_inventory.isbn = %s OR book_inventory.title = %s OR book_author.author_fn = %s OR book_author.author_ln = %s OR book_inventory.publisher =%s;",(isbn, title, author_fn, author_ln, publisher))
             data = cur.fetchall()
             colnames = [desc[0] for desc in cur.description]
 
             return data, colnames
+
+    def checkout(self, client_ID):
+        
+        with self.conn:
+            cur = self.conn.cursor()
+            query_cur = self.conn.cursor()
+
+            client_ID = pymysql.escape_string( client_ID )
+
+            cur.execute("SELECT * FROM client_shopping_cart")
+            
+            row = cur.fetchone()
+            while row is not None:
+                failed = False
+
+                isbn = row[0]
+                status = row[1]
+                quantity = row[2]
+                error = 0
+
+                # get the reading level of the book just added to cart
+                query_cur.execute("SELECT reading_level FROM book_inventory WHERE book_inventory.isbn = %s",(isbn))
+                row_from_query = query_cur.fetchone()
+                reading_level = row_from_query[0]
+
+                #this is the reading level of the book they want to buy. check if it is in that client's lookup table
+                query_cur.execute("SELECT reading_level FROM clients_readinglevel WHERE client_id = %s AND reading_level = %s",(client_ID, reading_level))
+                exists = query_cur.fetchone()
+
+                if exists == None:
+                    #reading level doesn't exist. add the book to the requests table
+                    query_cur.execute("INSERT INTO client_book_requests(client_id, isbn, book_status, quantity, request_date, request_status) VALUES (%s, %s, %s, %s, CURDATE(), 'In Progress')",(client_ID, isbn, status, quantity))
+                    query_cur.execute("DELETE FROM client_shopping_cart WHERE isbn = %s and book_status = %s",(isbn,status))
+                    
+                    #TAYLOR TO JS
+                    print "added to client book requests"
+                else:
+                    #proceed - get the number of tokens the client has and check if they can purchase
+                    query_cur.execute("SELECT client_tokens FROM clients WHERE client_id = %s",(client_ID));
+
+                    tokens_row = query_cur.fetchone();
+                    tokens = tokens_row[0]
+
+                    if status == 'New':
+                        cost_of_current_purchase = 3
+                    else:
+                        cost_of_current_purchase = 1
+
+                    #if there aren't enough tokens to purchase, remove it from the cart
+                    if tokens < cost_of_current_purchase:
+                        
+                        ####TAYLOR TO JS###
+                        print "not enough tokens"
+                        query_cur.execute("DELETE FROM client_shopping_cart WHERE isbn = %s and book_status = %s",(isbn,status))
+                        
+                        error = error+1
+                        failed = True
+
+                    else:
+
+                        #find the book quantity in the inventory to see if you need to decrease it or delete it
+                        query_cur.execute("SELECT quantity FROM book_inventory WHERE isbn = %s and book_status = %s",(isbn,status))
+                        quant_row = query_cur.fetchone()
+                        quant_in_inventory = quant_row[0]
+
+                        #if the amount they want to buy is greater than the amount there is, remove it from the cart and cancel this transaction
+                        if quantity > quant_in_inventory:
+                            query_cur.execute("DELETE FROM client_shopping_cart WHERE isbn = %s and book_status = %s",(isbn,status))
+                            
+                            ###TAYLOR TO JS###
+                            failed = True
+                            row = cur.fetchone()
+                            continue
+                        
+                        #if the amount to be purchased will bring the amount current down to 0, remove the book from inventory
+                        elif quantity == quant_in_inventory:
+                            query_cur.execute("INSERT INTO client_transaction_history(client_id, isbn, book_status, date_purchased, quantity) VALUES (%s, %s, %s, CURDATE(), %s)",(client_ID, isbn, status, quantity))
+                            query_cur.execute("DELETE FROM client_shopping_cart WHERE isbn = %s and book_status = %s",(isbn,status))
+                            query_cur.execute("DELETE FROM book_inventory WHERE isbn = %s and book_status = %s",(isbn,status))
+
+                        # just decrease the quantity
+                        elif quantity < quant_in_inventory:
+                            query_cur.execute("INSERT INTO client_transaction_history(client_id, isbn, book_status, date_purchased, quantity) VALUES (%s, %s, %s, CURDATE(), %s)",(client_ID, isbn, status, quantity))
+                            query_cur.execute("DELETE FROM client_shopping_cart WHERE isbn = %s and book_status = %s",(isbn,status))
+                            new_quant_in_inventory = quant_in_inventory - quantity
+                            query_cur.execute("UPDATE book_inventory SET quantity = %s WHERE isbn = %s and book_status = %s",(new_quant_in_inventory,isbn,status))
+
+                        #now, we are ready to update the tokens and check if more need to be added by the system
+                        if failed != True:
+                            new_tokens = tokens - cost_of_current_purchase
+                            query_cur.execute("UPDATE clients SET client_tokens = %s WHERE client_id = %s",(new_tokens, client_ID))
+
+                            #check to see how many books the client has purchsed to see if we need to give them more tokens
+                            query_cur.execute("SELECT total_books_purchased, used_book_purchased FROM client_book_purchases WHERE client_id = %s",(client_ID))
+                            books_purchased_row = query_cur.fetchone()
+                            total_books_owned = books_purchased_row[0]
+                            used_book_owned = books_purchased_row[1]
+
+                            # calculate which counter needs to be updated: if used, then both, if not, then just total
+                            if status =='Gently used' or status == 'gently used' or status == 'Gently Used':
+                                new_used_count = used_book_owned + quantity
+                                used_book_owned = new_used_count
+
+                                new_total_count = total_books_owned + quantity
+                                total_books_owned = new_total_count
+
+                                query_cur.execute("UPDATE client_book_purchases SET used_book_purchased = %s WHERE client_id = %s",(new_used_count,client_ID))
+                                query_cur.execute("UPDATE client_book_purchases SET total_books_purchased = %s WHERE client_id = %s",(new_total_count,client_ID))
+                            else:
+                                new_total_count = total_books_owned + quantity
+                                query_cur.execute("UPDATE client_book_purchases SET total_books_purchased = %s WHERE client_id = %s",(new_total_count,client_ID))
+                            
+                            if used_book_owned >= 10:
+                                update_tokens = new_tokens + 3 
+                                query_cur.execute("UPDATE clients SET client_tokens = %s",(new_tokens))
+                                #reset the counter
+                                query_cur.execute("UPDATE client_book_purchases SET used_book_purchased= 0")
+                            if total_books_owned >= 5:
+                                update_tokens = new_tokens + 3 
+                                query_cur.execute("UPDATE clients SET client_tokens = %s",(new_tokens))
+                                #reset the counter
+                                query_cur.execute("UPDATE client_book_purchases SET total_books_owned= 0")
+
+                row = cur.fetchone()
+        self.conn.commit()
+        return error
 
     def process_purchase(self, check_list):
         print "in purchase processing"
@@ -273,27 +397,14 @@ class Database(object):
             #if the book is not already in the database
             if exists == None:
                 cur.execute("INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",(isbn, title, readingLevel, genre, bookStatus, edition, publisher, quantity))
-                cur.execute("INSERT INTO book_donations(isbn, title, book_status, donor_id, date_donated, quantity) VALUES (%s, %s, %s, %s, %s, %s)",(isbn, title, bookStatus, donorID, donationDate, quantity))
-                cur.execute("INSERT INTO book_author(isbn, title, author_fn, author_ln) VALUES (%s, %s, %s, %s)",(isbn, title, author_fn, author_ln))
+                cur.execute("INSERT INTO book_donations(isbn, book_status, donor_id, date_donated, quantity) VALUES (%s, %s, %s, %s, %s)",(isbn, bookStatus, donorID, donationDate, quantity))
+                cur.execute("INSERT INTO book_author(isbn, author_fn, author_ln) VALUES (%s, %s, %s)",(isbn, author_fn, author_ln))
             else:
                 existing_quant = 0
                 existing_quant = exists[7]
                 new_quantity = existing_quant + quantity
                 cur.execute("UPDATE book_inventory SET quantity=%s WHERE isbn=%s AND book_status=%s",(new_quantity, isbn, bookStatus))
-                cur.execute("INSERT INTO book_donations(isbn, title, book_status, donor_id, date_donated, quantity) VALUES (%s, %s, %s, %s, %s, %s)",(isbn, title, bookStatus, donorID, donationDate, quantity))
-
-            cur.execute("SELECT * FROM book_inventory")
-            data = cur.fetchall()
-            print "printing book_inventory"
-            for row in data:
-                print row
-
-            cur.execute("SELECT * FROM book_donations")
-            data = cur.fetchall()
-            print cur.rowcount
-            print "printing donations"
-            for row in data:
-                print row;
+                cur.execute("INSERT INTO book_donations(isbn, book_status, donor_id, date_donated, quantity) VALUES (%s, %s, %s, %s, %s)",(isbn, bookStatus, donorID, donationDate, quantity))
 
             self.conn.commit()
 
