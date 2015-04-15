@@ -54,11 +54,16 @@ INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, 
 	VALUES (446, 'Harry Potter 3', 3, 'Fiction', 'New', 1, 'Random House', 1);
 INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity)
 	VALUES (447, 'Harry Potter 4', 4, 'Fiction', 'New', 1, 'Random House', 1);
+INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity)
+	VALUES (447, 'Harry Potter 4', 4, 'Fiction', 'Gently used', 1, 'Random House', 1);
+INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity)
+	VALUES (800, 'Zero To One', 2, 'Non-Fiction', 'New', 1, 'Crown Business', 2);
 
 INSERT INTO book_author(isbn, author_fn, author_ln) VALUES (444, 'Jane', 'Doe');
 INSERT INTO book_author(isbn, author_fn, author_ln) VALUES (445, 'Jane', 'Doe');
 INSERT INTO book_author(isbn, author_fn, author_ln) VALUES (446, 'Jane', 'Doe');
 INSERT INTO book_author(isbn, author_fn, author_ln) VALUES (447, 'Jane', 'Doe');
+INSERT INTO book_author(isbn, author_fn, author_ln) VALUES (800, 'Peter', 'Thiel');
 
 INSERT INTO book_donations ( book_donation_id, isbn, book_status, donor_id, date_donated, quantity )
     VALUES ( 4920386, 444, 'New', 4, '2012-02-10', 1);
@@ -73,9 +78,13 @@ INSERT INTO cash_donations( cash_donation_id, donor_id, amount, date_donated ) V
 INSERT INTO cash_donations( cash_donation_id, donor_id, amount, date_donated ) VALUES ( 2, 2, 32, '2015-01-03' );
 INSERT INTO cash_donations( cash_donation_id, donor_id, amount, date_donated ) VALUES ( 3, 3, 53, '2015-01-01' );
 
-INSERT INTO client_book_purchases(client_id, total_books_purchased, used_book_purchased) values (1, 0, 0);
-INSERT INTO client_book_purchases(client_id, total_books_purchased, used_book_purchased) values (4, 0, 0);
+INSERT INTO client_book_purchases(client_id, total_books_purchased, used_book_purchased) VALUES (1, 0, 0);
+INSERT INTO client_book_purchases(client_id, total_books_purchased, used_book_purchased) VALUES (4, 0, 0);
 
+INSERT INTO volunteer_books_purchased( book_purchase_id, volunteer_id, isbn, date_purchased, book_status, quantity, book_cost )
+	VALUES( 1, 1, 800, '2015-02-15', 'New', 2, 20 );
+INSERT INTO volunteer_books_purchased( book_purchase_id, volunteer_id, isbn, date_purchased, book_status, quantity, book_cost )
+	VALUES( 2, 2, 447, '2015-02-20', 'New', 1, 5 );
 
 # we need to make it so volunteers can approve requests
 INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )

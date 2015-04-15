@@ -33,16 +33,40 @@
 		</form>
 
 		<!-- 6. What is the average, max, and minimum number of tokens assigned to the clients? -->
-		<form action="/token_data" method="POST">
-			<h3 class="description">6. What is the average, max, and minimum number of tokens assigned to the clients?</h3>
+		<form action="/avg_tokens" method="POST">
+			<h3 class="description">6a. What is the average number of tokens assigned to the clients?</h3>
 			<li class="button">
-				<input type="submit" value="Go" id="tokenData">
+				<input type="submit" value="Go" id="avgTokens">
+			</li>
+		</form>
+		<form action="/min_tokens" method="POST">
+			<h3 class="description">6b. What is the minimum number of tokens assigned to the clients?</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="minTokens">
+			</li>
+		</form>
+		<form action="/max_tokens" method="POST">
+			<h3 class="description">6c. What is the maximum number of tokens assigned to the clients?</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="maxTokens">
 			</li>
 		</form>
 
 		<!-- 7. For each genre, how many books exist in the inventory? For each reading level, how any books exist in inventory? For each genre and reading level, how many books exist in inventory? -->
+		<form action="/book_per_genre" method="POST">
+			<h3 class="description">7a. For each genre, how many books exist in the inventory?</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="bookPerGenre">
+			</li>
+		</form>
+		<form action="/book_per_level" method="POST">
+			<h3 class="description">7b. For each reading level, how any books exist in inventory?</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="bookPerLevel">
+			</li>
+		</form>
 		<form action="/book_per_genre_level" method="POST">
-			<h3 class="description">7. For each genre, how many books exist in the inventory? For each reading level, how any books exist in inventory? For each genre and reading level, how many books exist in inventory?</h3>
+			<h3 class="description">7c. For each genre and reading level, how many books exist in inventory?</h3>
 			<li class="button">
 				<input type="submit" value="Go" id="bookPerGenreLevel">
 			</li>
@@ -89,10 +113,10 @@
 		</form>
 
 		<!-- 13. How many books have been purchased by each volunteer of ReadingNet in the past month? -->
-		<form action="/##" method="POST">
+		<form action="/volunteer_purchases_last_month" method="POST">
 			<h3 class="description">13. How many books have been purchased by each volunteer of ReadingNet in the past month?</h3>
 			<li class="button">
-				<input type="submit" value="Go" id="##">
+				<input type="submit" value="Go" id="volunteerPurchasesLastMonth">
 			</li>
 		</form>
 
