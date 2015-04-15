@@ -1,5 +1,5 @@
 # create database
-#DROP DATABASE readingNet;
+# DROP DATABASE readingNet;
 CREATE DATABASE readingNet;
 USE readingNet;
 
