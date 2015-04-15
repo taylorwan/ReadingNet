@@ -735,9 +735,9 @@ class Database(object):
             cur = self.conn.cursor()
 
             # create views
-            cur.execute("create view clients_per_level as (SELECT reading_level, count(client_id) as clients FROM clients_readinglevel group by reading_level)")
+            # cur.execute("create view clients_per_level as (SELECT reading_level, count(client_id) as clients FROM clients_readinglevel group by reading_level)")
             # cur.execute("create view clients_per_level as (SELECT r.reading_level, count(client_id) as clients FROM clients_readinglevel c RIGHT JOIN reading_levels r group by r.reading_level)")
-            cur.execute("create view books_per_level as (SELECT reading_level, sum(quantity) as books FROM book_inventory group by reading_level)")
+            # cur.execute("create view books_per_level as (SELECT reading_level, sum(quantity) as books FROM book_inventory group by reading_level)")
             
             # select
             # cur.execute("SELECT eading_level, books/clients from clients_per_level NATURAL JOIN books_per_level")
