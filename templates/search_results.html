@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="POST" action="/buy_books">  
+    <div class="results">
+        <div class="instructions">Please check the books you would like to purchase below. If you would like to purchase more than one of the same book, please wait until you reach the checkout screen, where you will be able to select the quantity.</div>
+        <h3>
+            {% for row in colnames %}
+            <b id="table-header">{{ row }}</b>
+            {% endfor %}
+        </h3>
+
+        {% for row in data %}
+        <ul class="results">
+            <li>
+                <input name="title" value="{{ row[0] }}" readonly></input>
+            </li>
+            <li>
+                <input name="isbn" value="{{ row[1] }}" readonly></input>
+            </li>
+            <li>
+                <input name="author_fn" value="{{ row[2] }}" readonly></input>
+            </li>
+            <li>
+                <input name="author_ln" value="{{ row[3] }}" readonly></input>
+            </li>
+            <li>
+                <input name="publisher" value="{{ row[4] }}" readonly></input>
+            </li>
+            <li>
+                <input name="status" value="{{ row[5] }}" readonly></input>
+            </li>
+            <li>
+                <input name="publisher" value="{{ row[6] }}" readonly></input>
+            </li>
+            <li>
+                <input type="checkbox" class="clear" id="id_{{row[0]}}" name="check" value="{{row[1]}}_{{row[5]}}">
+            </li>
+        </ul>
+        {% endfor %}
+
+        <input type="submit" id="submitPurchase" >
+    </div>
+</form>
+
+
+
+</div>
+{% endblock %}
