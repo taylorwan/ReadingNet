@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="results">
+
+	<form action="/addToCart" method="POST">
+	    <table id="search-results">
+	        <tr>
+				<td id="qtyToBuy" class="header">Quantity</td>
+	            <td class="header"><strong>{{ colnames }}</strong></td>
+
+<!-- 				<td id="qtyToBuy" class="header">Quantity</td>
+				<td id="isbn" class="header">ISBN</td>
+				<td id="title" class="header">Title</td>
+				<td id="reading_level" class="header">Reading Level</td>
+				<td id="genre_type" class="header">Genre Type</td>
+				<td id="book_status" class="header">Book Status</td>
+				<td id="edition" class="header">Edition</td>
+				<td id="publisher" class="header">Publisher</td>
+				<td id="quantity" class="header">In Stock</td> -->
+	        </tr>
+	        {% for row in data %}
+            <tr>
+            	<td>
+            		<input type="text" name="{{ row.isbn }}" placeholder="tokenCount">
+            	</td>
+            	<td>{{ row }}</td>
+            	
+                <!-- <td>{{ row.isbn }}</td>
+				<td>{{ row.title }} </td>
+				<td>{{ row.reading_level }} </td>
+				<td>{{ row.genre_type }} </td>
+				<td>{{ row.book_status }} </td>
+				<td>{{ row.edition }} </td>
+				<td>{{ row.publisher }} </td>
+				<td>{{ row.quantity }} </td> -->
+            </tr>
+	        {% endfor %}
+	    </table>
+	    <input type="submit" id="submitPurchase" >
+	</form>
+
+  </div>
+{% endblock %}

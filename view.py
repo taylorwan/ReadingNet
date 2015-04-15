@@ -19,7 +19,6 @@ app.debug = config.APP_DEBUG
 
 @app.route( '/', methods=['GET'] )
 def splash():
-    print "loading search"
     return render_template( 'search.html' )
 
 @app.route( '/volunteer', methods=['GET'] )
@@ -43,9 +42,8 @@ def results():
     # if publisher == "":
     # 	publisher = "IS NOT NULL"
 
-    data, colnames = db.search(isbn, title, author_fn, author_ln, publisher)
-    print "routing to results"
-    return render_template('search_results.html', data=data, colnames=colnames)
+    results, colnames = db.search(isbn, title, author_fn, author_ln, publisher)
+    return render_template('results.html', results=results, colnames=colnames)
 
 @app.route('/buy_books', methods=['GET', 'POST'])
 def buy_books():
@@ -106,7 +104,7 @@ def see_all_cash_donations():
 		return render_template('/volunteer.html')
 
 
-@app.route('/see_cash_reserves', methods=['GET', 'POST'])	
+@app.route('/see_cash_reserves', methods=['GET', 'POST'])
 def see_cash_reserves():
 	if request.method == 'POST':
 		data, colnames = db.see_cash_reserves()
@@ -117,7 +115,6 @@ def see_cash_reserves():
 @app.route('/add_genre', methods=['GET','POST'] )
 def add_genre():
 	if request.method == 'POST':
-		print "its a post"
 		genre = request.form[ 'genre' ]
 		desc = request.form[ 'description' ]
 		db.add_genre(genre, desc)
@@ -131,7 +128,6 @@ def add_genre():
 @app.route( '/add_new_donor', methods=['GET','POST'] )
 def add_new_donor():
 	if request.method == 'POST':
-		print "its a post"
 		donorID = request.form[ 'donorID' ]
 		
 		firstName = request.form[ 'firstName' ]
@@ -189,11 +185,11 @@ def add_new_volunteer():
 
 		firstName = request.form[ 'firstName' ]
 		if firstName == "":
-			render_template('/error.html')			
+			render_template('/error.html')
 
 		lastName = request.form[ 'lastName' ]
 		if lastName == "":
-			render_template('/error.html')			
+			render_template('/error.html')
 
 		DOB = request.form[ 'DOB' ]
 		if DOB == "":
@@ -201,7 +197,7 @@ def add_new_volunteer():
 
 		gender = request.form[ 'gender' ]
 		if gender == "":
-			render_template('/error.html')	
+			render_template('/error.html')
 
 		phoneNum = request.form[ 'phoneNum' ]
 		if phoneNum == "":
@@ -217,7 +213,7 @@ def add_new_volunteer():
 
 		city = request.form[ 'city' ]
 		if city == "":
-			render_template('/error.html')			
+			render_template('/error.html')
 
 		state = request.form[ 'state' ]
 		if state == "":
@@ -272,13 +268,13 @@ def add_new_book():
 		readingLevel = request.form[ 'readingLevel' ]
 		genre = request.form[ 'genre' ]
 		bookStatus = request.form[ 'bookStatus' ]
-		edition = request.form[ 'edition' ]	
-		publisher = request.form[ 'publisher' ]	
-		quantity = request.form[ 'quantity' ]	
-		author_fn = request.form[ 'author_fn' ]	
-		author_ln = request.form[ 'author_ln' ]		
-		donorID = request.form[ 'donorID' ]		
-		donationDate = request.form[ 'donationDate' ]		
+		edition = request.form[ 'edition' ]
+		publisher = request.form[ 'publisher' ]
+		quantity = request.form[ 'quantity' ]
+		author_fn = request.form[ 'author_fn' ]
+		author_ln = request.form[ 'author_ln' ]
+		donorID = request.form[ 'donorID' ]
+		donationDate = request.form[ 'donationDate' ]
 
 		db.add_book(isbn, title, readingLevel, genre, bookStatus, edition, publisher, quantity, author_fn, author_ln, donorID, donationDate)
 		return render_template('success.html')
@@ -297,20 +293,20 @@ def add_new_cash_donation():
 	else:
 		return render_template('/volunteer.html')
 
-@app.route('/purchase_new_book', methods=['GET', 'POST'])	
+@app.route('/purchase_new_book', methods=['GET', 'POST'])
 def purchase_new_book():
 	if request.method == 'POST':
-		volunteer_ID = request.form[ 'volunteer_ID' ]		
+		volunteer_ID = request.form[ 'volunteer_ID' ]
 		isbn = request.form[ 'isbn' ]
 		title = request.form[ 'title' ]
 		reading_level = request.form[ 'reading_level' ]
 		genre = request.form[ 'genre' ]
 		book_status = request.form[ 'book_status' ]
-		edition = request.form[ 'edition' ]	
-		publisher = request.form[ 'publisher' ]	
-		quantity = request.form[ 'quantity' ]	
-		author_fn = request.form[ 'author_fn' ]	
-		author_ln = request.form[ 'author_ln' ]		
+		edition = request.form[ 'edition' ]
+		publisher = request.form[ 'publisher' ]
+		quantity = request.form[ 'quantity' ]
+		author_fn = request.form[ 'author_fn' ]
+		author_ln = request.form[ 'author_ln' ]
 		purchase_date = request.form[ 'purchase_date']
 		cost = request.form[ 'cost']
 		
@@ -322,13 +318,83 @@ def purchase_new_book():
 @app.route('/add_tokens', methods=['GET', 'POST'])
 def add_tokens():
 	if request.method == 'POST':
-		client_ID = request.form[ 'client_ID' ]		
+		client_ID = request.form[ 'client_ID' ]
 		token_amount = request.form[ 'token_amount' ]
 
 		db.add_tokens(client_ID, token_amount)
 		return render_template('success.html')
 	else:
 		return render_template('/volunteer.html')
+
+
+### Queries Taylor 4.14
+
+@app.route( '/queries', methods=['GET'] )
+def show_queries():
+    return render_template( 'queries.html' )
+
+# 4
+@app.route('/author_donators', methods=['GET', 'POST'])
+def author_donators():
+	if request.method == 'POST':
+		data, colnames = db.author_donators();
+		return render_template( 'results.html', data=data, colnames=colnames )
+	else:
+		return render_template('/queries.html')
+
+# 5
+@app.route('/most_recent_donor', methods=['GET', 'POST'])
+def most_recent_donor():
+	if request.method == 'POST':
+		data, colnames = db.most_recent_donor();
+		return render_template( 'results.html', data=data, colnames=colnames )
+	else:
+		return render_template('/queries.html')
+
+# 6
+@app.route('/token_data', methods=['GET', 'POST'])
+def token_data():
+	if request.method == 'POST':
+		data, colnames = db.token_data();
+		return render_template( 'results.html', data=data, colnames=colnames )
+	else:
+		return render_template('/queries.html')
+
+# 7
+@app.route('/book_per_genre_level', methods=['GET', 'POST'])
+def book_per_genre_level():
+	if request.method == 'POST':
+		data, colnames = db.book_per_genre_level();
+		return render_template( 'results.html', data=data, colnames=colnames )
+	else:
+		return render_template('/queries.html')
+
+# 8
+@app.route('/top_book', methods=['GET', 'POST'])
+def top_book():
+	if request.method == 'POST':
+		data, colnames = db.top_book();
+		return render_template( 'results.html', data=data, colnames=colnames )
+	else:
+		return render_template('/queries.html')
+
+# 9
+# @app.route('/target_donors', methods=['GET', 'POST'])
+# def target_donors():
+# 	if request.method == 'POST':
+# 		data, colnames = db.target_donors();
+# 		return render_template( 'results.html', data=data, colnames=colnames )
+# 	else:
+# 		return render_template('/queries.html')
+
+# #
+# @app.route('/#', methods=['GET', 'POST'])
+# def #():
+# 	if request.method == 'POST':
+# 		data, colnames = db.#();
+# 		return render_template( 'results.html', data=data, colnames=colnames )
+# 	else:
+# 		return render_template('/queries.html')
 
 if __name__ == '__main__':
     app.run()

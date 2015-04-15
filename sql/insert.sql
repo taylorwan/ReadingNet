@@ -15,7 +15,6 @@ INSERT INTO volunteers(volunteer_id, volunteer_first_name, volunteer_last_name, 
 INSERT INTO volunteers(volunteer_id, volunteer_first_name, volunteer_last_name, volunteer_dob, volunteer_gender, vounteer_phone_num, volunteer_email, vounteer_street_address, volunteer_city, volunteer_state, volunteer_zipcode)
 	VALUES (3, 'Sarah','Jones', '1998-08-09', 'F', 800800800, 'j@j.com', '1 First Street', 'Washington','DC',20057);
 
-
 INSERT INTO clients(client_id, organization_name, client_phone_num, client_email, client_street_address, client_city, client_state, client_zipcode, client_tokens, new_count, used_count)
 	VALUES(1, 'Booksasarus', 800800800, 'books@books.com', '14 Main St', 'Washington','DC',20057,8,0,0);
 
@@ -29,10 +28,27 @@ INSERT INTO clients_readinglevel(client_id, reading_level) VALUES (1, 1);
 INSERT INTO clients_readinglevel(client_id, reading_level) VALUES (1, 2);
 
 INSERT INTO genres(genre_type, description)
-	VALUES ("Fiction","Interesting made up stories");
+	VALUES ("Fiction", "Interesting made up stories");
+INSERT INTO genres(genre_type, description)
+	VALUES ("Non-Fiction", "Stories based on mostly true happenings");
 
 INSERT INTO cash_reserves(cash_amount, cash_id) VALUES (0,1);
 
-INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity) VALUES (444, 'Harry Potter', 1, 'Fiction', 'New', 1, 'Random House', 1);
+INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity)
+	VALUES (444, 'Harry Potter', 1, 'Fiction', 'New', 1, 'Random House', 1);
+INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity)
+	VALUES (445, 'Harry Potter 2', 1, 'Fiction', 'New', 1, 'Random House', 1);
 
-INSERT INTO book_author(isbn, title, author_fn, author_ln) VALUES (444, 'Harry Potter', 'JK', 'Rowling');
+# we should use isbn as the foreign key and remove title
+INSERT INTO book_author(isbn, title, author_fn, author_ln) VALUES (444, 'Harry Potter', 'Jane', 'Doe');
+INSERT INTO book_author(isbn, title, author_fn, author_ln) VALUES (445, 'Harry Potter 2', 'Jane', 'Doe');
+
+# we should use isbn as the foreign key and remove title
+INSERT INTO book_donations ( book_donation_id, isbn, title, book_status, donor_id, date_donated, quantity )
+    VALUES ( 4920384, 444, 'Harry Potter', 'New', 4, '2014-02-10', 1);
+INSERT INTO book_donations ( book_donation_id, isbn, title, book_status, donor_id, date_donated, quantity )
+    VALUES ( 4920385, 445, 'Harry Potter 2', 'New', 4, '2014-02-15', 1);
+
+
+INSERT INTO cash_donations( cash_donation_id, donor_id, amount, date_donated )
+	VALUES ( 1, 1, 23, '2015-01-02' )

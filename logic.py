@@ -1,4 +1,5 @@
 import pymysql
+import config
 
 class CursorIterator(object):
     """Iterator for the cursor object."""
@@ -30,9 +31,9 @@ class Database(object):
 
     def __connect( self ):
         """Connect to the database"""
-        # self.conn = pymysql.connect(self.opts.DB_HOST, self.opts.DB_USER,
-                                    # self.opts.DB_PASSWORD, self.opts.DB_NAME)
-        self.conn = pymysql.connect('localhost','readingNet280', 'p4ssw0rd', 'readingNet' )
+        self.conn = pymysql.connect(self.opts.DB_HOST, self.opts.DB_USER,
+                                    self.opts.DB_PASSWORD, self.opts.DB_NAME)
+        # self.conn = pymysql.connect('localhost','readingNet280', 'p4ssw0rd', 'readingNet' )
 
     def search(self, isbn, title, author_fn, author_ln, publisher):
         print "In search" 
@@ -418,5 +419,110 @@ class Database(object):
             self.conn.commit()
 
             return cur
+
+### Queries Taylor 4.14
+
+    # 4
+    def author_donators(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT * FROM donors NATURAL JOIN book_donations NATURAL JOIN book_author WHERE donor_first_name = author_fn AND donor_last_name = author_ln ")
+            data = cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
+        
+            return data, colnames
+
+    # 5
+    def most_recent_donor(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT donor_first_name, donor_last_name FROM donors NATURAL JOIN cash_donations ORDER BY date_donated DESC")
+            data = cur.fetchone()
+            colnames = [desc[0] for desc in cur.description]
+        
+            return data, colnames
+
+    # 6
+    # uhh...decimal printout
+    def token_data(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT avg(client_tokens) from clients")
+            avgTokens = cur.fetchone()
+            cur.execute("SELECT min(client_tokens) from clients")
+            minTokens = cur.fetchone()
+            cur.execute("SELECT max(client_tokens) from clients")
+            maxTokens = cur.fetchone()
+
+            data = [ avgTokens, minTokens, maxTokens ]
+            colnames = [ "Average Tokens", "Min Tokens", "Max Tokens" ]
+        
+            return data, colnames
+
+
+    # 7
+    # how do we make the genres/reading levels that have no coresponding books show?
+    # there's some shitty layout here too
+    # maybe the answer is to separate this out into 3 queries
+    # also goes for 6
+    def book_per_genre_level(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT genre_type, count(genre_type) as count from book_inventory GROUP BY genre_type")
+            perGenre = cur.fetchone()
+            perGenreCols = [ "Book Per Genre", "Count" ]
+
+            cur.execute("SELECT reading_level, count(reading_level) from book_inventory GROUP BY reading_level")
+            perLevel = cur.fetchone()
+            perLevelCols = [ "Book Per Level", "Count"]
+
+            cur.execute("SELECT count(isbn) from book_inventory GROUP BY genre_type AND reading_level")
+            perGenreLevel = cur.fetchone()
+            perGenreLevelCols = ["Book Per Genre + Level", "Count" ]
+
+            data = [ perGenre, perLevel, perGenreLevel ]
+            colnames = [ perGenreCols, perLevelCols, perGenreLevelCols ]
+
+            # return perGenre, perGenreCols, perLevel, perLevelCols, perGenreLevel, perGenreLevelCols
+            return data, colnames
+
+    # 8
+    def top_book(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            # cur.execute("SELECT title, sum(quantity) from book_inventory GROUP BY isbn")
+            cur.execute("SELECT title, sum(quantity) from book_inventory GROUP BY isbn HAVING sum(quantity) >= all( SELECT sum(quantity) FROM book_inventory GROUP BY isbn )")
+            data = cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
+       
+            return data, colnames
+
+    # 9
+    # def target_donors(self):
+    #     with self.conn:
+    #         cur = self.conn.cursor()
+ 
+    #         cur.execute("SELECT donor_first_name, donor_last_name, donor_street_address, donor_city, donor_state, donor_zipcode FROM donors WHERE donor_state IN ['California', 'New York', 'Illinois'] AND donor_dob BETWEEN")
+    #         data = cur.fetchone()
+    #         colnames = [desc[0] for desc in cur.description]
+        
+    #         return data, colnames
+
+
+    # #
+    # def #(self):
+    #     with self.conn:
+    #         cur = self.conn.cursor()
+
+    #         cur.execute("SELECT donor_first_name, donor_last_name FROM donors NATURAL JOIN cash_donations ORDER BY date_donated ASC")
+    #         data = cur.fetchone()
+    #         colnames = [desc[0] for desc in cur.description]
+        
+    #         return data, colnames
 
 

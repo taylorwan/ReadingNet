@@ -4,7 +4,7 @@ CREATE DATABASE readingNet;
 USE readingNet;
 
 # create user
-CREATE USER 'readingNet280'@'localhost' IDENTIFIED BY 'p4ssw0rd';
+# CREATE USER 'readingNet280'@'localhost' IDENTIFIED BY 'p4ssw0rd';
 GRANT ALL ON readingNet.* TO 'readingNet280'@'localhost';
 USE readingNet;
 
@@ -152,7 +152,7 @@ CREATE TABLE cash_donations(
     amount FLOAT(2) NOT NULL, 
     date_donated DATE NOT NULL,
     PRIMARY KEY(cash_donation_id),
-    FOREIGN KEY(donor_id) 
+    FOREIGN KEY(donor_id)
 		REFERENCES donors(donor_id)
 );
 
