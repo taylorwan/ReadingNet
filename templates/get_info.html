@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form action="/checkout_info" method="POST">
+	<div class="title"> Enter Client ID </div> 
+	<input type="text" name="client_ID" id="enter_client_dc" placeholder="client ID">
+	<input type="submit" id="submitButton" class="submit" value="Buy these books!">
+</form>
+
+{% endblock %}
