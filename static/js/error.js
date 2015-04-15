@@ -9,8 +9,13 @@ function init() {
 }
 
 function error( msg ) {
-	var $msgBox =  $( 'html #errorMsg' )
+	// finding our messagebox
+	var $msgBox =  $( 'html #errorMsg' );
+
+	// set text
 	$msgBox.text( msg );
+
+	// fade it in, and then out
 	$msgBox.fadeIn();
 	window.setTimeout( function() {
 		$msgBox.fadeOut();
