@@ -2,11 +2,16 @@
 {% block content %}
 
 <div class="results">
-    <td><b id="table-header">{{ colnames }}</b></td>
     <table id="search-results">
-        {% for row in data %}
+		{% for value in colnames %}
+	    	<td><b class="table-header">{{ value }}</b></td>
+	    {% endfor %}
+
+	    {% for row in data %}
         <tr>
-            <td>{{ row }}</td>
+        	{% for value in row %}
+            <td>{{ value }}</td>
+            {% endfor %}
         </tr>
         {% endfor %}
     </table>

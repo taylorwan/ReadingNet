@@ -1,5 +1,6 @@
 import pymysql
 import config
+import unicodedata
 
 class CursorIterator(object):
     """Iterator for the cursor object."""
@@ -579,7 +580,7 @@ class Database(object):
         with self.conn:
             cur = self.conn.cursor()
 
-            cur.execute("SELECT * FROM donors NATURAL JOIN book_donations NATURAL JOIN book_author WHERE donor_first_name = author_fn AND donor_last_name = author_ln ")
+            cur.execute("SELECT DISTINCT donor_first_name as 'First Name', donor_last_name as 'Last Name' FROM donors NATURAL JOIN book_donations NATURAL JOIN book_author WHERE donor_first_name = author_fn AND donor_last_name = author_ln ")
             data = cur.fetchall()
             colnames = [desc[0] for desc in cur.description]
         
@@ -590,56 +591,77 @@ class Database(object):
         with self.conn:
             cur = self.conn.cursor()
 
-            cur.execute("SELECT donor_first_name, donor_last_name FROM donors NATURAL JOIN cash_donations ORDER BY date_donated DESC")
-            data = cur.fetchone()
+            cur.execute("SELECT donor_first_name as 'First Name', donor_last_name as 'Last Name' FROM donors NATURAL JOIN cash_donations ORDER BY date_donated DESC")
+            data = []
+            data.append(cur.fetchone())
             colnames = [desc[0] for desc in cur.description]
         
             return data, colnames
 
     # 6
-    # uhh...decimal printout
-    def token_data(self):
+    def avg_tokens(self):
         with self.conn:
             cur = self.conn.cursor()
 
-            cur.execute("SELECT avg(client_tokens) from clients")
-            avgTokens = cur.fetchone()
-            cur.execute("SELECT min(client_tokens) from clients")
-            minTokens = cur.fetchone()
-            cur.execute("SELECT max(client_tokens) from clients")
-            maxTokens = cur.fetchone()
+            cur.execute("SELECT avg(client_tokens) as 'Avg Tokens' from clients")
+            data = []
+            data.append(cur.fetchone())
+            colnames = [desc[0] for desc in cur.description]
 
-            data = [ avgTokens, minTokens, maxTokens ]
-            colnames = [ "Average Tokens", "Min Tokens", "Max Tokens" ]
-        
+            return data, colnames
+
+    def min_tokens(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT min(client_tokens) as 'Min Tokens' from clients")
+            data = []
+            data.append(cur.fetchone())
+            colnames = [desc[0] for desc in cur.description]
+
+            return data, colnames
+
+    def max_tokens(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT max(client_tokens) as 'Max Tokens' from clients")
+            data = []
+            data.append(cur.fetchone())
+            colnames = [desc[0] for desc in cur.description]
+
             return data, colnames
 
 
     # 7
-    # how do we make the genres/reading levels that have no coresponding books show?
-    # there's some shitty layout here too
-    # maybe the answer is to separate this out into 3 queries
-    # also goes for 6
+    def book_per_genre(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT genre_type as 'Genre', count(genre_type) as 'Books' from book_inventory GROUP BY genre_type")
+            data = cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
+
+            return data, colnames
+
+    def book_per_level(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT reading_level as 'Reading Level', count(reading_level) as 'Books' from book_inventory GROUP BY reading_level")
+            data = cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
+
+            return data, colnames
+
     def book_per_genre_level(self):
         with self.conn:
             cur = self.conn.cursor()
 
-            cur.execute("SELECT genre_type, count(genre_type) as count from book_inventory GROUP BY genre_type")
-            perGenre = cur.fetchone()
-            perGenreCols = [ "Book Per Genre", "Count" ]
+            cur.execute("SELECT genre_type as 'Genre', reading_level as 'Reading Level', count(isbn) as 'Books' from book_inventory GROUP BY genre_type, reading_level")
+            data = cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
 
-            cur.execute("SELECT reading_level, count(reading_level) from book_inventory GROUP BY reading_level")
-            perLevel = cur.fetchone()
-            perLevelCols = [ "Book Per Level", "Count"]
-
-            cur.execute("SELECT count(isbn) from book_inventory GROUP BY genre_type AND reading_level")
-            perGenreLevel = cur.fetchone()
-            perGenreLevelCols = ["Book Per Genre + Level", "Count" ]
-
-            data = [ perGenre, perLevel, perGenreLevel ]
-            colnames = [ perGenreCols, perLevelCols, perGenreLevelCols ]
-
-            # return perGenre, perGenreCols, perLevel, perLevelCols, perGenreLevel, perGenreLevelCols
             return data, colnames
 
     # 8
@@ -648,7 +670,7 @@ class Database(object):
             cur = self.conn.cursor()
 
             # cur.execute("SELECT title, sum(quantity) from book_inventory GROUP BY isbn")
-            cur.execute("SELECT title, sum(quantity) from book_inventory GROUP BY isbn HAVING sum(quantity) >= all( SELECT sum(quantity) FROM book_inventory GROUP BY isbn )")
+            cur.execute("SELECT title as 'Title', sum(quantity) as 'Quantity' from book_inventory GROUP BY isbn HAVING sum(quantity) >= all( SELECT sum(quantity) FROM book_inventory GROUP BY isbn )")
             data = cur.fetchall()
             colnames = [desc[0] for desc in cur.description]
        
@@ -659,12 +681,26 @@ class Database(object):
         with self.conn:
             cur = self.conn.cursor()
  
-            cur.execute("SELECT donor_first_name, donor_last_name, donor_street_address, donor_city, donor_state, donor_zipcode FROM donors WHERE  (donor_state = 'CA' OR donor_state = 'NY' OR donor_state = 'IL') AND (donor_dob < DATE_SUB(CURDATE(), INTERVAL 65 YEAR) OR donor_dob <= DATE_SUB(CURDATE(), INTERVAL 18 YEAR) AND donor_dob >= DATE_SUB(CURDATE(), INTERVAL 24 YEAR)) ")
+            cur.execute("SELECT donor_first_name as 'First Name', donor_last_name as 'Last Name', donor_street_address as 'Street Address', donor_city as 'City', donor_state as 'State', donor_zipcode as 'Zip' FROM donors WHERE  (donor_state = 'CA' OR donor_state = 'NY' OR donor_state = 'IL') AND (donor_dob < DATE_SUB(CURDATE(), INTERVAL 65 YEAR) OR donor_dob <= DATE_SUB(CURDATE(), INTERVAL 18 YEAR) AND donor_dob >= DATE_SUB(CURDATE(), INTERVAL 24 YEAR)) ")
             data = cur.fetchall()
             colnames = [desc[0] for desc in cur.description]
         
             return data, colnames
 
+    # 10 new/used per genre - checkbox
+    # 11 book title match - text input
+    # 12 donor history - dropdown
+
+    # 13 # do last month
+    def volunteer_purchases_last_month(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT volunteer_id as 'Volunteer ID', sum(quantity) as Quantity from volunteer_books_purchased group by volunteer_id")
+            data = cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
+        
+            return data, colnames
 
     # #
     # def #(self):
@@ -676,6 +712,21 @@ class Database(object):
     #         colnames = [desc[0] for desc in cur.description]
         
     #         return data, colnames
+
+    # dropdown
+    # <select>
+    #     <option value="volvo">Volvo</option>
+    #     <option value="saab">Saab</option>
+    #     <option value="mercedes">Mercedes</option>
+    #     <option value="audi">Audi</option>
+    # </select>
+
+    # checkbox
+    # <form action="demo_form.asp">
+    #     <input type="checkbox" name="vehicle" value="Bike"> I have a bike<br>
+    #     <input type="checkbox" name="vehicle" value="Car" checked> I have a car<br>
+    #     <input type="submit" value="Submit">
+    # </form>
 
     # 17
     # ratio of books:clients grouped by reading level
@@ -690,14 +741,14 @@ class Database(object):
             
             # select
             # cur.execute("SELECT eading_level, books/clients from clients_per_level NATURAL JOIN books_per_level")
-            cur.execute("SELECT b.reading_level, books/clients from clients_per_level c RIGHT JOIN books_per_level b on c.reading_level = b.reading_level")
+            cur.execute("SELECT b.reading_level as 'Reading Level', books/clients as 'Books:Clients' from clients_per_level c RIGHT JOIN books_per_level b on c.reading_level = b.reading_level")
             data = cur.fetchall()
-            colnames = [desc[0] for desc in cur.description]
+            colnames = [ desc[0] for desc in cur.description ]
 
             # get rid of views
             cur.execute("drop view clients_per_level")
             cur.execute("drop view books_per_level")
-        
+
             return data, colnames
 
     # 18
@@ -705,7 +756,7 @@ class Database(object):
         with self.conn:
             cur = self.conn.cursor()
 
-            cur.execute("SELECT DISTINCT client_id, organization_name FROM client_book_requests NATURAL JOIN clients WHERE request_status = 'In Progress'")
+            cur.execute("SELECT DISTINCT client_id as 'Client ID', organization_name as 'Organization' FROM client_book_requests NATURAL JOIN clients WHERE request_status = 'In Progress'")
             data = cur.fetchall()
             colnames = [desc[0] for desc in cur.description]
         

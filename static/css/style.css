@@ -21,6 +21,32 @@ ul { list-style: none; padding: 0; margin: 0;}
 .logo { font-family: 'Annie Use Your Telescope', sans-serif; }
 .blue { color: #3366CC; }
 
+
+/* table styles */
+
+table {
+    border-spacing: 0;
+}
+table tr:nth-child(2n) {
+    background: #eee; /* gray */
+}
+table tr:nth-child(2n+1) {
+    background: #ddd; /* darker gray */
+}
+table tr:first-child {
+    background: #ccc; /* darkest gray */
+}
+table tr td {
+    padding: .5em 0.5em;
+    border-left: 2px solid white;
+    text-align: center;
+}
+table tr td:first-child {
+    border-left: 0;
+}
+
+
+
 /* base styles
  * - top banner
  */
@@ -30,10 +56,11 @@ ul { list-style: none; padding: 0; margin: 0;}
     z-index: 100;
     overflow: hidden;
 }
-#top-banner .logo {
+#top-banner .logo a {
     float: left;
     font-size: 2em;
     line-height: 70px;
+    color: #222;
 }
 #top-banner .nav-links {
     float: right;
@@ -47,8 +74,12 @@ ul { list-style: none; padding: 0; margin: 0;}
 #main-content {
     margin-top: 70px;
 }
+#main-content > div {
+    margin: 0 30px;
+        max-width: 100%;
+    overflow: hidden;
 
-
+}
 
 /* index page */
 
@@ -59,6 +90,7 @@ ul { list-style: none; padding: 0; margin: 0;}
     width: 100%;
     top: 0;
     bottom: 0;
+    margin: 0;
 }
 #main-content .index .splash {
     margin-top: 80px;
@@ -87,7 +119,6 @@ ul { list-style: none; padding: 0; margin: 0;}
     display: inline-block;
     border-radius: 20px;
     color: #fff;
-    font-size: 1.5em;
     background: rgba(101, 130, 113, 0.1);
 }
 #main-content .index #userOptions .option:hover {
