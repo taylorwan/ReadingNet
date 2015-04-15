@@ -654,6 +654,24 @@ class Database(object):
             return data, colnames
 
     # 10 new/used per genre - checkbox
+    # doesn't work
+    def purchased_selected_genres(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT donor_first_name, donor_last_name FROM donors NATURAL JOIN cash_donations ORDER BY date_donated ASC")
+            data = cur.fetchone()
+            colnames = [desc[0] for desc in cur.description]
+        
+            return data, colnames
+
+    # checkbox
+    # <form action="demo_form.asp">
+    #     <input type="checkbox" name="vehicle" value="Bike"> I have a bike<br>
+    #     <input type="checkbox" name="vehicle" value="Car" checked> I have a car<br>
+    #     <input type="submit" value="Submit">
+    # </form>
+
     # 11 book title match - text input
     # 12 donor history - dropdown
 
@@ -662,13 +680,30 @@ class Database(object):
         with self.conn:
             cur = self.conn.cursor()
 
-            cur.execute("SELECT volunteer_id as 'Volunteer ID', sum(quantity) as Quantity from volunteer_books_purchased group by volunteer_id")
+            cur.execute("SELECT volunteer_id as 'Volunteer ID', sum(quantity) as Quantity from volunteer_books_purchased WHERE date_purchased > DATE_SUB(CURDATE(), INTERVAL 1 MONTH) GROUP BY volunteer_id")
             data = cur.fetchall()
             colnames = [desc[0] for desc in cur.description]
         
             return data, colnames
 
-    # #
+
+    # 14 purchased books from specific author - textinput
+
+    # 15 all publishers with 2+ new books and <5 used books
+    def publisher_filter(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT DISTINCT publisher as 'Publisher' FROM book_inventory GROUP BY publisher, book_status HAVING ( count(book_status) > 2 AND book_status = 'New' ) OR ( count(book_status) < 5 AND book_status = 'Gently used' )")
+            data = cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
+        
+            return data, colnames
+
+
+    # 16 big donors - user textinput
+
+
     # def #(self):
     #     with self.conn:
     #         cur = self.conn.cursor()
@@ -696,14 +731,15 @@ class Database(object):
 
     # 17
     # ratio of books:clients grouped by reading level
+    # improve upon, if there is time
     def books_clients_ratio(self):
         with self.conn:
             cur = self.conn.cursor()
 
             # create views
-            # cur.execute("create view clients_per_level as (SELECT reading_level, count(client_id) as clients FROM clients_readinglevel group by reading_level)")
+            cur.execute("create view clients_per_level as (SELECT reading_level, count(client_id) as clients FROM clients_readinglevel group by reading_level)")
             # cur.execute("create view clients_per_level as (SELECT r.reading_level, count(client_id) as clients FROM clients_readinglevel c RIGHT JOIN reading_levels r group by r.reading_level)")
-            # cur.execute("create view books_per_level as (SELECT reading_level, sum(quantity) as books FROM book_inventory group by reading_level)")
+            cur.execute("create view books_per_level as (SELECT reading_level, sum(quantity) as books FROM book_inventory group by reading_level)")
             
             # select
             # cur.execute("SELECT eading_level, books/clients from clients_per_level NATURAL JOIN books_per_level")

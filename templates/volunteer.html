@@ -1,409 +1,405 @@
 {% extends "base.html" %}
+{% block mainContentClasses %}volunteer{% endblock %}
 {% block content %}
  
- <div class="volunteer">
+ <ul class="button">
+	 <form action="/see_all_donors" method="POST">
+	 	<li class="button">
+	 		<input type="submit" value="See All Donors" id="submitButton" class="submit">
+	 	</li>
+	 </form>
+	 <form action="/see_all_levels" method="POST">
+	 	<li class="button">
+	 		<input type="submit" value = "See All Levels" id="submitButton" class="submit">
+	 	</li>
+	 </form>
+	 <form action="/see_all_volunteers" method="POST">
+	 	<li class="button">
+	 		<input type="submit" value="See All Volunteers" id="submitButton" class="submit">
+	 	</li>
+	 </form>
+	 <form action="/see_all_book_inventory" method="POST">
+	 	<li class="button">
+	 		<input type="submit" value="See All Books in Inventory" id="submitButton" class="submit">
+	 	</li>
+	 </form>
+	 <form action="/see_all_donations" method="POST">
+	 	<li class="button">
+	 		<input type="submit" value="See Book Donation History" id="submitButton" class="submit">
+	 	</li>
+	 </form>
+	 <form action="/see_all_cash_donations" method="POST">
+	 	<li class="button">
+	 		<input type="submit" value="See Cash Donation History" id="submitButton" class="submit">
+	 	</li>
+	 </form>
+	 <form action="/see_cash_reserves" method="POST">
+	 	<li class="button">
+	 		<input type="submit" value="See Cash Reserves" id="submitButton" class="submit">
+	 	</li>
+	 </form>
+</ul>
 
-	 <ul class="button">
-		 <form action="/see_all_donors" method="POST">
-		 	<li class="button">
-		 		<input type="submit" value="See All Donors" id="submitButton" class="submit">
-		 	</li>
-		 </form>
-		 <form action="/see_all_levels" method="POST">
-		 	<li class="button">
-		 		<input type="submit" value = "See All Levels" id="submitButton" class="submit">
-		 	</li>
-		 </form>
-		 <form action="/see_all_volunteers" method="POST">
-		 	<li class="button">
-		 		<input type="submit" value="See All Volunteers" id="submitButton" class="submit">
-		 	</li>
-		 </form>
-		 <form action="/see_all_book_inventory" method="POST">
-		 	<li class="button">
-		 		<input type="submit" value="See All Books in Inventory" id="submitButton" class="submit">
-		 	</li>
-		 </form>
-		 <form action="/see_all_donations" method="POST">
-		 	<li class="button">
-		 		<input type="submit" value="See Book Donation History" id="submitButton" class="submit">
-		 	</li>
-		 </form>
-		 <form action="/see_all_cash_donations" method="POST">
-		 	<li class="button">
-		 		<input type="submit" value="See Cash Donation History" id="submitButton" class="submit">
-		 	</li>
-		 </form>
-		 <form action="/see_cash_reserves" method="POST">
-		 	<li class="button">
-		 		<input type="submit" value="See Cash Reserves" id="submitButton" class="submit">
-		 	</li>
-		 </form>
+<form action="/add_new_donor" method="POST">
+	<h3>Add a new donor to the database</h3>
+	<ul class="inputs">
+		<li>
+			<div class="title"> Donor ID </div> 
+			<input type="text" name="donorID" id="newDonor_DonorID" placeholder="Donor ID">
+		</li>
+		<li>
+			<div class="title">First Name </div> 
+			<input type="text" name="firstName" id="newDonor_FirstName" placeholder="First Name">
+		</li>
+		<li>
+			<div class="title">Last Name </div> 
+			<input type="text" name="lastName" id="newDonor_LastName" placeholder="Last Name">
+		</li>
+		<li>
+			<div class="title">Date of Birth </div> 
+			<input type="text" name="DOB" id="newDonor_DOB" placeholder="Date of Birth">
+		</li>
+		<li>
+			<div class="title">Gender </div> 
+			<input type="text" name="gender" id="newDonor_Gender" placeholder="Gender">
+		</li>
+		<li>
+			<div class="title"> Phone Number</div> 
+			<input type="text" name="phoneNum" id="newDonor_PhoneNum" placeholder="Phone Number">
+		</li>
+		<li>
+			<div class="title">Email Address</div> 
+			<input type="text" name="email" id="newDonor_Email" placeholder="Email Address">
+		</li>
+		<li>
+			<div class="title">Street Address </div> 
+			<input type="text" name="streetAddress" id="newDonor_StreetAddress" placeholder="Street Address">
+		</li>
+		<li>
+			<div class="title">City</div> 
+			<input type="text" name="city" id="newDonor_City" placeholder="City">
+		</li>
+		<li>
+			<div class="title">State </div> 
+			<input type="text" name="state" id="newDonor_state" placeholder="State">
+		</li>
+		<li>
+			<div class="title">Zip Code </div> 
+			<input type="text" name="zipCode" id="newDonor_ZipCode" placeholder="Zip Code">
+		</li>
+		<li>
+			<input type="submit" id="submitButton" class="submit">
+		</li>
+		</ul>
+</form>
+
+<form action="/add_new_volunteer" method="POST">
+	<h3>Add a new volunteer to the database</h3>
+	<ul class="inputs">
+		<li>
+			<div class="title">Volunteer ID </div>
+			<input type="text" name="volunteerID" id="newVolunteer_VolunteerID" placeholder="Volunteer ID">
+		</li>
+		<li>
+			<div class="title">First Name </div>
+			<input type="text" name="firstName" id="newVolunteer_FirstName" placeholder="First Name">
+		</li>
+		<li>
+			<div class="title">Last Name </div>
+			<input type="text" name="lastName" id="newVolunteer_LastName" placeholder="Last Name">
+		</li>
+		<li>
+			<div class="title">Date Of Birth</div>
+			<input type="text" name="DOB" id="newVolunteer_DOB" placeholder="Date of Birth">
+		</li>
+		<li>
+			<div class="title">Gender</div>
+			<input type="text" name="gender" id="newVolunteer_Gender" placeholder="Gender">
+		</li>
+		<li>
+			<div class="title">Phone Number</div>
+			<input type="text" name="phoneNum" id="newVolunteer_PhoneNum" placeholder="Phone Number">
+		</li>
+		<li>
+			<div class="title">Email Address</div>
+			<input type="text" name="email" id="newVolunteer_Email" placeholder="Email Address">
+		</li>
+		<li>
+			<div class="title">Street Address</div>
+			<input type="text" name="streetAddress" id="newVolunteer_StreetAddress" placeholder="Street Ad
+			dress"></li>
+		<li>
+			<div class="title">City</div>
+			<input type="text" name="city" id="newVolunteer_city" placeholder="city">
+		</li>
+		<li>
+			<div class="title">State</div>
+			<input type="text" name="state" id="newVolunteer_state" placeholder="state">
+		</li>
+		<li>
+			<div class="title">Zip Code</div>
+			<input type="text" name="zipCode" id="newVolunteer_ZipCode" placeholder="Zip Code">
+		</li>
+		<li>
+			<input type="submit" id="submitButton" class="submit">
+		</li>
 	</ul>
+</form>
 
-	<form action="/add_new_donor" method="POST">
-		<h3>Add a new donor to the database</h3>
-		<ul class="inputs">
-			<li>
-				<div class="title"> Donor ID </div> 
-				<input type="text" name="donorID" id="newDonor_DonorID" placeholder="Donor ID">
-			</li>
-			<li>
-				<div class="title">First Name </div> 
-				<input type="text" name="firstName" id="newDonor_FirstName" placeholder="First Name">
-			</li>
-			<li>
-				<div class="title">Last Name </div> 
-				<input type="text" name="lastName" id="newDonor_LastName" placeholder="Last Name">
-			</li>
-			<li>
-				<div class="title">Date of Birth </div> 
-				<input type="text" name="DOB" id="newDonor_DOB" placeholder="Date of Birth">
-			</li>
-			<li>
-				<div class="title">Gender </div> 
-				<input type="text" name="gender" id="newDonor_Gender" placeholder="Gender">
-			</li>
-			<li>
-				<div class="title"> Phone Number</div> 
-				<input type="text" name="phoneNum" id="newDonor_PhoneNum" placeholder="Phone Number">
-			</li>
-			<li>
-				<div class="title">Email Address</div> 
-				<input type="text" name="email" id="newDonor_Email" placeholder="Email Address">
-			</li>
-			<li>
-				<div class="title">Street Address </div> 
-				<input type="text" name="streetAddress" id="newDonor_StreetAddress" placeholder="Street Address">
-			</li>
-			<li>
-				<div class="title">City</div> 
-				<input type="text" name="city" id="newDonor_City" placeholder="City">
-			</li>
-			<li>
-				<div class="title">State </div> 
-				<input type="text" name="state" id="newDonor_state" placeholder="State">
-			</li>
-			<li>
-				<div class="title">Zip Code </div> 
-				<input type="text" name="zipCode" id="newDonor_ZipCode" placeholder="Zip Code">
-			</li>
-			<li>
-				<input type="submit" id="submitButton" class="submit">
-			</li>
-			</ul>
-	</form>
+<form action="/add_new_client" method="POST">
+	<h3>Add a new client to the database</h3>
+	<ul class="inputs">
+		<li>
+			<div class="title">Client ID </div>
+			<input type="text" name="client_ID" id="new_client_ID" placeholder="Client ID">
+		</li>
+		<li>
+			<div class="title">Organization Name </div>
+			<input type="text" name="organization_name" id="new_client_Name" placeholder="Organization Name">
+		</li>
+		<li>
+			<div class="title">Phone Number</div>
+			<input type="text" name="client_phone_num" id="new_client_PhoneNum" placeholder="Phone Number">
+		</li>
+		<li>
+			<div class="title">Email Address</div>
+			<input type="text" name="email" id="new_client_Email" placeholder="Email Address">
+		</li>
+		<li>
+			<div class="title">Street Address</div>
+			<input type="text" name="street_address" id="new_client_StreetAddress" placeholder="Street Address">
+		</li>
+		<li>
+			<div class="title">City</div>
+			<input type="text" name="city" id="new_client_city" placeholder="city">
+		</li>
+		<li>
+			<div class="title">State</div>
+			<input type="text" name="state" id="new_client_state" placeholder="state">
+		</li>
+		<li>
+			<div class="title">Zip Code</div>
+			<input type="text" name="zipCode" id="new_client_ZipCode" placeholder="Zip Code">
+		</li>
+		<li>
+			<div class="title">Tokens</div>
+			<input type="text" name="tokens" id="new_client_tokens" placeholder="tokens">
+		</li>
+		<li>
+			<div class="title">New count (?)</div>
+			<input type="text" name="new_count" id="new_client_newcount" placeholder="new count">
+		</li>
+		<li>
+			<div class="title">used count (?)</div>
+			<input type="text" name="used_count" id="new_client_usedcount" placeholder="used count">
+		</li>
+		<li>
+			<input type="submit" id="submitButton" class="submit">
+		</li>
+	</ul>
+</form>
 
-	<form action="/add_new_volunteer" method="POST">
-		<h3>Add a new volunteer to the database</h3>
-		<ul class="inputs">
-			<li>
-				<div class="title">Volunteer ID </div>
-				<input type="text" name="volunteerID" id="newVolunteer_VolunteerID" placeholder="Volunteer ID">
-			</li>
-			<li>
-				<div class="title">First Name </div>
-				<input type="text" name="firstName" id="newVolunteer_FirstName" placeholder="First Name">
-			</li>
-			<li>
-				<div class="title">Last Name </div>
-				<input type="text" name="lastName" id="newVolunteer_LastName" placeholder="Last Name">
-			</li>
-			<li>
-				<div class="title">Date Of Birth</div>
-				<input type="text" name="DOB" id="newVolunteer_DOB" placeholder="Date of Birth">
-			</li>
-			<li>
-				<div class="title">Gender</div>
-				<input type="text" name="gender" id="newVolunteer_Gender" placeholder="Gender">
-			</li>
-			<li>
-				<div class="title">Phone Number</div>
-				<input type="text" name="phoneNum" id="newVolunteer_PhoneNum" placeholder="Phone Number">
-			</li>
-			<li>
-				<div class="title">Email Address</div>
-				<input type="text" name="email" id="newVolunteer_Email" placeholder="Email Address">
-			</li>
-			<li>
-				<div class="title">Street Address</div>
-				<input type="text" name="streetAddress" id="newVolunteer_StreetAddress" placeholder="Street Ad
-				dress"></li>
-			<li>
-				<div class="title">City</div>
-				<input type="text" name="city" id="newVolunteer_city" placeholder="city">
-			</li>
-			<li>
-				<div class="title">State</div>
-				<input type="text" name="state" id="newVolunteer_state" placeholder="state">
-			</li>
-			<li>
-				<div class="title">Zip Code</div>
-				<input type="text" name="zipCode" id="newVolunteer_ZipCode" placeholder="Zip Code">
-			</li>
-			<li>
-				<input type="submit" id="submitButton" class="submit">
-			</li>
-		</ul>
-	</form>
+<form action="/add_new_book" method="POST">
+	<h3>Add a new book donation to the inventory</h3>
+	<ul class="inputs">
+		<li>
+			<div class="title">ISBN</div>
+			<input type="text" name="isbn" id="new_book_Isbn" placeholder="ISBN">
+		</li>
+		<li>
+			<div class="title">Title</div>
+			<input type="text" name="title" id="new_book_Title" placeholder="Title">
+		</li>
+		<li>
+			<div class="title">Reading Level</div>
+			<input type="text" name="readingLevel" id="new_book_ReadingLevel" placeholder="Reading Level">
+		</li>
+		<li>
+			<div class="title">Genre</div>
+			<input type="text" name="genre" id="new_book_Genre" placeholder="Genre">
+		</li>
+		<li>
+			<div class="title">Book Status</div>
+			<input type="text" name="bookStatus" id="new_book_BookStatus" placeholder="Book Status">
+		</li>
+		<li>
+			<div class="title">Edition</div>
+			<input type="text" name="edition" id="new_book_Edition" placeholder="Edition">
+		</li>
+		<li>
+			<div class="title">Publisher</div>
+			<input type="text" name="publisher" id="new_book_Publisher" placeholder="Publisher">
+		</li>
+		<li>
+			<div class="title">Quantity</div>
+			<input type="text" name="quantity" id="new_book_quantity" placeholder="Quantity">
+		</li>
+		<li>
+			<div class="title">Author First Name</div>
+			<input type="text" name="author_fn" id="new_book_Author_fn" placeholder="Author First Name">
+		</li>
+		<li>
+			<div class="title">Author Last Name</div>
+			<input type="text" name="author_ln" id="new_book_Author_ln" placeholder="Author Last Name">
+		</li>
+		<li>
+			<div class="title">Donor ID</div>
+			<input type="text" name="donorID" id="new_book_DonorID" placeholder="Donor ID">
+		</li>
+		<li>
+			<div class="title">Date of Donation</div>
+			<input type="text" name="donationDate" id="new_book_DonationDate" placeholder="Date of Donation">
+		</li>
+		<li>
+			<input type="submit" id="submitButton" class="submit">
+		</li>
+	</ul>
+</form>
 
-	<form action="/add_new_client" method="POST">
-		<h3>Add a new client to the database</h3>
-		<ul class="inputs">
-			<li>
-				<div class="title">Client ID </div>
-				<input type="text" name="client_ID" id="new_client_ID" placeholder="Client ID">
-			</li>
-			<li>
-				<div class="title">Organization Name </div>
-				<input type="text" name="organization_name" id="new_client_Name" placeholder="Organization Name">
-			</li>
-			<li>
-				<div class="title">Phone Number</div>
-				<input type="text" name="client_phone_num" id="new_client_PhoneNum" placeholder="Phone Number">
-			</li>
-			<li>
-				<div class="title">Email Address</div>
-				<input type="text" name="email" id="new_client_Email" placeholder="Email Address">
-			</li>
-			<li>
-				<div class="title">Street Address</div>
-				<input type="text" name="street_address" id="new_client_StreetAddress" placeholder="Street Address">
-			</li>
-			<li>
-				<div class="title">City</div>
-				<input type="text" name="city" id="new_client_city" placeholder="city">
-			</li>
-			<li>
-				<div class="title">State</div>
-				<input type="text" name="state" id="new_client_state" placeholder="state">
-			</li>
-			<li>
-				<div class="title">Zip Code</div>
-				<input type="text" name="zipCode" id="new_client_ZipCode" placeholder="Zip Code">
-			</li>
-			<li>
-				<div class="title">Tokens</div>
-				<input type="text" name="tokens" id="new_client_tokens" placeholder="tokens">
-			</li>
-			<li>
-				<div class="title">New count (?)</div>
-				<input type="text" name="new_count" id="new_client_newcount" placeholder="new count">
-			</li>
-			<li>
-				<div class="title">used count (?)</div>
-				<input type="text" name="used_count" id="new_client_usedcount" placeholder="used count">
-			</li>
-			<li>
-				<input type="submit" id="submitButton" class="submit">
-			</li>
-		</ul>
-	</form>
+<form action="/add_new_cash_donation" method="POST">
+	<h3>Add a new cash donation to the database</h3>
+	<ul class="inputs">
+		<li>
+			<div class="title">Donor ID</div>
+			<input type="text" name="donorID" id="new_cash_donation_Donor" placeholder="Donor ID">
+		</li>
+		<li>
+			<div class="title">Donation Amount</div>
+			<input type="text" name="amount" id="new_cashDonation_Amount" placeholder="Donation Amount">
+		</li>
+		<li>
+			<div class="title">Donation Date</div>
+			<input type="text" name="donation_date" id="new_cashDonation_DonationDate" placeholder="Date of
+			 Donation"></li>
+		<li>
+			<input type="submit" id="submitButton" class="submit">
+		</li>
+	</ul>
+</form>
 
-	<form action="/add_new_book" method="POST">
-		<h3>Add a new book donation to the inventory</h3>
-		<ul class="inputs">
-			<li>
-				<div class="title">ISBN</div>
-				<input type="text" name="isbn" id="new_book_Isbn" placeholder="ISBN">
-			</li>
-			<li>
-				<div class="title">Title</div>
-				<input type="text" name="title" id="new_book_Title" placeholder="Title">
-			</li>
-			<li>
-				<div class="title">Reading Level</div>
-				<input type="text" name="readingLevel" id="new_book_ReadingLevel" placeholder="Reading Level">
-			</li>
-			<li>
-				<div class="title">Genre</div>
-				<input type="text" name="genre" id="new_book_Genre" placeholder="Genre">
-			</li>
-			<li>
-				<div class="title">Book Status</div>
-				<input type="text" name="bookStatus" id="new_book_BookStatus" placeholder="Book Status">
-			</li>
-			<li>
-				<div class="title">Edition</div>
-				<input type="text" name="edition" id="new_book_Edition" placeholder="Edition">
-			</li>
-			<li>
-				<div class="title">Publisher</div>
-				<input type="text" name="publisher" id="new_book_Publisher" placeholder="Publisher">
-			</li>
-			<li>
-				<div class="title">Quantity</div>
-				<input type="text" name="quantity" id="new_book_quantity" placeholder="Quantity">
-			</li>
-			<li>
-				<div class="title">Author First Name</div>
-				<input type="text" name="author_fn" id="new_book_Author_fn" placeholder="Author First Name">
-			</li>
-			<li>
-				<div class="title">Author Last Name</div>
-				<input type="text" name="author_ln" id="new_book_Author_ln" placeholder="Author Last Name">
-			</li>
-			<li>
-				<div class="title">Donor ID</div>
-				<input type="text" name="donorID" id="new_book_DonorID" placeholder="Donor ID">
-			</li>
-			<li>
-				<div class="title">Date of Donation</div>
-				<input type="text" name="donationDate" id="new_book_DonationDate" placeholder="Date of Donation">
-			</li>
-			<li>
-				<input type="submit" id="submitButton" class="submit">
-			</li>
-		</ul>
-	</form>
+<form action="/purchase_new_book" method="POST">
+	<h3>Purchase a new book</h3>
+	<ul class="inputs">
+		<li>
+			<div class="title">Volunteer ID</div>
+			<input type="text" name="volunteer_ID" id="purchase_book_volID" placeholder="Volunteer ID">
+		</li>
+		<li>
+			<div class="title">ISBN</div>
+			<input type="text" name="isbn" id="new_purchase_isbn" placeholder="ISBN">
+		</li>
+		<li>
+			<div class="title">Title</div>
+			<input type="text" name="title" id="new_purchase_Title" placeholder="Title">
+		</li>
+		<li>
+			<div class="title">Reading Level</div>
+			<input type="text" name="reading_level" id="new_purchase_ReadingLevel" placeholder="Reading Level">
+		</li>
+		<li>
+			<div class="title">Genre</div>
+			<input type="text" name="genre" id="new_purchase_genre" placeholder="Genre">
+		</li>
+		<li>
+			<div class="title">Book Status</div>
+			<input type="text" name="book_status" id="new_purchase_BookStatus" placeholder="Book Status">
+		</li>
+		<li>
+			<div class="title">Edition</div>
+			<input type="text" name="edition" id="new_purchase_edition" placeholder="Edition">
+		</li>
+		<li>
+			<div class="title">Publisher</div>
+			<input type="text" name="publisher" id="new_purchase_publisher" placeholder="Publisher">
+		</li>
+		<li>
+			<div class="title">Quantity</div>
+			<input type="text" name="quantity" id="new_purchase_quantity" placeholder="Quantity">
+		</li>
+		<li>
+			<div class="title">Author First Name</div>
+			<input type="text" name="author_fn" id="new_purchase_Author_fn" placeholder="Author First Name">
+		</li>
+		<li>
+			<div class="title">Author Last Name</div>
+			<input type="text" name="author_ln" id="new_purchase_Author_ln" placeholder="Author Last Name">
+		</li>
+		<li>
+			<div class="title">Date Purchased</div>
+			<input type="text" name="purchase_date" id="new_purchase_Purchase_Date" placeholder="Date of
+			 Purchase"></li>
+		<li>
+			<div class="title">Cost</div>
+			<input type="text" name="cost" id="new_purchase_Purchase_Date" placeholder="Date of Purchase">
+		</li>
+		<li>
+			<input type="submit" id="submitButton" class="submit">
+		</li>
+	</ul>
+</form>
 
-	<form action="/add_new_cash_donation" method="POST">
-		<h3>Add a new cash donation to the database</h3>
-		<ul class="inputs">
-			<li>
-				<div class="title">Donor ID</div>
-				<input type="text" name="donorID" id="new_cash_donation_Donor" placeholder="Donor ID">
-			</li>
-			<li>
-				<div class="title">Donation Amount</div>
-				<input type="text" name="amount" id="new_cashDonation_Amount" placeholder="Donation Amount">
-			</li>
-			<li>
-				<div class="title">Donation Date</div>
-				<input type="text" name="donation_date" id="new_cashDonation_DonationDate" placeholder="Date of
-				 Donation"></li>
-			<li>
-				<input type="submit" id="submitButton" class="submit">
-			</li>
-		</ul>
-	</form>
+<form action="/change_request" method="POST">
+	<h3>Change the status of a pending request</h3>
+	<ul class="inputs">
+		<li>
+			<div class="title">Request ID</div>
+			<input type="text" name="request_id" id="request_id" placeholder="Request ID">
+		</li>
+		<li>
+			<div class="title">Status to change to?</div>
+			<input type="text" name="status" id="status" placeholder="New Status">
+		</li>
+		<li>
+			<input type="submit" id="submitButton" class="submit">
+		</li>
+	</ul>
+</form>
 
-	<form action="/purchase_new_book" method="POST">
-		<h3>Purchase a new book</h3>
-		<ul class="inputs">
-			<li>
-				<div class="title">Volunteer ID</div>
-				<input type="text" name="volunteer_ID" id="purchase_book_volID" placeholder="Volunteer ID">
-			</li>
-			<li>
-				<div class="title">ISBN</div>
-				<input type="text" name="isbn" id="new_purchase_isbn" placeholder="ISBN">
-			</li>
-			<li>
-				<div class="title">Title</div>
-				<input type="text" name="title" id="new_purchase_Title" placeholder="Title">
-			</li>
-			<li>
-				<div class="title">Reading Level</div>
-				<input type="text" name="reading_level" id="new_purchase_ReadingLevel" placeholder="Reading Level">
-			</li>
-			<li>
-				<div class="title">Genre</div>
-				<input type="text" name="genre" id="new_purchase_genre" placeholder="Genre">
-			</li>
-			<li>
-				<div class="title">Book Status</div>
-				<input type="text" name="book_status" id="new_purchase_BookStatus" placeholder="Book Status">
-			</li>
-			<li>
-				<div class="title">Edition</div>
-				<input type="text" name="edition" id="new_purchase_edition" placeholder="Edition">
-			</li>
-			<li>
-				<div class="title">Publisher</div>
-				<input type="text" name="publisher" id="new_purchase_publisher" placeholder="Publisher">
-			</li>
-			<li>
-				<div class="title">Quantity</div>
-				<input type="text" name="quantity" id="new_purchase_quantity" placeholder="Quantity">
-			</li>
-			<li>
-				<div class="title">Author First Name</div>
-				<input type="text" name="author_fn" id="new_purchase_Author_fn" placeholder="Author First Name">
-			</li>
-			<li>
-				<div class="title">Author Last Name</div>
-				<input type="text" name="author_ln" id="new_purchase_Author_ln" placeholder="Author Last Name">
-			</li>
-			<li>
-				<div class="title">Date Purchased</div>
-				<input type="text" name="purchase_date" id="new_purchase_Purchase_Date" placeholder="Date of
-				 Purchase"></li>
-			<li>
-				<div class="title">Cost</div>
-				<input type="text" name="cost" id="new_purchase_Purchase_Date" placeholder="Date of Purchase">
-			</li>
-			<li>
-				<input type="submit" id="submitButton" class="submit">
-			</li>
-		</ul>
-	</form>
+<form action="/add_tokens" method="POST">
+	<h3>Add tokens to client account</h3>
+	<ul class="inputs">
+		<li>
+			<div class="title">Client ID</div>
+			<input type="text" name="client_ID" id="addTokenClientID" placeholder="clientID">
+		</li>
+		<li>
+			<div class="title">Token Amount</div>
+			<input type="text" name="token_amount" id="addTokenTokenCount" placeholder="tokenCount">
+		</li>
+		<li>
+			<input type="submit" id="submitButton" class="submit">
+		</li>
+	</ul>
+</form>
 
-	<form action="/change_request" method="POST">
-		<h3>Change the status of a pending request</h3>
-		<ul class="inputs">
-			<li>
-				<div class="title">Request ID</div>
-				<input type="text" name="request_id" id="request_id" placeholder="Request ID">
-			</li>
-			<li>
-				<div class="title">Status to change to?</div>
-				<input type="text" name="status" id="status" placeholder="New Status">
-			</li>
-			<li>
-				<input type="submit" id="submitButton" class="submit">
-			</li>
-		</ul>
-	</form>
+<form action="/add_reading_level" method="POST">
+	<h3>Add new reading level</h3>
+	<ul class="inputs">
+		<li>
+			<div class="title">Reading Level</div>
+			<input type="text" name="reading_level" id="add_new_readinglevel" placeholder="Reading Level">
+		</li>
+		<li>
+			<input type="submit" id="submitButton" class="submit">
+		</li>
+	</ul>
+</form>
 
-	<form action="/add_tokens" method="POST">
-		<h3>Add tokens to client account</h3>
-		<ul class="inputs">
-			<li>
-				<div class="title">Client ID</div>
-				<input type="text" name="client_ID" id="addTokenClientID" placeholder="clientID">
-			</li>
-			<li>
-				<div class="title">Token Amount</div>
-				<input type="text" name="token_amount" id="addTokenTokenCount" placeholder="tokenCount">
-			</li>
-			<li>
-				<input type="submit" id="submitButton" class="submit">
-			</li>
-		</ul>
-	</form>
-
-	<form action="/add_reading_level" method="POST">
-		<h3>Add new reading level</h3>
-		<ul class="inputs">
-			<li>
-				<div class="title">Reading Level</div>
-				<input type="text" name="reading_level" id="add_new_readinglevel" placeholder="Reading Level">
-			</li>
-			<li>
-				<input type="submit" id="submitButton" class="submit">
-			</li>
-		</ul>
-	</form>
-
-	<form action="/add_genre" method="POST">
-		<h3>Add new genre</h3>
-		<ul class="inputs">
-			<li>
-				<div class="title">Genre</div>
-				<input type="text" name="genre" id="add_genre" placeholder="Genre">
-			</li>
-			<li>
-				<div class="title">Description</div>
-				<input type="text" name="description" id="add_description" placeholder="Description">
-			</li>
-			<li>
-				<input type="submit" id="submitButton" class="submit">
-			</li>
-		</ul>
-	</form>
-
-</div>
-
+<form action="/add_genre" method="POST">
+	<h3>Add new genre</h3>
+	<ul class="inputs">
+		<li>
+			<div class="title">Genre</div>
+			<input type="text" name="genre" id="add_genre" placeholder="Genre">
+		</li>
+		<li>
+			<div class="title">Description</div>
+			<input type="text" name="description" id="add_description" placeholder="Description">
+		</li>
+		<li>
+			<input type="submit" id="submitButton" class="submit">
+		</li>
+	</ul>
+</form>
 
 {% endblock %}

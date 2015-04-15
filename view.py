@@ -15,7 +15,6 @@ app.host = config.APP_HOST
 app.port = config.APP_PORT
 app.debug = config.APP_DEBUG
 
-
 @app.route( '/' )
 def splash():
     return render_template( 'index.html' )
@@ -382,9 +381,18 @@ def add_tokens():
 
 ### Queries Taylor 4.14
 
-@app.route( '/queries', methods=['GET'] )
+@app.route( '/queries', methods=['GET', 'POST'] )
 def show_queries():
-    return render_template( 'queries.html' )
+	self.conn = pymysql.connect(self.opts.DB_HOST, self.opts.DB_USER, self.opts.DB_PASSWORD, self.opts.DB_NAME)
+    with self.conn:
+        cur = self.conn.cursor()
+
+        cur.execute("SELECT genre_type from genre")
+        data = cur.fetchall()
+
+        print data
+
+        return render_template( 'queries.html', data=data )
 
 # 4
 @app.route('/author_donators', methods=['GET', 'POST'])
@@ -474,6 +482,14 @@ def target_donors():
 		return render_template('/queries.html')
 
 # 10
+@app.route('/purchased_selected_genres', methods=['GET', 'POST'])
+def purchased_selected_genres():
+	if request.method == 'POST':
+		data, colnames = db.purchased_selected_genres();
+		return render_template( 'results.html', data=data, colnames=colnames )
+	else:
+		return render_template('/queries.html')
+
 # 11
 # 12
 
@@ -486,7 +502,17 @@ def volunteer_purchases_last_month():
 	else:
 		return render_template('/queries.html')
 
-# #
+# 14
+# 15
+@app.route('/publisher_filter', methods=['GET', 'POST'])
+def publisher_filter():
+	if request.method == 'POST':
+		data, colnames = db.publisher_filter();
+		return render_template( 'results.html', data=data, colnames=colnames )
+	else:
+		return render_template('/queries.html')
+
+# 16
 # @app.route('/#', methods=['GET', 'POST'])
 # def #():
 # 	if request.method == 'POST':
