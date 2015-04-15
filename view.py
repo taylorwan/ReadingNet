@@ -46,18 +46,18 @@ def results():
     publisher = request.args.get( 'publisher' )
     status = request.args.get( 'status' )
 
-    # if isbn == "": 
-    #  	isbn = "IS NOT NULL"
-    # if title == "":
-    #  	title = "IS NOT NULL"
-    # if author_fn == "":
-    #  	author_fn = "IS NOT NULL"
-    # if author_ln =="":
-    # 	author_ln = "IS NOT NULL"
-    # if publisher == "":
-    #  	publisher = "IS NOT NULL"
-    # if status == "":
-    # 	status = "IS NOT NULL"
+    if isbn == "": 
+    	isbn = "IS NOT NULL"
+    if title == "":
+    	title = "IS NOT NULL"
+    if author_fn == "":
+    	author_fn = "IS NOT NULL"
+    if author_ln =="":
+    	author_ln = "IS NOT NULL"
+    if publisher == "":
+    	publisher = "IS NOT NULL"
+    if status == "":
+    	status = "IS NOT NULL"
 
     data = db.search(isbn, title, author_fn, author_ln, publisher, status)
     return render_template('search_results.html', data=data)

@@ -49,14 +49,66 @@ class Database(object):
             publisher = pymysql.escape_string( publisher )
             status = pymysql.escape_string( status )
 
-            #sql = """"""
-            isbn_s = '%' + 'isbn' + '%'
-            title_s = '%' + 'title' +'%'
-            author_fns ='%' + 'author_fn' +'%'
-            author_lns ='%' + 'author_ln' +'%'
-            publisher_s ='%' + 'publisher' +'%'
-            #cur.execute("SELECT book_inventory.title, book_inventory.isbn, book_author.author_fn, book_author.author_ln, book_inventory.publisher, book_inventory.book_status, book_inventory.quantity FROM book_inventory INNER JOIN book_author ON book_inventory.isbn = book_author.isbn WHERE book_inventory.isbn LIKE %s OR book_inventory.title LIKE %s OR book_author.author_fn LIKE %s OR book_author.author_ln LIKE %s OR book_inventory.publisher LIKE %s;",(isbn_s, title_s, author_fns, author_lns, publisher_s))
-            cur.execute("SELECT book_inventory.title, book_inventory.isbn, book_author.author_fn, book_author.author_ln, book_inventory.publisher, book_inventory.book_status, book_inventory.quantity FROM book_inventory INNER JOIN book_author ON book_inventory.isbn = book_author.isbn WHERE book_inventory.isbn = %s OR book_inventory.title = %s OR book_author.author_fn = %s OR book_author.author_ln = %s OR book_inventory.publisher = %s;",(isbn, title, author_fn, author_ln, publisher))
+            paramstring = []
+
+            
+            like = "like "
+            quotation = "\""
+            wildcard = "%"
+            titleF = "book_inventory.title "
+            if title != "IS NOT NULL":
+                title = titleF +like +quotation + wildcard + title + wildcard + quotation
+            else:
+                title = titleF + title;
+            print title;
+
+            paramstring.append(title)
+
+            isbnF = "book_inventory.isbn "
+            if isbn != "IS NOT NULL":
+                isbn = isbnF + like + quotation + wildcard + isbn + wildcard + quotation
+            else:
+                isbn = isbnF + isbn
+            print isbn
+
+            paramstring.append(isbn)
+
+            author_fnF = "book_author.author_fn "
+            if author_fn != "IS NOT NULL":
+                author_fn = author_fnF + like + quotation + wildcard + author_fn + wildcard + quotation
+            else:
+                author_fn = author_fnF + author_fn
+            print author_fn
+
+            paramstring.append(author_fn)
+
+            author_lnF = "book_author.author_ln "
+            if author_ln != "IS NOT NULL":
+                author_ln = author_lnF + like + quotation + wildcard + author_ln + wildcard + quotation
+            else:
+                author_ln = author_lnF + author_ln
+
+            paramstring.append(author_ln)
+
+            publisherF = "book_inventory.publisher "
+            if publisher != "IS NOT NULL":
+                publisher = publisherF + like + quotation + wildcard+ publisher + wildcard + quotation
+            else:
+                publisher = publisherF + publisher
+
+            paramstring.append(publisher)
+
+            if status != "IS NOT NULL":
+                status = "book_inventory.book_status " + like + quotation + wildcard+ status + wildcard + quotation
+            else:
+                status = "book_inventory.book_status " + status
+
+            paramstring.append(status)
+
+            paramstring = " AND ".join(paramstring)
+            
+            cur.execute("SELECT book_inventory.title, book_inventory.isbn, book_author.author_fn, book_author.author_ln, book_inventory.publisher, book_inventory.book_status FROM book_inventory INNER JOIN book_author ON book_inventory.isbn = book_author.isbn WHERE {0}".format(paramstring))
+            
             data = cur.fetchall()
 
             return data
