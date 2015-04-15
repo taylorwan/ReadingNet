@@ -12,17 +12,19 @@
     <nav id="top-banner">
         <div class="wrap">
             <div class="logo left" id="top-logo">
-                <h1>readingNET</h1>
-                <h2>start browsing today</h2>
+                ReadingNet
             </div>
             <ul class="nav-links right">
                 <li id="browse">Browse</li>
+                <li id="shopping_cart">Shopping Cart</li>
             </ul>
         </div>
     </nav>
 
-    <div id="base-content">
-        {% block content %}{% endblock %}
+    <div id="main-content">
+        <div class="wrap">
+            {% block content %}{% endblock %}
+        </div>
     </div>
 </body>
 </html>

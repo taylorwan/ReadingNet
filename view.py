@@ -16,13 +16,26 @@ app.port = config.APP_PORT
 app.debug = config.APP_DEBUG
 
 
-@app.route( '/', methods=['GET'] )
+@app.route( '/' )
 def splash():
-    return render_template( 'search.html' )
+    return render_template( 'index.html' )
 
 @app.route( '/volunteer', methods=['GET'] )
-def load_forms():
-	return render_template( 'volunteer.html')
+def volunteer():
+	return render_template( 'volunteer.html' )
+
+@app.route( '/client', methods=['GET'] )
+def client():
+	return render_template( 'client.html' )
+
+@app.route( '/donor', methods=['GET'] )
+def donor():
+	return render_template( 'donor.html' )
+
+# ????? do we need this
+# @app.route( '/search', methods=['GET'] )
+# def splash():
+#     return render_template( 'search.html' )
 
 @app.route('/search', methods=['GET'] )
 def results():
