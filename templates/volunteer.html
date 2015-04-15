@@ -339,6 +339,23 @@
 		</ul>
 	</form>
 
+	<form action="/change_request" method="POST">
+		<h3>Change the status of a pending request</h3>
+		<ul class="inputs">
+			<li>
+				<div class="title">Request ID</div>
+				<input type="text" name="request_id" id="request_id" placeholder="Request ID">
+			</li>
+			<li>
+				<div class="title">Status to change to?</div>
+				<input type="text" name="status" id="status" placeholder="New Status">
+			</li>
+			<li>
+				<input type="submit" id="submitButton" class="submit">
+			</li>
+		</ul>
+	</form>
+
 
 	<form action="/add_tokens" method="POST">
 		<h3>Add tokens to client account</h3>
