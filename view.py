@@ -42,9 +42,7 @@ def results():
     # if publisher == "":
     # 	publisher = "IS NOT NULL"
 
-    # results, colnames = db.search(isbn, title, author_fn, author_ln, publisher)
     data, colnames = db.search(isbn, title, author_fn, author_ln, publisher)
-    # return render_template('search_results.html', results=results, colnames=colnames)
     return render_template('search_results.html', data=data, colnames=colnames)
 
 @app.route('/buy_books', methods=['GET', 'POST'])
