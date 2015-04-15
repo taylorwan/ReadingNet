@@ -1,7 +1,6 @@
 # third party modules
 from flask import (Flask, render_template, request)
-import Tkinter
-import tkMessageBox
+import pymysql
 
 # project modules
 import config
@@ -27,7 +26,7 @@ def splash():
 def load_forms():
 	return render_template( 'volunteer.html')
 
-@app.route( '/search', methods=['GET'] )
+@app.route('/search', methods=['GET'] )
 def results():
     isbn = request.args.get( 'isbn' )
     title = request.args.get( 'title' )
@@ -44,9 +43,19 @@ def results():
     # if publisher == "":
     # 	publisher = "IS NOT NULL"
 
-    results, colnames = db.search(isbn, title, author_fn, author_ln, publisher)
+    data, colnames = db.search(isbn, title, author_fn, author_ln, publisher)
     print "routing to results"
-    return render_template('results.html', results=results, colnames=colnames)
+    return render_template('search_results.html', data=data, colnames=colnames)
+
+@app.route('/buy_books', methods=['GET', 'POST'])
+def buy_books():
+	if request.method == 'POST':
+		print "in buy books post"
+		check_list = request.form.getlist('check')
+		db.process_purchase(check_list)
+		return render_template('success.html')
+	else:
+		return render_template('/search.html')
 
 @app.route('/see_all_levels', methods=['GET', 'POST'])
 def see_all_levels():

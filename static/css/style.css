@@ -164,3 +164,8 @@ h1.dual300{
 	  color: white;
 	  letter-spacing: 1px;
 }
+
+ul.results li {
+  display: inline;
+  list-style: none;
+}

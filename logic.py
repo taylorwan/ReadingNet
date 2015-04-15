@@ -1,6 +1,5 @@
 import pymysql
 
-
 class CursorIterator(object):
     """Iterator for the cursor object."""
 
@@ -20,7 +19,6 @@ class CursorIterator(object):
         else:
             return elem
 
-
 class Database(object):
     """Database object"""
 
@@ -38,23 +36,62 @@ class Database(object):
 
     def search(self, isbn, title, author_fn, author_ln, publisher):
         print "In search" 
-        cur = self.conn.cursor()
+        
+        with self.conn:
+            cur = self.conn.cursor()
 
-        isbn = pymysql.escape_string( isbn )
-        title = pymysql.escape_string( title )
-        author = pymysql.escape_string( author )
-        publisher = pymysql.escape_string( publisher )
-        print isbn
-        print title
-        print author 
-        print publisher
-        #cur.execute("SELECT * FROM book_inventory WHERE title like '%%title%' AND isbn like '%%isbn%' AND author like '%%author%' AND publisher like '%%publisher%'",(title, isbn, author, publisher))
-        cur.execute("SELECT * FROM book_inventory WHERE title = %s AND isbn = %s AND author_ = %s AND publisher = %s",(title, isbn, author, publisher))
-        data = cur.fetchall()
+            isbn = pymysql.escape_string( isbn )
+            title = pymysql.escape_string( title )
+            author_fn = pymysql.escape_string( author_fn )
+            author_ln = pymysql.escape_string( author_ln )
+            publisher = pymysql.escape_string( publisher )
+            print isbn
+            print title
+            print author_fn 
+            print publisher
+            #cur.execute("SELECT * FROM book_inventory WHERE title like '%%title%' AND isbn like '%%isbn%' AND author like '%%author%' AND publisher like '%%publisher%'",(title, isbn, author, publisher))
+            cur.execute("SELECT book_inventory.title, book_inventory.isbn, book_author.author_fn, book_author.author_ln, book_inventory.publisher, book_inventory.book_status, book_inventory.quantity FROM book_inventory INNER JOIN book_author ON book_inventory.isbn = book_author.isbn WHERE book_inventory.isbn = %s OR book_inventory.title = %s OR book_author.author_fn = %s OR book_author.author_ln = %s OR book_inventory.publisher = %s;",(isbn, title, author_fn, author_ln, publisher))
+            data = cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
 
-        colnames = [desc[0] for desc in cur.description]
+            return data, colnames
 
-        return data, colnames
+    def process_purchase(self, check_list):
+        print "in purchase processing"
+        
+        with self.conn:
+            cur = self.conn.cursor()
+            for check in check_list:
+                new_check = pymysql.escape_string(check)
+                isbn, status = new_check.split("_")
+                isbn = int(isbn)
+                print isbn
+                print status
+
+                cur.execute("SELECT * FROM book_inventory WHERE isbn = %s AND book_status = %s",(isbn,status))
+                book = cur.fetchone()
+                book_isbn = book[0]
+                title = book[1]
+                reading_level = book[2]
+                genre_type = book[3]
+                book_status = book[4]
+                edition = book[5]
+                publisher = book[6]
+                quantity = book[7]
+                cur.execute("SELECT * FROM client_shopping_cart WHERE isbn = %s AND book_status=%s",(isbn,book_status))
+                exists_in_cart = cur.fetchone()
+                # if this book isn't already in the client's shopping cart, add it
+                if exists_in_cart == None:
+                    cur.execute("INSERT INTO client_shopping_cart(isbn, book_status, quantity) VALUES (%s, %s, 1)",(book_isbn, book_status))
+                #if it does, just increment the quantity
+                else:
+                    existing_quant_in_cart = exists_in_cart[2]
+                    new_quantity = existing_quant_in_cart + 1
+                    cur.execute("UPDATE client_shopping_cart SET quantity = %s WHERE isbn = %s AND book_status=%s",(new_quantity, isbn, book_status))
+
+            self.conn.commit()
+            return cur
+
 
     def addDonor( self, donorID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode):
         print "in addDonor"

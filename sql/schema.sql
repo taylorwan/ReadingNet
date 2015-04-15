@@ -4,7 +4,7 @@ CREATE DATABASE readingNet;
 USE readingNet;
 
 # create user
-#CREATE USER 'readingNet280'@'localhost' IDENTIFIED BY 'p4ssw0rd';
+CREATE USER 'readingNet280'@'localhost' IDENTIFIED BY 'p4ssw0rd';
 GRANT ALL ON readingNet.* TO 'readingNet280'@'localhost';
 USE readingNet;
 
@@ -183,6 +183,35 @@ CREATE TABLE client_book_requests(
     FOREIGN KEY(isbn) 
 		REFERENCES book_inventory(isbn)
         ON DELETE CASCADE
+);
+
+CREATE TABLE client_shopping_cart(
+    isbn INT NOT NULL,
+    book_status ENUM('New','Gently used') NOT NULL, 
+    quantity INT NOT NULL,
+    PRIMARY KEY(isbn, book_status),
+    FOREIGN KEY(isbn) 
+		REFERENCES book_inventory(isbn)
+        ON DELETE CASCADE
+	#FOREIGN KEY (book_status)
+		#REFERENCES book_inventory(book_status)
+        #ON DELETE CASCADE
+);
+
+CREATE TABLE client_transaction_history(
+	purchase_id INT NOT NULL,
+	client_id INT NOT NULL,
+    isbn INT NOT NULL,
+    book_status ENUM('New','Gently used') NOT NULL, 
+    date_purchased DATE NOT NULL,
+    quantity INT NOT NULL,
+    PRIMARY KEY (purchase_id),
+    FOREIGN KEY (client_id)
+		REFERENCES clients(client_id),
+	FOREIGN KEY (isbn)
+		REFERENCES book_inventory(isbn)
+	#FOREIGN KEY (book_status)
+	#	REFERENCES book_inventory(book_status)
 );
 
 CREATE TABLE client_book_purchases(
