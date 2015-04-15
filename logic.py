@@ -140,18 +140,6 @@ class Database(object):
             self.conn.commit()
             return cur
 
-    def change_request_status(self, request_id, status ):
-        with self.conn:
-            cur = self.conn.cursor()
-            request_id = pymysql.escape_string( reading_level )
-            status = pymysql.escape_string( status ) 
-
-            cur.execute("UPDATE client_book_requests SET request_status = %s WHERE request_id = %",(status, request_id))
-
-            self.conn.commit()
-
-            return cur
-
     def add_reading_level(self, reading_level):
         with self.conn:
             cur = self.conn.cursor()  

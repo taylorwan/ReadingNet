@@ -112,21 +112,6 @@ def see_cash_reserves():
 	else:
 		return render_template('/volunteer.html')
 
-@app.route('/change_request', methods=['GET', 'POST'])
-def change_request_status():
-	if request.method == 'POST':
-		request_id = request.args.get( 'request_id' )
-   	 	status = request.args.get( 'status' )
-		db.change_request_status(request_id, status);
-
-		#if status == 'Approved':
-
-
-		return render_template('success.html')
-	else:
-		return render_template('/volunteer.html')
-
-
 @app.route('/add_genre', methods=['GET','POST'] )
 def add_genre():
 	if request.method == 'POST':
