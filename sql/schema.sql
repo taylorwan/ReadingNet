@@ -181,8 +181,8 @@ CREATE TABLE volunteer_books_purchased(
 
 CREATE TABLE client_book_requests( 
 	request_id INT AUTO_INCREMENT NOT NULL,
-    client_id INT NOT NULL, 
     isbn INT NOT NULL,
+    client_id INT NOT NULL, 
     book_status ENUM('New','Gently used') NOT NULL, 
     quantity INT NOT NULL,
     request_date DATE NOT NULL,
