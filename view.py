@@ -383,7 +383,7 @@ def add_tokens():
 
 @app.route( '/queries', methods=['GET', 'POST'] )
 def show_queries():
-	#self.conn = pymysql.connect(self.opts.DB_HOST, self.opts.DB_USER, self.opts.DB_PASSWORD, self.opts.DB_NAME)
+	# self.conn = pymysql.connect(self.opts.DB_HOST, self.opts.DB_USER, self.opts.DB_PASSWORD, self.opts.DB_NAME)
     with self.conn:
         cur = self.conn.cursor()
 
