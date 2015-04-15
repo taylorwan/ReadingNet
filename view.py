@@ -10,7 +10,6 @@ from logic import Database
 app = Flask(__name__)
 db = Database(config)
 
-
 # configure the web abb according to the config object
 app.host = config.APP_HOST
 app.port = config.APP_PORT
@@ -310,6 +309,19 @@ def add_new_cash_donation():
 		donation_date = request.form[ 'donation_date' ]
 
 		db.new_cash_donation(donor_ID, amount, donation_date)
+		return render_template('success.html')
+	else:
+		return render_template('/volunteer.html')
+
+@app.route('/change_request', methods=['GET', 'POST'])
+def change_request_status():
+	if request.method == 'POST':
+		request_id = request.form['request_id' ]
+   	 	status = request.form['status' ]
+   	 	print request_id
+   	 	print status
+		db.change_request_status(request_id, status);
+
 		return render_template('success.html')
 	else:
 		return render_template('/volunteer.html')

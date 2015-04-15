@@ -35,9 +35,9 @@ class Database(object):
                                     self.opts.DB_PASSWORD, self.opts.DB_NAME)
         # self.conn = pymysql.connect('localhost','readingNet280', 'p4ssw0rd', 'readingNet' )
 
+        self.conn.autocommit(True)
+
     def search(self, isbn, title, author_fn, author_ln, publisher, status):
-        print "In search" 
-        
         with self.conn:
             cur = self.conn.cursor()
 
@@ -178,12 +178,10 @@ class Database(object):
                                 query_cur.execute("UPDATE client_book_purchases SET total_books_owned= 0")
 
                 row = cur.fetchone()
-        self.conn.commit()
-        return error
+            self.conn.commit()
+            return error
 
     def process_purchase(self, check_list):
-        print "in purchase processing"
-        
         with self.conn:
             cur = self.conn.cursor()
             for check in check_list:
@@ -217,10 +215,45 @@ class Database(object):
             self.conn.commit()
             return cur
 
+    def change_request_status(self, request_id, status):
+        with self.conn:
+            cur = self.conn.cursor()
+            request_id = pymysql.escape_string( request_id )
+            status = pymysql.escape_string( status ) 
+
+            cur.execute("UPDATE client_book_requests SET request_status = %s WHERE request_id = %s",(status, request_id))
+            self.conn.commit()
+            cur.execute("SELECT * FROM book_inventory WHERE isbn = 446 AND book_status='New'")
+            if cur == None:
+                flash("true")
+
+            # if status was changed to approved, treat it like a client purchase
+            if status == 'Approved':
+                cur.execute("SELECT * FROM client_book_requests WHERE request_id = %s", (request_id))
+                data = cur.fetchone()
+
+                isbn = data[1]
+                client_id = data[2]
+                book_status = data[3]
+                quantity = data[4]
+
+                print isbn
+                print type(isbn)
+                print client_id
+                print book_status
+                print quantity
+
+                
+
+
+                cur.execute("INSERT INTO client_shopping_cart(isbn, book_status, quantity) VALUES (%s, %s, %s)",(isbn, book_status, quantity))
+                checkout(self, client_id)
+
+            self.conn.commit()
+
+            return cur
 
     def addDonor( self, donorID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode):
-        print "in addDonor"
-        
         with self.conn:
             cur = self.conn.cursor()
             
@@ -242,8 +275,6 @@ class Database(object):
             return cur
 
     def add_volunteer(self, volunteerID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode):
-        print "in add_volunteer"
-        
         with self.conn:
             cur = self.conn.cursor( )
 
@@ -265,8 +296,6 @@ class Database(object):
             return cur
 
     def add_reading_level(self, reading_level):
-        print "in add level"
-        
         with self.conn:
             cur = self.conn.cursor()  
             reading_level = pymysql.escape_string( reading_level ) 
@@ -278,8 +307,6 @@ class Database(object):
             return cur
 
     def add_genre(self, genre, description):
-        print "in add genre"
-
         with self.conn:
             cur = self.conn.cursor()  
             genre = pymysql.escape_string( genre ) 
@@ -288,14 +315,6 @@ class Database(object):
             cur.execute("INSERT INTO genres(genre_type, description) VALUES (%s, %s)",(genre, description))
             
             self.conn.commit()
-
-            cur.execute("SELECT * FROM genres")
-            data = cur.fetchall()
-            print cur.rowcount
-
-            for row in data :
-                print row
-
             return cur
 
 
