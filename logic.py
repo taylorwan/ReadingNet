@@ -503,16 +503,27 @@ class Database(object):
             return data, colnames
 
     # 9
-    # def target_donors(self):
+    def target_donors(self):
+        with self.conn:
+            cur = self.conn.cursor()
+ 
+            cur.execute("SELECT donor_first_name, donor_last_name, donor_street_address, donor_city, donor_state, donor_zipcode FROM donors WHERE  (donor_state = 'CA' OR donor_state = 'NY' OR donor_state = 'IL') AND (donor_dob < DATE_SUB(CURDATE(), INTERVAL 65 YEAR) OR donor_dob <= DATE_SUB(CURDATE(), INTERVAL 18 YEAR) AND donor_dob >= DATE_SUB(CURDATE(), INTERVAL 24 YEAR)) ")
+            data = cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
+        
+            return data, colnames
+
+
+    # 10
+    # def #(self):
     #     with self.conn:
     #         cur = self.conn.cursor()
- 
-    #         cur.execute("SELECT donor_first_name, donor_last_name, donor_street_address, donor_city, donor_state, donor_zipcode FROM donors WHERE donor_state IN ['California', 'New York', 'Illinois'] AND donor_dob BETWEEN")
+
+    #         cur.execute("SELECT donor_first_name, donor_last_name FROM donors NATURAL JOIN cash_donations ORDER BY date_donated ASC")
     #         data = cur.fetchone()
     #         colnames = [desc[0] for desc in cur.description]
         
     #         return data, colnames
-
 
     # #
     # def #(self):

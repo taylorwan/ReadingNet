@@ -379,13 +379,13 @@ def top_book():
 		return render_template('/queries.html')
 
 # 9
-# @app.route('/target_donors', methods=['GET', 'POST'])
-# def target_donors():
-# 	if request.method == 'POST':
-# 		data, colnames = db.target_donors();
-# 		return render_template( 'results.html', data=data, colnames=colnames )
-# 	else:
-# 		return render_template('/queries.html')
+@app.route('/target_donors', methods=['GET', 'POST'])
+def target_donors():
+	if request.method == 'POST':
+		data, colnames = db.target_donors();
+		return render_template( 'results.html', data=data, colnames=colnames )
+	else:
+		return render_template('/queries.html')
 
 # #
 # @app.route('/#', methods=['GET', 'POST'])
