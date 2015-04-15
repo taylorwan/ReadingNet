@@ -1,20 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="results">
 
-	<form>
-	    <table id="search-results">
-	        <tr>
-	            <td><b id="table-header">{{ colnames }}</b></td>
-	        </tr>
-	        {% for row in data %}
-            <tr>
-                <td>{{ row }}</td>
-            </tr>
-	        {% endfor %}
-	    </table>
-	    <input type="submit" id="submitPurchase" >
-	</form>
+<div class="results">
+    <td><b id="table-header">{{ colnames }}</b></td>
+    <table id="search-results">
+        {% for row in data %}
+        <tr>
+            <td>{{ row }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
-  </div>
 {% endblock %}
