@@ -75,6 +75,10 @@
 
 /* general styles */
 
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
 li.button {
     list-style: none;
     display: inline;
@@ -115,6 +119,27 @@ ul.button form {
     font-family: 'Simplifica', sans-serif;
     font-weight: bold;
 }
+
+
+/* error messsaging */
+
+#errorMsg {
+    position: absolute;
+    background: #fff;
+    padding: 0.6em 1em;
+    border: red 1px solid;
+    border-radius: 10px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+}
+
+#errorMsg:before {
+    content: "Something seems off. "
+}
+#errorMsg:after {
+    content: " Try again!"
+}
+
 
 /*
 h2.facile {
