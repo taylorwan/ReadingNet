@@ -75,16 +75,16 @@
 
 /* general styles */
 
-li.button{
+li.button {
     list-style: none;
     display: inline;
 }
 
-ul.button form{
+ul.button form {
     display: inline;
 }
 
-.inputs{
+.inputs {
     list-style-type: none;
 }
 
@@ -117,14 +117,14 @@ ul.button form{
 }
 
 /*
-h2.facile{
+h2.facile {
 	font-size: 25px;
 	color: #3366CC;
 	font-family: 'facile_sansregular', sans-serif;
 	text-transform: lowercase;
 }
 
-h1.dual300{
+h1.dual300 {
 	font-size: 25px;
 	color: #3366CC;
 	font-family: 'dual300', sans-serif;
@@ -141,7 +141,7 @@ h1.dual300{
 	letter-spacing: 2px;
 }
 
-.volinputs input[type=text]{
+.volunteer form input[type=text] {
 	padding: 10px;
   	border: solid 5px #c9c9c9;
   	margin-bottom: 5px;
@@ -149,11 +149,11 @@ h1.dual300{
 	transition: border 0.3s;
 }
 
-.volinputs input[type=text]:focus{
+.volunteer form input[type=text]:focus {
     border: solid 5px #969696;
 }
 
-.volinputs .submit{
+.volunteer form .submit {
 	padding: 4px;
 	  border: solid 5px #3366CC;
 	  margin-bottom: 5px;

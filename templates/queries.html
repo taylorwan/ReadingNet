@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block content %}
+ 
+ <div class="queries">
+
+	 <ul class="button">
+		 <form action="/see_all_donors" method="POST">
+		 	<li class="button">
+		 		<input type="submit" value="See All Donors" id="submitButton" class="submit">
+		 	</li>
+		 </form>
+
+		<!-- General -->
+		<!-- 1. Should be able to insert, update, and delete all the pre-defined lists by a volunteer. -->
+		<!-- 2. Should be able to query any data in database. -->
+		<!-- 3. Should be able to query the data based on certain criteria. -->
+
+		<!-- Specific -->
+		<!-- 4. Which book author(s) have ever donated books authored by themselves? -->
+		<form action="/author_donators" method="POST">
+			<h3 class="description">4. Which book author(s) have ever donated books authored by themselves?</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="authorDonators">
+			</li>
+		</form>
+
+		<!-- 5. Who was the most recent donor to donate cash? -->
+		<form action="/most_recent_donor" method="POST">
+			<h3 class="description">5. Who was the most recent donor to donate cash?</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="mostRecentDonor">
+			</li>
+		</form>
+
+		<!-- 6. What is the average, max, and minimum number of tokens assigned to the clients? -->
+		<form action="/token_data" method="POST">
+			<h3 class="description">6. What is the average, max, and minimum number of tokens assigned to the clients?</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="tokenData">
+			</li>
+		</form>
+
+		<!-- 7. For each genre, how many books exist in the inventory? For each reading level, how any books exist in inventory? For each genre and reading level, how many books exist in inventory? -->
+		<form action="/book_per_genre_level" method="POST">
+			<h3 class="description">7. For each genre, how many books exist in the inventory? For each reading level, how any books exist in inventory? For each genre and reading level, how many books exist in inventory?</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="bookPerGenreLevel">
+			</li>
+		</form>
+
+		<!-- 8. Which book, regardless of the status of new or used, has more copies in inventory than any other? If there is a tie, list all the top books. -->
+		<form action="/top_book" method="POST">
+			<h3 class="description">8. Which book, regardless of the status of new or used, has more copies in inventory than any other? If there is a tie, list all the top books.</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="topBook">
+			</li>
+		</form>
+
+		<!-- 9. ReadingNet sends out fliers to donors in order to attract new volunteers in the states of California, New York, and Illinois. Show the name and address information of all donors that live in California, Illinois, or New York that are in the ages of 18-24 and 65+. If the individual is already a volunteer, he or she should not be listed. -->
+		<form action="/target_donors" method="POST">
+			<h3 class="description">9. ReadingNet sends out fliers to donors in order to attract new volunteers in the states of California, New York, and Illinois. Show the name and address information of all donors that live in California, Illinois, or New York that are in the ages of 18-24 and 65+. If the individual is already a volunteer, he or she should not be listed.</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="targetDonors">
+			</li>
+		</form>
+
+		<!-- 10. Allow a volunteer to select one or more genres, and display the clients who have purchased both “new” and “gently used” from ALL genres selected. For example, if a volunteer selects genre “a” and genre “b”, this query should only display clients who have purchased “gently used” books of genre “a” AND “new” books of genre “a” AND “gently used” books of genre “b” AND “new” books of genre “b”. -->
+		<form action="/##" method="POST">
+			<h3 class="description">10. Allow a volunteer to select one or more genres, and display the clients who have purchased both “new” and “gently used” from ALL genres selected. For example, if a volunteer selects genre “a” and genre “b”, this query should only display clients who have purchased “gently used” books of genre “a” AND “new” books of genre “a” AND “gently used” books of genre “b” AND “new” books of genre “b”.</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="##">
+			</li>
+		</form>
+
+		<!-- 11. Which book titles match a user input string? Support both full and partial matches; thus, if the user inputs “apple”, it should match “apple”, “green apple”, “apple pie, ect. (It is up to you if you wish to make this case sensitive or not.) -->
+		<form action="/##" method="POST">
+			<h3 class="description">11. Which book titles match a user input string? Support both full and partial matches; thus, if the user inputs “apple”, it should match “apple”, “green apple”, “apple pie, ect. (It is up to you if you wish to make this case sensitive or not.)</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="##">
+			</li>
+		</form>
+
+		<!-- 12. For a given donor, list their donation history (what was donated and when). -->
+		<form action="/##" method="POST">
+			<h3 class="description">12. For a given donor, list their donation history (what was donated and when).</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="##">
+			</li>
+		</form>
+
+		<!-- 13. How many books have been purchased by each volunteer of ReadingNet in the past month? -->
+		<form action="/##" method="POST">
+			<h3 class="description">13. How many books have been purchased by each volunteer of ReadingNet in the past month?</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="##">
+			</li>
+		</form>
+
+		<!-- 14. Which clients have ever purchased a book by a given author (author is input)? -->
+		<form action="/##" method="POST">
+			<h3 class="description">14. Which clients have ever purchased a book by a given author (author is input)?</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="##">
+			</li>
+		</form>
+
+		<!-- 15. List all book publishers who have at least two “new” books in inventory, and no more than five “ gently used” books in inventory. (Note: in this query, the number of books refers to the number of distinct isbns.) -->
+		<form action="/##" method="POST">
+			<h3 class="description">15. List all book publishers who have at least two “new” books in inventory, and no more than five “ gently used” books in inventory. (Note: in this query, the number of books refers to the number of distinct isbns.)</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="##">
+			</li>
+		</form>
+
+		<!-- 16. ReadingNet likes to send out thank you cards and/or gifts to their donors. What the individual receives depends on how much he or she has donated. Since the donor may give cash or books, the amount that the donor has given is calculated by cash + 10*(number used books) + 20*(number new books). Based on a user input number, display the donor names and addresses of the individuals whose donations meet or exceed that amount. -->
+		<form action="/##" method="POST">
+			<h3 class="description">16. ReadingNet likes to send out thank you cards and/or gifts to their donors. What the individual receives depends on how much he or she has donated. Since the donor may give cash or books, the amount that the donor has given is calculated by cash + 10*(number used books) + 20*(number new books). Based on a user input number, display the donor names and addresses of the individuals whose donations meet or exceed that amount.</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="##">
+			</li>
+		</form>
+
+		<!-- 17. In order to determine when to disperse more tokens, ReadingNet must have a way to determine how their inventory compares to demand. So, for each reading level, display the reading level, along with the ratio (in decimal format) of number of books to clients. -->
+		<form action="/##" method="POST">
+			<h3 class="description">17. In order to determine when to disperse more tokens, ReadingNet must have a way to determine how their inventory compares to demand. So, for each reading level, display the reading level, along with the ratio (in decimal format) of number of books to clients.</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="##">
+			</li>
+		</form>
+
+		<!-- 18. Which clients have purchases awaiting approval? -->
+		<form action="/##" method="POST">
+			<h3 class="description">18. Which clients have purchases awaiting approval?</h3>
+			<li class="button">
+				<input type="submit" value="Go" id="##">
+			</li>
+		</form>
+
+
+	</ul>
+
+</div>
+
+
+{% endblock %}
