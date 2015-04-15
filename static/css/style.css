@@ -37,7 +37,7 @@ table tr:first-child {
     background: #ccc; /* darkest gray */
 }
 table tr td {
-    padding: .5em 0.5em;
+    padding: 0.5em 1em;
     border-left: 2px solid white;
     text-align: center;
 }
@@ -55,12 +55,16 @@ table tr td:first-child {
     position: relative;
     z-index: 100;
     overflow: hidden;
+    background: url(../img/splash.jpg);
+    background-position: 50% 80%;
+    background-size: cover;
+    color: #fff;
 }
 #top-banner .logo a {
     float: left;
     font-size: 2em;
     line-height: 70px;
-    color: #222;
+    color: #fff;
 }
 #top-banner .nav-links {
     float: right;
@@ -73,37 +77,37 @@ table tr td:first-child {
 
 #main-content {
     margin-top: 70px;
-}
-#main-content > div {
-    margin: 0 30px;
-        max-width: 100%;
+    max-width: 100%;
     overflow: hidden;
-
 }
 
 /* index page */
 
-#main-content .index {
+#main-content.index {
     background: url(../img/splash.jpg);
     background-size: cover;
+    background-position: 50%;
     position: absolute;
     width: 100%;
     top: 0;
     bottom: 0;
     margin: 0;
 }
-#main-content .index .splash {
+.index #top-banner {
+    background: none;
+}
+.index .splash {
     margin-top: 80px;
     text-align: center;
     font-size: 2em;
     display: inline-block;
     width: 100%;
 }
-#main-content .index .splash .big {
+.index .splash .big {
     font-size: 3em;
 }
 
-#main-content .index #userOptions {
+.index #userOptions {
     text-align: center;
     color: #fff;
     margin-top: 100px;
@@ -112,7 +116,7 @@ table tr td:first-child {
     bottom: 0;
     width: 100%;
 }
-#main-content .index #userOptions .option {
+.index #userOptions .option {
     border: #fff 2px solid;
     padding: .5em 1em;
     margin: 1em .5em;
@@ -121,7 +125,7 @@ table tr td:first-child {
     color: #fff;
     background: rgba(101, 130, 113, 0.1);
 }
-#main-content .index #userOptions .option:hover {
+.index #userOptions .option:hover {
     background: rgba(101, 130, 113, 0.25);
 }
 
@@ -129,7 +133,7 @@ table tr td:first-child {
 
 /* error messsaging */
 
-#errorMsg {
+#message {
     position: absolute;
     background: #fff;
     padding: 0.6em 1em;
@@ -138,14 +142,6 @@ table tr td:first-child {
     left: 50%;
     -webkit-transform: translateX(-50%);
 }
-
-#errorMsg:before {
-    content: "Something seems off. "
-}
-#errorMsg:after {
-    content: " Try again!"
-}
-
 
 
 /* SOPHIA */

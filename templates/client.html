@@ -1,64 +1,62 @@
 {% extends "base.html" %}
+{% block mainContentClasses %}client{% endblock %}
 {% block content %}
  
- <div class="client">
+ <ul class="button">
+	 <form action="/see_all_donors" method="POST">
+	 	<li class="button">
+	 		<input type="submit" value="See All Donors" id="submitButton" class="submit">
+	 	</li>
+	 </form>
+	 <form action="/see_all_levels" method="POST">
+	 	<li class="button">
+	 		<input type="submit" value = "See All Levels" id="submitButton" class="submit">
+	 	</li>
+	 </form>
+	 <form action="/see_all_volunteers" method="POST">
+	 	<li class="button">
+	 		<input type="submit" value="See All Volunteers" id="submitButton" class="submit">
+	 	</li>
+	 </form>
+	 <form action="/see_all_book_inventory" method="POST">
+	 	<li class="button">
+	 		<input type="submit" value="See All Books in Inventory" id="submitButton" class="submit">
+	 	</li>
+	 </form>
+	 <form action="/see_all_donations" method="POST">
+	 	<li class="button">
+	 		<input type="submit" value="See Book Donation History" id="submitButton" class="submit">
+	 	</li>
+	 </form>
+	 <form action="/see_all_cash_donations" method="POST">
+	 	<li class="button">
+	 		<input type="submit" value="See Cash Donation History" id="submitButton" class="submit">
+	 	</li>
+	 </form>
+	 <form action="/see_cash_reserves" method="POST">
+	 	<li class="button">
+	 		<input type="submit" value="See Cash Reserves" id="submitButton" class="submit">
+	 	</li>
+	 </form>
+</ul>
 
-	 <ul class="button">
-		 <form action="/see_all_donors" method="POST">
-		 	<li class="button">
-		 		<input type="submit" value="See All Donors" id="submitButton" class="submit">
-		 	</li>
-		 </form>
-		 <form action="/see_all_levels" method="POST">
-		 	<li class="button">
-		 		<input type="submit" value = "See All Levels" id="submitButton" class="submit">
-		 	</li>
-		 </form>
-		 <form action="/see_all_volunteers" method="POST">
-		 	<li class="button">
-		 		<input type="submit" value="See All Volunteers" id="submitButton" class="submit">
-		 	</li>
-		 </form>
-		 <form action="/see_all_book_inventory" method="POST">
-		 	<li class="button">
-		 		<input type="submit" value="See All Books in Inventory" id="submitButton" class="submit">
-		 	</li>
-		 </form>
-		 <form action="/see_all_donations" method="POST">
-		 	<li class="button">
-		 		<input type="submit" value="See Book Donation History" id="submitButton" class="submit">
-		 	</li>
-		 </form>
-		 <form action="/see_all_cash_donations" method="POST">
-		 	<li class="button">
-		 		<input type="submit" value="See Cash Donation History" id="submitButton" class="submit">
-		 	</li>
-		 </form>
-		 <form action="/see_cash_reserves" method="POST">
-		 	<li class="button">
-		 		<input type="submit" value="See Cash Reserves" id="submitButton" class="submit">
-		 	</li>
-		 </form>
+<!-- <form action="/add_genre" method="POST">
+	<h3>Add new genre</h3>
+	<ul class="inputs">
+		<li>
+			<div class="title">Genre</div>
+			<input type="text" name="genre" id="add_genre" placeholder="Genre">
+		</li>
+		<li>
+			<div class="title">Description</div>
+			<input type="text" name="description" id="add_description" placeholder="Description">
+		</li>
+		<li>
+			<input type="submit" id="submitButton" class="submit">
+		</li>
 	</ul>
+</form> -->
 
-<!-- 	<form action="/add_genre" method="POST">
-		<h3>Add new genre</h3>
-		<ul class="inputs">
-			<li>
-				<div class="title">Genre</div>
-				<input type="text" name="genre" id="add_genre" placeholder="Genre">
-			</li>
-			<li>
-				<div class="title">Description</div>
-				<input type="text" name="description" id="add_description" placeholder="Description">
-			</li>
-			<li>
-				<input type="submit" id="submitButton" class="submit">
-			</li>
-		</ul>
-	</form> -->
-
-</div>
 
 
 {% endblock %}

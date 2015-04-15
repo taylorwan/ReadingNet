@@ -1,20 +1,23 @@
 {% extends "base.html" %}
+{% block mainContentClasses %}results{% endblock %}
 {% block content %}
 
-<div class="results">
-    <table id="search-results">
-		{% for value in colnames %}
-	    	<td><b class="table-header">{{ value }}</b></td>
-	    {% endfor %}
+<table id="search-results">
+	{% for value in colnames %}
+    	<td><b class="table-header">{{ value }}</b></td>
+    {% endfor %}
 
-	    {% for row in data %}
-        <tr>
-        	{% for value in row %}
-            <td>{{ value }}</td>
-            {% endfor %}
-        </tr>
+    {% for row in data %}
+    <tr>
+    	{% for value in row %}
+        <td>{{ value }}</td>
         {% endfor %}
-    </table>
-</div>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="{{ colnames | length }}">No results found</td>
+    </tr>
+    {% endfor %}
+</table>
 
 {% endblock %}
