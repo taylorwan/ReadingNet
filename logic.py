@@ -514,17 +514,6 @@ class Database(object):
             return data, colnames
 
 
-    # 10
-    # def #(self):
-    #     with self.conn:
-    #         cur = self.conn.cursor()
-
-    #         cur.execute("SELECT donor_first_name, donor_last_name FROM donors NATURAL JOIN cash_donations ORDER BY date_donated ASC")
-    #         data = cur.fetchone()
-    #         colnames = [desc[0] for desc in cur.description]
-        
-    #         return data, colnames
-
     # #
     # def #(self):
     #     with self.conn:
@@ -536,4 +525,35 @@ class Database(object):
         
     #         return data, colnames
 
+    # 17
+    # ratio of books:clients grouped by reading level
+    def books_clients_ratio(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            # create views
+            cur.execute("create view clients_per_level as (SELECT reading_level, count(client_id) as clients FROM clients_readinglevel group by reading_level)")
+            cur.execute("create view books_per_level as (SELECT reading_level, sum(quantity) as books FROM book_inventory group by reading_level)")
+            
+            # select
+            cur.execute("SELECT reading_level, books/clients from clients_per_level NATURAL JOIN books_per_level")
+            data = cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
+
+            # get rid of views
+            cur.execute("drop view clients_per_level")
+            cur.execute("drop view books_per_level")
+        
+            return data, colnames
+
+    # 18
+    def clients_with_requests(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT DISTINCT client_id, organization_name FROM client_book_requests NATURAL JOIN clients WHERE request_status = 'In Progress'")
+            data = cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
+        
+            return data, colnames
 

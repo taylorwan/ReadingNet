@@ -396,5 +396,23 @@ def target_donors():
 # 	else:
 # 		return render_template('/queries.html')
 
+# 17
+@app.route('/books_clients_ratio', methods=['GET', 'POST'])
+def books_clients_ratio():
+	if request.method == 'POST':
+		data, colnames = db.books_clients_ratio();
+		return render_template( 'results.html', data=data, colnames=colnames )
+	else:
+		return render_template('/queries.html')
+
+# 18
+@app.route('/clients_with_requests', methods=['GET', 'POST'])
+def clients_with_requests():
+	if request.method == 'POST':
+		data, colnames = db.clients_with_requests();
+		return render_template( 'results.html', data=data, colnames=colnames )
+	else:
+		return render_template('/queries.html')
+
 if __name__ == '__main__':
     app.run()

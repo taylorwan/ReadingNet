@@ -122,7 +122,6 @@ CREATE TABLE cash_reserves(
 
 CREATE TABLE book_author(
 	isbn INT NOT NULL, 
-    title VARCHAR(500) NOT NULL,
     author_fn VARCHAR(120) NOT NULL,
     author_ln VARCHAR(120) NOT NULL,
     PRIMARY KEY(isbn, author_fn, author_ln),
@@ -134,7 +133,6 @@ CREATE TABLE book_author(
 CREATE TABLE book_donations(
 	book_donation_id INT AUTO_INCREMENT NOT NULL,
 	isbn INT NOT NULL, 
-    title VARCHAR(500) NOT NULL,
     book_status ENUM('New','Gently used') NOT NULL,
     donor_id INT NOT NULL, 
     date_donated DATE NOT NULL, 
