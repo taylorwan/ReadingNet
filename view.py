@@ -381,18 +381,9 @@ def add_tokens():
 
 ### Queries Taylor 4.14
 
-@app.route( '/queries', methods=['GET', 'POST'] )
+@app.route( '/queries')
 def show_queries():
-	# self.conn = pymysql.connect(self.opts.DB_HOST, self.opts.DB_USER, self.opts.DB_PASSWORD, self.opts.DB_NAME)
-    with self.conn:
-        cur = self.conn.cursor()
-
-        cur.execute("SELECT genre_type from genre")
-        data = cur.fetchall()
-
-        print data
-
-        return render_template( 'queries.html', data=data )
+    return render_template( 'queries.html')
 
 # 4
 @app.route('/author_donators', methods=['GET', 'POST'])
