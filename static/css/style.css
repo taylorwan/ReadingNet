@@ -95,6 +95,10 @@ table tr td:first-child {
 }
 .index #top-banner {
     background: none;
+    color: #222;
+}
+.index #top-banner a {
+    color: #222;
 }
 .index .splash {
     margin-top: 80px;
