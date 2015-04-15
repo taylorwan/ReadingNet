@@ -26,7 +26,7 @@ def volunteer():
 
 @app.route( '/client', methods=['GET'] )
 def client():
-	return render_template( 'client.html' )
+	return render_template( 'search.html' )
 
 @app.route( '/donor', methods=['GET'] )
 def donor():
