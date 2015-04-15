@@ -49,11 +49,17 @@ class Database(object):
             publisher = pymysql.escape_string( publisher )
             status = pymysql.escape_string( status )
 
-            cur.execute("SELECT book_inventory.title, book_inventory.isbn, book_author.author_fn, book_author.author_ln, book_inventory.publisher, book_inventory.book_status, book_inventory.quantity FROM book_inventory INNER JOIN book_author ON book_inventory.isbn = book_author.isbn WHERE book_inventory.isbn LIKE %s OR book_inventory.title LIKE %s OR book_author.author_fn LIKE %s OR book_author.author_ln LIKE %s OR book_inventory.publisher LIKE %s;",(isbn, title, author_fn, author_ln, publisher))
+            #sql = """"""
+            isbn_s = '%' + 'isbn' + '%'
+            title_s = '%' + 'title' +'%'
+            author_fns ='%' + 'author_fn' +'%'
+            author_lns ='%' + 'author_ln' +'%'
+            publisher_s ='%' + 'publisher' +'%'
+            #cur.execute("SELECT book_inventory.title, book_inventory.isbn, book_author.author_fn, book_author.author_ln, book_inventory.publisher, book_inventory.book_status, book_inventory.quantity FROM book_inventory INNER JOIN book_author ON book_inventory.isbn = book_author.isbn WHERE book_inventory.isbn LIKE %s OR book_inventory.title LIKE %s OR book_author.author_fn LIKE %s OR book_author.author_ln LIKE %s OR book_inventory.publisher LIKE %s;",(isbn_s, title_s, author_fns, author_lns, publisher_s))
+            cur.execute("SELECT book_inventory.title, book_inventory.isbn, book_author.author_fn, book_author.author_ln, book_inventory.publisher, book_inventory.book_status, book_inventory.quantity FROM book_inventory INNER JOIN book_author ON book_inventory.isbn = book_author.isbn WHERE book_inventory.isbn = %s OR book_inventory.title = %s OR book_author.author_fn = %s OR book_author.author_ln = %s OR book_inventory.publisher = %s;",(isbn, title, author_fn, author_ln, publisher))
             data = cur.fetchall()
-            colnames = [desc[0] for desc in cur.description]
 
-            return data, colnames
+            return data
 
     def checkout(self, client_ID, approved):
         
@@ -105,7 +111,7 @@ class Database(object):
                     #if there aren't enough tokens to purchase, remove it from the cart
                     if tokens < cost_of_current_purchase:
                         
-                        ####TAYLOR TO JS###
+                        ## js error
                         print "not enough tokens"
                         query_cur.execute("DELETE FROM client_shopping_cart WHERE isbn = %s and book_status = %s",(isbn,status))
                         
@@ -186,10 +192,9 @@ class Database(object):
             cur = self.conn.cursor()
             for check in check_list:
                 new_check = pymysql.escape_string(check)
-                isbn, status = new_check.split("_")
+                quantity_selected, isbn, status = new_check.split("_")
                 isbn = int(isbn)
-                print isbn
-                print status
+                quantity_selected = int(quantity_selected)
 
                 cur.execute("SELECT * FROM book_inventory WHERE isbn = %s AND book_status = %s",(isbn,status))
                 book = cur.fetchone()
@@ -210,7 +215,7 @@ class Database(object):
                 #if it does, just increment the quantity
                 else:
                     existing_quant_in_cart = exists_in_cart[2]
-                    new_quantity = existing_quant_in_cart + 1
+                    new_quantity = existing_quant_in_cart + quantity_selected
                     cur.execute("UPDATE client_shopping_cart SET quantity = %s WHERE isbn = %s AND book_status=%s",(new_quantity, isbn, book_status))
 
             self.conn.commit()
@@ -230,16 +235,6 @@ class Database(object):
             
 
             cur.execute("SELECT * FROM book_inventory WHERE isbn = 446 AND book_status='New'")
-            
-            # print "CUR DEBUG"
-
-            # for a in cur:
-            #     print a
-            #     print (a == None)
-
-            # print "END DEUBG"
-            # if cur == None:
-            #     print "true"
 
             # if status was changed to approved, treat it like a client purchase
             if status == 'Approved':
@@ -247,26 +242,10 @@ class Database(object):
                 # data is now from the client book request
                 data = temp.fetchone()
 
-                print "______ DEBUG _____"
-
-                for index, anything in enumerate(data):
-                    print index, " = ", anything
-
-
-                print "____ END DEBUG ____"
-
-                
                 isbn = data[2]
                 client_id = data[1]
                 book_status = data[3]
                 quantity = data[4]
-
-
-                print isbn
-                print type(isbn)
-                print client_id
-                print book_status
-                print quantity
 
                 temp.execute("INSERT INTO client_shopping_cart(isbn, book_status, quantity) VALUES (%s, %s, %s)",(isbn, book_status, quantity))
                 
@@ -414,8 +393,6 @@ class Database(object):
             return data, colnames
 
     def add_book(self, isbn, title, readingLevel, genre, bookStatus, edition, publisher, quantity, author_fn, author_ln, donorID, donationDate):
-        print "in addbook"
-        
         with self.conn:
             cur = self.conn.cursor()
 
@@ -454,8 +431,6 @@ class Database(object):
 
     
     def add_client(self, client_ID, organization_name, client_phone_num, email, street_address, city, state, zipCode, tokens, new_count, used_count):
-        print "int add client"
-
         with self.conn:
             cur = self.conn.cursor()
             cur.execute("INSERT INTO clients(client_id, organization_name, client_phone_num, client_email, client_street_address, client_city, client_state, client_zipcode, client_tokens, new_count, used_count) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",(client_ID, organization_name, client_phone_num, email, street_address, city, state, zipCode, tokens, new_count, used_count))
@@ -465,13 +440,9 @@ class Database(object):
             return cur
 
     def add_tokens(self, client_ID, token_amount):
-        print "in add tokens"
-
-        #client_tokens
         with self.conn:
             cur = self.conn.cursor()
 
-            print client_ID
             token_amount = int(token_amount)
 
             cur.execute("SELECT * FROM clients WHERE client_id = %s",(client_ID))
@@ -485,8 +456,6 @@ class Database(object):
             return cur
 
     def new_cash_donation(self, donor_ID, amount, donation_date):
-        print "in cash donation"
-        
         with self.conn:
             cur = self.conn.cursor()
 
@@ -499,7 +468,6 @@ class Database(object):
             cur.execute("SELECT * FROM cash_reserves WHERE cash_id = 1")
             
             data = cur.fetchone()
-            print cur.rowcount
             current_cash_reserves = data[0]
             new_cash = current_cash_reserves + amount;
 
@@ -511,7 +479,6 @@ class Database(object):
                 row = cur.fetchone()
                 while row is not None:
                     client_ID = row[0]
-                    print client_ID
                     self.add_tokens(client_ID, 3)
                     row = cur.fetchone()
 
@@ -520,8 +487,6 @@ class Database(object):
             return cur
 
     def purchase_new_book(self, volunteer_ID, isbn, title, reading_level, genre, book_status, edition, publisher, quantity, author_fn, author_ln, purchase_date, cost):
-        print "in cash donation"
-        
         with self.conn:
             cur = self.conn.cursor()
 
@@ -548,6 +513,7 @@ class Database(object):
             cash_on_hand = data[0]
 
             if cost > cash_on_hand:
+                #JS ERROR
                 print "transation cancelled"
                 return cur
             else:

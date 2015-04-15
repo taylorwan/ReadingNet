@@ -59,15 +59,26 @@ def results():
     # if status == "":
     # 	status = "IS NOT NULL"
 
-    data, colnames = db.search(isbn, title, author_fn, author_ln, publisher, status)
-    return render_template('search_results.html', data=data, colnames=colnames)
+    data = db.search(isbn, title, author_fn, author_ln, publisher, status)
+    return render_template('search_results.html', data=data)
 
 @app.route('/buy_books', methods=['GET', 'POST'])
 def buy_books():
 	if request.method == 'POST':
-		print "in buy books post"
-		check_list = request.form.getlist('check')
-		db.process_purchase(check_list)
+
+		checked_numbers = request.form.getlist('numbers')
+		keys = request.form.getlist('keys')
+		combo = []
+		
+		for number in checked_numbers:
+			combo.append( number )
+		
+		count = 0
+		for key in keys:
+			combo[count] += "_" + key
+			count += 1		
+
+		db.process_purchase(combo)
 		return render_template('success.html')
 	else:
 		return render_template('/search.html')
@@ -329,8 +340,6 @@ def change_request_status():
 	if request.method == 'POST':
 		request_id = request.form['request_id' ]
    	 	status = request.form['status' ]
-   	 	print request_id
-   	 	print status
 		db.change_request_status(request_id, status);
 
 		return render_template('success.html')
