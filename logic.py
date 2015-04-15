@@ -48,20 +48,19 @@ class Database(object):
             publisher = pymysql.escape_string( publisher )
             status = pymysql.escape_string( status )
 
-            #cur.execute("SELECT * FROM book_inventory WHERE title like '%%title%' AND isbn like '%%isbn%' AND author like '%%author%' AND publisher like '%%publisher%'",(title, isbn, author, publisher))
-            cur.execute("SELECT book_inventory.title, book_inventory.isbn, book_author.author_fn, book_author.author_ln, book_inventory.publisher, book_inventory.book_status, book_inventory.quantity FROM book_inventory INNER JOIN book_author ON book_inventory.isbn = book_author.isbn WHERE book_inventory.isbn = %s OR book_inventory.title = %s OR book_author.author_fn = %s OR book_author.author_ln = %s OR book_inventory.publisher =%s;",(isbn, title, author_fn, author_ln, publisher))
+            cur.execute("SELECT book_inventory.title, book_inventory.isbn, book_author.author_fn, book_author.author_ln, book_inventory.publisher, book_inventory.book_status, book_inventory.quantity FROM book_inventory INNER JOIN book_author ON book_inventory.isbn = book_author.isbn WHERE book_inventory.isbn LIKE %s OR book_inventory.title LIKE %s OR book_author.author_fn LIKE %s OR book_author.author_ln LIKE %s OR book_inventory.publisher LIKE %s;",(isbn, title, author_fn, author_ln, publisher))
             data = cur.fetchall()
             colnames = [desc[0] for desc in cur.description]
 
             return data, colnames
 
-    def checkout(self, client_ID):
+    def checkout(self, client_ID, approved):
         
         with self.conn:
             cur = self.conn.cursor()
             query_cur = self.conn.cursor()
 
-            client_ID = pymysql.escape_string( client_ID )
+            #client_ID = pymysql.escape_string( client_ID )
 
             cur.execute("SELECT * FROM client_shopping_cart")
             
@@ -83,13 +82,13 @@ class Database(object):
                 query_cur.execute("SELECT reading_level FROM clients_readinglevel WHERE client_id = %s AND reading_level = %s",(client_ID, reading_level))
                 exists = query_cur.fetchone()
 
-                if exists == None:
+                if exists == None and not approved:
                     #reading level doesn't exist. add the book to the requests table
                     query_cur.execute("INSERT INTO client_book_requests(client_id, isbn, book_status, quantity, request_date, request_status) VALUES (%s, %s, %s, %s, CURDATE(), 'In Progress')",(client_ID, isbn, status, quantity))
                     query_cur.execute("DELETE FROM client_shopping_cart WHERE isbn = %s and book_status = %s",(isbn,status))
                     
                     #TAYLOR TO JS
-                    print "added to client book requests"
+                    
                 else:
                     #proceed - get the number of tokens the client has and check if they can purchase
                     query_cur.execute("SELECT client_tokens FROM clients WHERE client_id = %s",(client_ID));
@@ -179,7 +178,7 @@ class Database(object):
 
                 row = cur.fetchone()
             self.conn.commit()
-            return error
+            return cur
 
     def process_purchase(self, check_list):
         with self.conn:
@@ -203,6 +202,7 @@ class Database(object):
                 quantity = book[7]
                 cur.execute("SELECT * FROM client_shopping_cart WHERE isbn = %s AND book_status=%s",(isbn,book_status))
                 exists_in_cart = cur.fetchone()
+               
                 # if this book isn't already in the client's shopping cart, add it
                 if exists_in_cart == None:
                     cur.execute("INSERT INTO client_shopping_cart(isbn, book_status, quantity) VALUES (%s, %s, 1)",(book_isbn, book_status))
@@ -218,24 +218,48 @@ class Database(object):
     def change_request_status(self, request_id, status):
         with self.conn:
             cur = self.conn.cursor()
+            temp = self.conn.cursor()
+            temp2 = self.conn.cursor()
+
             request_id = pymysql.escape_string( request_id )
             status = pymysql.escape_string( status ) 
 
             cur.execute("UPDATE client_book_requests SET request_status = %s WHERE request_id = %s",(status, request_id))
             self.conn.commit()
+            
+
             cur.execute("SELECT * FROM book_inventory WHERE isbn = 446 AND book_status='New'")
-            if cur == None:
-                flash("true")
+            
+            # print "CUR DEBUG"
+
+            # for a in cur:
+            #     print a
+            #     print (a == None)
+
+            # print "END DEUBG"
+            # if cur == None:
+            #     print "true"
 
             # if status was changed to approved, treat it like a client purchase
             if status == 'Approved':
-                cur.execute("SELECT * FROM client_book_requests WHERE request_id = %s", (request_id))
-                data = cur.fetchone()
+                temp.execute("SELECT * FROM client_book_requests WHERE request_id = %s", (request_id))
+                # data is now from the client book request
+                data = temp.fetchone()
 
-                isbn = data[1]
-                client_id = data[2]
+                print "______ DEBUG _____"
+
+                for index, anything in enumerate(data):
+                    print index, " = ", anything
+
+
+                print "____ END DEBUG ____"
+
+                
+                isbn = data[2]
+                client_id = data[1]
                 book_status = data[3]
                 quantity = data[4]
+
 
                 print isbn
                 print type(isbn)
@@ -243,11 +267,9 @@ class Database(object):
                 print book_status
                 print quantity
 
+                temp.execute("INSERT INTO client_shopping_cart(isbn, book_status, quantity) VALUES (%s, %s, %s)",(isbn, book_status, quantity))
                 
-
-
-                cur.execute("INSERT INTO client_shopping_cart(isbn, book_status, quantity) VALUES (%s, %s, %s)",(isbn, book_status, quantity))
-                checkout(self, client_id)
+                self.checkout(client_id, True)
 
             self.conn.commit()
 

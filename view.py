@@ -67,12 +67,10 @@ def checkout():
 def checkout_info():
 	if request.method == 'POST':
 		client_ID = request.form['client_ID']
-		error = db.checkout(client_ID)
-		if error > 0:
-			return render_template('error.html')
-		else:
-			return render_template('success.html')
-	return render_template('/search.html')
+		error = db.checkout(client_ID, False)	
+		return render_template('success.html')
+	else:
+		return render_template('/search.html')
 
 
 @app.route('/see_all_levels', methods=['GET', 'POST'])
