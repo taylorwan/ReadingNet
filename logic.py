@@ -832,14 +832,26 @@ class Database(object):
 
 
     # 16 big donors - user textinput
+    # cash + 10*(number used books) + 20*(number new books)
     def user_amount_input(self, amount):
         with self.conn:
             cur = self.conn.cursor()
 
-            # thats not the real query
-            cur.execute("SELECT date_donated AS 'Date Donated', quantity AS 'Quantity' FROM book_donations WHERE donor_id = %s",(donor_id))
+            # create views
+            cur.execute("create view cash_by_donor as (SELECT donor_id, sum(amount) FROM cash_donations GROUP BY donor_id)")
+            cur.execute("create view new_by_donor as (SELECT donor_id, 20*sum(quantity) FROM book_donations WHERE book_status = 'New' GROUP BY donor_id)")
+            cur.execute("create view used_by_donor as (SELECT donor_id, 10*sum(quantity) FROM book_donations WHERE book_status = 'Gently used' GROUP BY donor_id)")
+            
+            cur.execute("SELECT *, 10*sum(quantity) FROM book_donations WHERE book_status = 'Gently used' GROUP BY donor_id")
+            # cur.execute("SELECT * FROM cash_donations c RIGHT JOIN book_donations b WHERE b.donor_id = c.donor_id")
+            
             data = cur.fetchall()
             colnames = [desc[0] for desc in cur.description]
+
+            # get rid of views
+            cur.execute("drop view cash_by_donor")
+            cur.execute("drop view new_by_donor")
+            cur.execute("drop view used_by_donor")
         
             return data, colnames
 
