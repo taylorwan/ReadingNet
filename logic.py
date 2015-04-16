@@ -58,8 +58,7 @@ class Database(object):
             if title != "IS NOT NULL":
                 title = titleF +like +quotation + wildcard + title + wildcard + quotation
             else:
-                title = titleF + title;
-            print title;
+                title = titleF + title
 
             paramstring.append(title)
 
@@ -68,7 +67,6 @@ class Database(object):
                 isbn = isbnF + like + quotation + wildcard + isbn + wildcard + quotation
             else:
                 isbn = isbnF + isbn
-            print isbn
 
             paramstring.append(isbn)
 
@@ -77,7 +75,6 @@ class Database(object):
                 author_fn = author_fnF + like + quotation + wildcard + author_fn + wildcard + quotation
             else:
                 author_fn = author_fnF + author_fn
-            print author_fn
 
             paramstring.append(author_fn)
 
@@ -120,6 +117,41 @@ class Database(object):
 
             #client_ID = pymysql.escape_string( client_ID )
 
+            # updating book recommendation table
+            cur.execute("SELECT DISTINCT isbn FROM client_shopping_cart ORDER BY isbn")
+            allBooks = cur.fetchall()
+            length = len(allBooks)
+
+            if length > 1:
+                counterA = 0
+                counterB = 1
+
+                while counterA + 1 < length:
+                    counterB = counterA + 1
+                    while counterB < length:
+                        isbn_a = allBooks[counterA]
+                        isbn_b = allBooks[counterB]
+
+                        # make sure isbn_a is smaller than isbn_b
+                        if isbn_a > isbn_b:
+                            temp = isbn_a
+                            isbn_a = isbn_b
+                            isbn_b = temp
+
+                        cur.execute( "SELECT quantity FROM purchase_couples WHERE isbn_1 = %s AND isbn_2 = %s", ( isbn_a, isbn_b ) )
+                        qty = cur.fetchone()
+
+                        if qty is None:
+                            cur.execute("INSERT INTO purchase_couples ( isbn_1, isbn_2, quantity ) VALUES ( %s, %s, 1 )", ( isbn_a, isbn_b ) )
+                        else:
+                            newQty = qty[0] + 1
+                            cur.execute("UPDATE purchase_couples SET quantity = %s WHERE isbn_1 = %s AND isbn_2 = %s", ( newQty, isbn_a, isbn_b ) )
+
+                        cur.execute("SELECT * FROM purchase_couples")
+                        counterB += 1
+                    counterA += 1
+                
+
             cur.execute("SELECT * FROM client_shopping_cart")
             
             row = cur.fetchone()
@@ -149,9 +181,9 @@ class Database(object):
                     
                 else:
                     #proceed - get the number of tokens the client has and check if they can purchase
-                    query_cur.execute("SELECT client_tokens FROM clients WHERE client_id = %s",(client_ID));
+                    query_cur.execute("SELECT client_tokens FROM clients WHERE client_id = %s",(client_ID))
 
-                    tokens_row = query_cur.fetchone();
+                    tokens_row = query_cur.fetchone()
                     tokens = tokens_row[0]
 
                     if status == 'New':
@@ -163,7 +195,6 @@ class Database(object):
                     if tokens < cost_of_current_purchase:
                         
                         ## js error
-                        print "not enough tokens"
                         query_cur.execute("DELETE FROM client_shopping_cart WHERE isbn = %s and book_status = %s",(isbn,status))
                         
                         error = error+1
@@ -520,7 +551,7 @@ class Database(object):
             
             data = cur.fetchone()
             current_cash_reserves = data[0]
-            new_cash = current_cash_reserves + amount;
+            new_cash = current_cash_reserves + amount
 
             cur.execute("UPDATE cash_reserves SET cash_amount = %s WHERE cash_id = 1",(new_cash))
 
@@ -565,7 +596,6 @@ class Database(object):
 
             if cost > cash_on_hand:
                 #JS ERROR
-                print "transation cancelled"
                 return cur
             else:
                 new_cash_amount = cash_on_hand - cost
