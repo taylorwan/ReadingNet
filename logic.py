@@ -706,9 +706,16 @@ class Database(object):
 
     # 10 new/used per genre - checkbox
     # doesn't work
-    def purchased_selected_genres(self):
+    def purchased_selected_genres(self, fiction, non_fiction):
         with self.conn:
             cur = self.conn.cursor()
+
+            print fiction
+            print non_fiction
+
+            # if fiction:
+            #     genre = 'Fiction'
+            #     cur.execute("SELECT organization_name AS 'Organization' FROM clients WHERE )
 
             cur.execute("SELECT donor_first_name, donor_last_name FROM donors NATURAL JOIN cash_donations ORDER BY date_donated ASC")
             data = cur.fetchone()
@@ -724,7 +731,40 @@ class Database(object):
     # </form>
 
     # 11 book title match - text input
-    # 12 donor history - dropdown
+    def show_user_input(self, user_input):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            user_input = pymysql.escape_string( user_input )
+            
+            like = "like "
+            quotation = "\""
+            wildcard = "%"
+            titleF = "title "
+            user_input = titleF + like + quotation + wildcard + user_input + wildcard + quotation
+
+            print user_input
+            params = (user_input)
+            print params
+
+            cur.execute("SELECT title as 'Title' FROM book_inventory WHERE {0}".format(params))
+            data = cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
+            return data, colnames
+
+
+    # 12 donor history - input
+    def list_donation_history(self, donor_id):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            #donor_id = pymysql.escape_string( donor_id )
+            cur.execute("SELECT date_donated AS 'Date Donated', quantity AS 'Quantity' FROM book_donations WHERE donor_id = %s",(donor_id))
+            data=cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
+
+            return data,colnames
+
 
     # 13 # do last month
     def volunteer_purchases_last_month(self):
@@ -739,12 +779,12 @@ class Database(object):
 
 
     # 14 purchased books from specific author - textinput
-    def purchased_from_specified_author(self):
+    def purchased_from_specified_author(self, author_fn, author_ln):
         with self.conn:
             cur = self.conn.cursor()
 
-            cur.execute("SELECT donor_first_name, donor_last_name FROM donors NATURAL JOIN cash_donations ORDER BY date_donated ASC")
-            data = cur.fetchone()
+            cur.execute("SELECT DISTINCT organization_name as 'Organization' FROM clients NATURAL JOIN client_transaction_history NATURAL JOIN book_author WHERE clients.client_id = client_transaction_history.client_id AND client_transaction_history.isbn = book_author.isbn AND book_author.author_fn = %s AND book_author.author_ln = %s",(author_fn, author_ln))
+            data = cur.fetchall()
             colnames = [desc[0] for desc in cur.description]
         
             return data, colnames
@@ -762,32 +802,17 @@ class Database(object):
 
 
     # 16 big donors - user textinput
+    def user_amount_input(self, amount):
+        with self.conn:
+            cur = self.conn.cursor()
 
-
-    # def #(self):
-    #     with self.conn:
-    #         cur = self.conn.cursor()
-
-    #         cur.execute("SELECT donor_first_name, donor_last_name FROM donors NATURAL JOIN cash_donations ORDER BY date_donated ASC")
-    #         data = cur.fetchone()
-    #         colnames = [desc[0] for desc in cur.description]
+            # thats not the real query
+            cur.execute("SELECT date_donated AS 'Date Donated', quantity AS 'Quantity' FROM book_donations WHERE donor_id = %s",(donor_id))
+            data = cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
         
-    #         return data, colnames
+            return data, colnames
 
-    # dropdown
-    # <select>
-    #     <option value="volvo">Volvo</option>
-    #     <option value="saab">Saab</option>
-    #     <option value="mercedes">Mercedes</option>
-    #     <option value="audi">Audi</option>
-    # </select>
-
-    # checkbox
-    # <form action="demo_form.asp">
-    #     <input type="checkbox" name="vehicle" value="Bike"> I have a bike<br>
-    #     <input type="checkbox" name="vehicle" value="Car" checked> I have a car<br>
-    #     <input type="submit" value="Submit">
-    # </form>
 
     # 17
     # ratio of books:clients grouped by reading level

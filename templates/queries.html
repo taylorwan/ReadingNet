@@ -88,29 +88,35 @@
 	</form>
 
 	<!-- 10. Allow a volunteer to select one or more genres, and display the clients who have purchased both “new” and “gently used” from ALL genres selected. For example, if a volunteer selects genre “a” and genre “b”, this query should only display clients who have purchased “gently used” books of genre “a” AND “new” books of genre “a” AND “gently used” books of genre “b” AND “new” books of genre “b”. -->
-	<form action="/##" method="POST">
+	<form action="/purchased_selected_genres" method="POST">
 		<h3 class="description">10. Allow a volunteer to select one or more genres, and display the clients who have purchased both “new” and “gently used” from ALL genres selected. For example, if a volunteer selects genre “a” and genre “b”, this query should only display clients who have purchased “gently used” books of genre “a” AND “new” books of genre “a” AND “gently used” books of genre “b” AND “new” books of genre “b”.</h3>
+		<ul>
+		<li><input type="checkbox" name="genre" value="True"> Fiction</li>
+		<li><input type="hidden" name="type" value="Fiction"></li>
+		<li><input type="checkbox" name="genre" value="True"> Non Fiction</li>
+		<li><input type="hidden" name="type" value="Non-Fiction"></li>
 		<li class="button">
 			<input type="submit" value="Go" id="##">
 		</li>
-		<!-- checkbox -->
-		{% for genre in data %}
-			<input type="checkbox" name="{{genre}}">{{genre}}<br>
-		{% endfor %}
 		</form>
 	</form>
 
 	<!-- 11. Which book titles match a user input string? Support both full and partial matches; thus, if the user inputs “apple”, it should match “apple”, “green apple”, “apple pie, ect. (It is up to you if you wish to make this case sensitive or not.) -->
 	<form action="/user_input_string" method="POST">
 		<h3 class="description">11. Which book titles match a user input string? Support both full and partial matches; thus, if the user inputs “apple”, it should match “apple”, “green apple”, “apple pie, ect. (It is up to you if you wish to make this case sensitive or not.)</h3>
+		<div class="title">Book title to search for</div>
+		<input type="text" name="user_input" id="user_input" placeholder="Book title">
 		<li class="button">
 			<input type="submit" value="Go" id="##">
 		</li>
 	</form>
 
 	<!-- 12. For a given donor, list their donation history (what was donated and when). -->
-	<form action="/##" method="POST">
+	<form action="/list_donation_history" method="POST">
 		<h3 class="description">12. For a given donor, list their donation history (what was donated and when).</h3>
+		<div class="title">Donor ID to search for</div>
+		<input type="text" name="donor_id" placeholder="Donor ID">
+		
 		<li class="button">
 			<input type="submit" value="Go" id="##">
 		</li>
@@ -125,8 +131,12 @@
 	</form>
 
 	<!-- 14. Which clients have ever purchased a book by a given author (author is input)? -->
-	<form action="/##" method="POST">
+	<form action="/purchased_from_specified_author" method="POST">
 		<h3 class="description">14. Which clients have ever purchased a book by a given author (author is input)?</h3>
+		<div class="title">Author First Name to search for</div>
+		<input type="text" name="author_fn" placeholder="Author First Name">
+		<div class="title">Author Last Name to search for</div>
+		<input type="text" name="author_ln" placeholder="Author Last Name">
 		<li class="button">
 			<input type="submit" value="Go" id="##">
 		</li>
@@ -141,8 +151,10 @@
 	</form>
 
 	<!-- 16. ReadingNet likes to send out thank you cards and/or gifts to their donors. What the individual receives depends on how much he or she has donated. Since the donor may give cash or books, the amount that the donor has given is calculated by cash + 10*(number used books) + 20*(number new books). Based on a user input number, display the donor names and addresses of the individuals whose donations meet or exceed that amount. -->
-	<form action="/##" method="POST">
+	<form action="/user_amount_input" method="POST">
 		<h3 class="description">16. ReadingNet likes to send out thank you cards and/or gifts to their donors. What the individual receives depends on how much he or she has donated. Since the donor may give cash or books, the amount that the donor has given is calculated by cash + 10*(number used books) + 20*(number new books). Based on a user input number, display the donor names and addresses of the individuals whose donations meet or exceed that amount.</h3>
+		<div class="title">Amount</div>
+		<input type="text" name="amount" placeholder="Amount">
 		<li class="button">
 			<input type="submit" value="Go" id="##">
 		</li>

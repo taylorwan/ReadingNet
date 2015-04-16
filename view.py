@@ -31,11 +31,6 @@ def client():
 def donor():
 	return render_template( 'donor.html' )
 
-# ????? do we need this
-# @app.route( '/search', methods=['GET'] )
-# def splash():
-#     return render_template( 'search.html' )
-
 @app.route('/search', methods=['GET'] )
 def results():
     isbn = request.args.get( 'isbn' )
@@ -445,21 +440,28 @@ def target_donors():
 # 10
 @app.route('/purchased_selected_genres', methods=['GET', 'POST'])
 def purchased_selected_genres():
-	data, colnames = db.purchased_selected_genres();
-	return render_template( 'results.html', data=data, colnames=colnames )
-
-# 11
-
-
-# 11 12 14 16 
-@app.route('/user_input_string',methods=['GET', 'POST'])
-def show_user_input(){
 	if request.method == 'POST':
-		data, colnames = db.purchased_selected_genres();
+		genre = request.form.getlist('genre')
+		genres = request.form.getlist('type')
+		
+		data, colnames = db.purchased_selected_genres(genres);
 		return render_template( 'results.html', data=data, colnames=colnames )
-}
+
+# 11 
+@app.route('/user_input_string',methods=['GET', 'POST'])
+def show_user_input():
+	if request.method == 'POST':
+		user_input = request.form['user_input']
+		data, colnames = db.show_user_input(user_input);
+		return render_template('results.html', data=data, colnames=colnames)
 
 #12
+@app.route('/list_donation_history',methods=['GET', 'POST'])
+def list_donation_history():
+	if request.method == 'POST':
+		donor_id = request.form['donor_id']
+		data, colnames = db.list_donation_history(donor_id);
+		return render_template('results.html', data=data, colnames=colnames)
 
 # 13
 @app.route('/volunteer_purchases_last_month', methods=['GET', 'POST'])
@@ -470,8 +472,11 @@ def volunteer_purchases_last_month():
 # 14
 @app.route('/purchased_from_specified_author', methods=['GET', 'POST'])
 def purchased_from_specified_author():
-	data, colnames = db.purchased_from_specified_author();
-	return render_template( 'results.html', data=data, colnames=colnames )
+	if request.method == 'POST':
+		author_fn = request.form['author_fn']
+		author_ln = request.form['author_ln']
+		data, colnames = db.purchased_from_specified_author(author_fn, author_ln);
+		return render_template( 'results.html', data=data, colnames=colnames )
 
 # 15
 @app.route('/publisher_filter', methods=['GET', 'POST'])
@@ -480,10 +485,11 @@ def publisher_filter():
 	return render_template( 'results.html', data=data, colnames=colnames )
 
 # 16
-# @app.route('/#', methods=['GET', 'POST'])
-# def #():
-	# data, colnames = db.#();
-	# return render_template( 'results.html', data=data, colnames=colnames )
+@app.route('/user_amount_input', methods=['GET', 'POST'])
+def user_amount_input():
+	amount = request.form['amount']
+	data, colnames = db.user_amount_input(amount);
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 # 17
 @app.route('/books_clients_ratio', methods=['GET', 'POST'])
