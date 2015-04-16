@@ -133,6 +133,24 @@ table tr td:first-child {
     background: rgba(101, 130, 113, 0.25);
 }
 
+/* search_results */
+
+.search_results .qty input[type="number"] {
+    border: none;
+    border-bottom: dashed 1px #666;
+    background:none;
+    text-align: center;
+    font-size: 1em;
+    -webkit-appearance: none;
+}
+
+.search_results .qty input[type="number"]:hover,
+.search_results .qty input[type="number"]:focus {
+    outline-offset: 0;
+    outline: none;
+    border-bottom: solid 1px #666;
+    cursor: pointer;
+}
 
 
 /* error messsaging */
