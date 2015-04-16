@@ -64,11 +64,17 @@ table tr td:first-child {
     background-size: cover;
     color: #fff;
 }
-#top-banner .logo a {
+#top-banner a {
     float: left;
-    font-size: 2em;
     line-height: 70px;
     color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0);
+}
+#top-banner a:hover {
+    border-bottom: 1px solid #fff;
+}
+#top-banner .logo a {
+    font-size: 2em;
 }
 #top-banner .nav-links {
     float: right;
@@ -76,11 +82,10 @@ table tr td:first-child {
 #top-banner .nav-links li {
     float: left;
     padding: 0 .5em;
-    line-height: 70px;
 }
 
 #main-content {
-    margin-top: 70px;
+    margin-top: 20px;
     max-width: 100%;
     position: relative;
 }
@@ -160,6 +165,18 @@ table tr td:first-child {
 }
 .search_results input[value="Proceed to Checkout"] {
     margin-left: 8em;
+}
+.search_results #books-list {
+    margin-top: 2em;
+}
+.search_results .recs input {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    display: inline-block;
+}
+.search_results .recs .inputs {
+    display: inline-block;
 }
 
 
