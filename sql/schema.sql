@@ -66,16 +66,6 @@ CREATE TABLE reading_levels(
     PRIMARY KEY(reading_level)
 );
 
--- CREATE TABLE book_status(
--- 	book_status ENUM('New','Gently used') NOT NULL,
---     cost INT NOT NULL,
---     PRIMARY KEY(book_status)
--- );
---
--- INSERT INTO book_status(book_status, cost)
--- values('New',3);
---
-
 CREATE TABLE clients_readinglevel(
 	client_id INT NOT NULL,
     reading_level INT NOT NULL,
