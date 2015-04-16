@@ -482,7 +482,17 @@ def purchased_selected_genres():
 		return render_template('/queries.html')
 
 # 11
-# 12
+
+
+# 11 12 14 16 
+@app.route('/user_input_string',methods=['GET', 'POST'])
+def show_user_input(){
+	if request.method == 'POST':
+		data, colnames = db.purchased_selected_genres();
+		return render_template( 'results.html', data=data, colnames=colnames )
+}
+
+#12
 
 # 13
 @app.route('/volunteer_purchases_last_month', methods=['GET', 'POST'])
