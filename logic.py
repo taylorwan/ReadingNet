@@ -136,7 +136,7 @@ class Database(object):
                 row_from_query = query_cur.fetchone()
                 reading_level = row_from_query[0]
 
-                #this is the reading level of the book they want to buy. check if it is in that client's lookup table
+                # this is the reading level of the book they want to buy. check if it is in that client's lookup table
                 query_cur.execute("SELECT reading_level FROM clients_readinglevel WHERE client_id = %s AND reading_level = %s",(client_ID, reading_level))
                 exists = query_cur.fetchone()
 

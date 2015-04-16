@@ -43,9 +43,6 @@ INSERT INTO genres(genre_type, description) VALUES ("Non-Fiction", "Stories base
 #insert more here
 INSERT INTO cash_reserves(cash_amount, cash_id) VALUES (0,1);
 
-# insert client_book_purchases
-# insert client_book_requests
-
 INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity)
 	VALUES (444, 'Harry Potter', 1, 'Fiction', 'New', 1, 'Random House', 1);
 INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity)
@@ -101,6 +98,3 @@ INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, reques
 	VALUES ( 2, 447, 'New', 1, '2014-04-12', 'In Progress' );
 INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )
 	VALUES ( 3, 444, 'New', 1, '2012-04-12', 'Approved' );
-
-
-# insert volunteer_books_purchased
