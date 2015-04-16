@@ -373,6 +373,15 @@ def add_tokens():
 	else:
 		return render_template('/volunteer.html')
 
+@app.route('/get_recommendations', methods=['POST'])
+def taylor_is_awesome():
+	if request.method == 'POST':
+		isbn = request.form[ 'isbn_recommendations' ]
+
+	db.book_recommendations(client_ID, token_amount)
+		return render_template('success.html')
+
+
 
 ### Queries Taylor 4.14
 
