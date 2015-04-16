@@ -164,8 +164,6 @@ def add_genre():
 @app.route( '/add_new_donor', methods=['GET','POST'] )
 def add_new_donor():
 	if request.method == 'POST':
-		donorID = request.form[ 'donorID' ]
-		
 		firstName = request.form[ 'firstName' ]
 		if firstName =="":
 			render_template('/error.html')
@@ -206,7 +204,7 @@ def add_new_donor():
 		if zipCode =="":
 			render_template('/error.html')
 
-		db.addDonor(donorID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode)
+		db.addDonor(firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode)
 		return render_template( 'success.html' )
 	
 	else:
@@ -215,10 +213,6 @@ def add_new_donor():
 @app.route('/add_new_volunteer', methods=['GET','POST'])
 def add_new_volunteer():
 	if request.method == 'POST':
-		volunteerID = request.form[ 'volunteerID' ]
-		if volunteerID == "":
-			render_template('/error.html')
-
 		firstName = request.form[ 'firstName' ]
 		if firstName == "":
 			render_template('/error.html')
@@ -260,7 +254,7 @@ def add_new_volunteer():
 			render_template('/error.html')
 
 
-		db.add_volunteer(volunteerID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode)
+		db.add_volunteer(firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode)
 		return render_template('success.html')
 
 	else:
@@ -269,7 +263,6 @@ def add_new_volunteer():
 @app.route('/add_new_client', methods=['GET','POST'])
 def add_new_client():
 	if request.method == 'POST':
-		client_ID = request.form[ 'client_ID' ]
 		organization_name = request.form[ 'organization_name' ]
 		client_phone_num = request.form[ 'client_phone_num' ]
 		email = request.form[ 'email' ]
@@ -278,10 +271,8 @@ def add_new_client():
 		state = request.form[ 'state' ]
 		zipCode = request.form[ 'zipCode' ]
 		tokens = request.form[ 'tokens' ]
-		new_count = request.form[ 'new_count' ]
-		used_count = request.form[ 'used_count' ]
 		
-		db.add_client(client_ID, organization_name, client_phone_num, email, street_address, city, state, zipCode, tokens, new_count, used_count)
+		db.add_client(organization_name, client_phone_num, email, street_address, city, state, zipCode, tokens)
 
 		return render_template('success.html')
 
@@ -373,13 +364,13 @@ def add_tokens():
 	else:
 		return render_template('/volunteer.html')
 
-@app.route('/get_recommendations', methods=['POST'])
-def taylor_is_awesome():
-	if request.method == 'POST':
-		isbn = request.form[ 'isbn_recommendations' ]
-
-	db.book_recommendations(client_ID, token_amount)
-		return render_template('success.html')
+#@app.route('/get_recommendations', methods=['POST'])
+#def taylor_is_awesome():
+#	if request.method == 'POST':
+#		isbn = request.form[ 'isbn_recommendations' ]
+#
+#	db.book_recommendations(client_ID, token_amount)
+#		return render_template('success.html')
 
 
 

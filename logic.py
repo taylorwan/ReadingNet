@@ -337,11 +337,10 @@ class Database(object):
 
             return cur
 
-    def addDonor( self, donorID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode):
+    def addDonor( self, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode):
         with self.conn:
             cur = self.conn.cursor()
             
-            #donorID = pymysql.escape_string( donorID )
             firstName = pymysql.escape_string( firstName )
             lastName = pymysql.escape_string( lastName )
             DOB = pymysql.escape_string( DOB )
@@ -353,16 +352,15 @@ class Database(object):
             state = pymysql.escape_string( state )
             zipCode = pymysql.escape_string( zipCode )
             
-            cur.execute("INSERT INTO donors VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )",(donorID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode))
+            cur.execute("INSERT INTO donors(donor_first_name, donor_last_name, donor_dob, donor_gender, donor_phone_num, donor_email, donor_street_address, donor_city, donor_state, donor_zipcode) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )",( firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode))
 
             self.conn.commit()
             return cur
 
-    def add_volunteer(self, volunteerID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode):
+    def add_volunteer(self, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode):
         with self.conn:
             cur = self.conn.cursor( )
 
-            volunteerID = pymysql.escape_string( volunteerID )
             firstName = pymysql.escape_string( firstName )
             lastName = pymysql.escape_string( lastName )
             DOB = pymysql.escape_string( DOB )
@@ -374,7 +372,7 @@ class Database(object):
             state = pymysql.escape_string( state )
             zipCode = pymysql.escape_string( zipCode )
 
-            cur.execute("INSERT INTO volunteers(volunteer_id, volunteer_first_name, volunteer_last_name, volunteer_dob, volunteer_gender, vounteer_phone_num, volunteer_email, vounteer_street_address, volunteer_city, volunteer_state, volunteer_zipcode) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )",(volunteerID, firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode))
+            cur.execute("INSERT INTO volunteers(volunteer_first_name, volunteer_last_name, volunteer_dob, volunteer_gender, vounteer_phone_num, volunteer_email, vounteer_street_address, volunteer_city, volunteer_state, volunteer_zipcode) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )",( firstName, lastName, DOB, gender, phoneNum, email, streetAddress, city, state, zipCode))
 
             self.conn.commit()
             return cur
@@ -512,10 +510,10 @@ class Database(object):
             return cur
 
     
-    def add_client(self, client_ID, organization_name, client_phone_num, email, street_address, city, state, zipCode, tokens, new_count, used_count):
+    def add_client(self, organization_name, client_phone_num, email, street_address, city, state, zipCode, tokens):
         with self.conn:
             cur = self.conn.cursor()
-            cur.execute("INSERT INTO clients(client_id, organization_name, client_phone_num, client_email, client_street_address, client_city, client_state, client_zipcode, client_tokens, new_count, used_count) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",(client_ID, organization_name, client_phone_num, email, street_address, city, state, zipCode, tokens, new_count, used_count))
+            cur.execute("INSERT INTO clients(organization_name, client_phone_num, client_email, client_street_address, client_city, client_state, client_zipcode, client_tokens) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",(organization_name, client_phone_num, email, street_address, city, state, zipCode, tokens))
 
             self.conn.commit()
 
