@@ -11,16 +11,17 @@
                 <td><b>Author Last Name</b></td>
                 <td><b>Publisher</b></td>
                 <td><b>Status</b></td>
+                <td><b>Quantity</b></td>
             </tr>
             {% for row in data %}
             <tr class="results">
-                <input type="text" value ="{{ row[0] }}">
-                <input type="text" value ="{{ row[1] }}">
-                <input type="text" value ="{{ row[2] }}">
-                <input type="text" value ="{{ row[3] }}">
-                <input type="text" value ="{{ row[4] }}">
-                <input type="text" value ="{{ row[5] }}">
-                <input type="number" name="numbers" value="0">
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td class="qty"><input type="number" name="numbers" value="0"></td>
                 <input type="hidden" name="keys" value="{{row[1]}}_{{row[5]}}">
             </tr>
             {% endfor %}
