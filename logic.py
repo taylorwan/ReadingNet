@@ -897,23 +897,3 @@ class Database(object):
             colnames = [desc[0] for desc in cur.description]
         
             return data, colnames
-
-
-
-    # def new_cash_donation(self, donor_ID, amount, donation_date):
-    #     with self.conn:
-    #         cur = self.conn.cursor()
-
-    #         donor_ID = pymysql.escape_string( donor_ID )
-    #         amount = pymysql.escape_string( amount )
-    #         amount = float(amount)
-    #         donation_date = pymysql.escape_string( donation_date )
-
-    #         cur.execute("INSERT INTO cash_donations(donor_id, amount, date_donated) VALUES (%s, %s, %s)",(donor_ID, amount, donation_date))
-    #         cur.execute("SELECT * FROM cash_reserves WHERE cash_id = 1")
-            
-    #         data = cur.fetchone()
-    #         current_cash_reserves = data[0]
-    #         new_cash = current_cash_reserves + amount
-
-    #         cur.execute("UPDATE cash_reserves SET cash_amount = %s WHERE cash_id = 1",(new_cash))
