@@ -15,8 +15,10 @@ body {
 
 a { text-decoration: none; }
 a:hover { -webkit-transition: all .1s linear; }
+:focus {outline-offset: 0; -webkit-appearance: none; outline: none }
+
 ul { list-style: none; padding: 0; margin: 0;}
-.wrap { margin: 0 30px; }
+.wrap { margin: 0 30px; overflow: scroll;}
 
 .logo { font-family: 'Annie Use Your Telescope', sans-serif; }
 .blue { color: #3366CC; }
@@ -34,7 +36,9 @@ table tr:nth-child(2n+1) {
     background: #ddd; /* darker gray */
 }
 table tr:first-child {
-    background: #ccc; /* darkest gray */
+    background: #3366CC; /* blue */
+    /* background: #ccc; /* darkest gray */
+    color: #fff;
 }
 table tr td {
     padding: 0.5em 1em;
@@ -78,7 +82,7 @@ table tr td:first-child {
 #main-content {
     margin-top: 70px;
     max-width: 100%;
-    overflow: hidden;
+    position: relative;
 }
 
 /* index page */
@@ -141,9 +145,7 @@ table tr td:first-child {
     background:none;
     text-align: center;
     font-size: 1em;
-    -webkit-appearance: none;
 }
-
 .search_results .qty input[type="number"]:hover,
 .search_results .qty input[type="number"]:focus {
     outline-offset: 0;
@@ -151,6 +153,15 @@ table tr td:first-child {
     border-bottom: solid 1px #666;
     cursor: pointer;
 }
+.search_results input[type="submit"] {
+    position: absolute;
+    bottom: -4em;
+    left: 18px;
+}
+.search_results input[value="Proceed to Checkout"] {
+    margin-left: 8em;
+}
+
 
 
 /* error messsaging */
@@ -188,18 +199,7 @@ ul.button form {
     font-size: 20px;
     text-align: center
 }
-
-
-/* volunteer page */
-
-.volunteer h3 {
-    color: #3366CC;
-    font-size: 22pt;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.volunteer form input[type=text] {
+form input[type=text] {
     padding: 10px;
     border: solid 5px #c9c9c9;
     margin-bottom: 5px;
@@ -207,19 +207,32 @@ ul.button form {
     transition: border 0.3s;
 }
 
-.volunteer form input[type=text]:focus {
+form input[type=text]:focus {
     border: solid 5px #969696;
 }
 
-.volunteer form .submit {
-    padding: 4px;
-      border: solid 5px #3366CC;
-      margin-bottom: 5px;
-      margin-right: 5px;
-      background-color: #3366CC;
-      font-size: 25px;
-      color: white;
-      letter-spacing: 1px;
+form .submit {
+    padding: .2em .5em;
+    border: solid 5px #3366CC;
+    margin: 1em .5em;
+    background-color: #3366CC;
+    font-size: 25px;
+    color: #fff;
+    letter-spacing: 1px;
+}
+form .submit:hover {
+    opacity: .95;
+    cursor: pointer;
+}
+
+
+/* volunteer page */
+
+.volunteer h3, header {
+    color: #3366CC;
+    font-size: 22pt;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 ul.results li {
