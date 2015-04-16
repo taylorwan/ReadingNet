@@ -163,6 +163,18 @@ table tr td:first-child {
 }
 
 
+/* queries */
+.queries input[type="submit"] {
+    font-size: 1em;
+    margin: 10px;
+}
+.queries h3, .queries li {
+    display: inline-block;
+}
+.queries .button form {
+    display: block;
+}
+
 
 /* error messsaging */
 
@@ -201,26 +213,25 @@ ul.button form {
 }
 form input[type=text] {
     padding: 10px;
-    border: solid 5px #c9c9c9;
     margin-bottom: 5px;
     margin-right: 5px;
-    transition: border 0.3s;
+    border: 1px solid #ccc;
 }
 
 form input[type=text]:focus {
-    border: solid 5px #969696;
+    border: 1px solid #ccc;
 }
 
-form .submit {
+form .submit, form input[type="submit"] {
     padding: .2em .5em;
     border: solid 5px #3366CC;
-    margin: 1em .5em;
+    margin: 0 .5em;
     background-color: #3366CC;
     font-size: 25px;
     color: #fff;
     letter-spacing: 1px;
 }
-form .submit:hover {
+form .submit:hover, form input[type="submit"]:hover {
     opacity: .95;
     cursor: pointer;
 }
