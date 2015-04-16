@@ -438,14 +438,14 @@ def target_donors():
 	return render_template( 'results.html', data=data, colnames=colnames )
 
 # 10
-@app.route('/purchased_selected_genres', methods=['GET', 'POST'])
-def purchased_selected_genres():
-	if request.method == 'POST':
-		genre = request.form.getlist('genre')
-		genres = request.form.getlist('type')
+# @app.route('/purchased_selected_genres', methods=['GET', 'POST'])
+# def purchased_selected_genres():
+# 	if request.method == 'POST':
+# 		fiction = request.form.get('Fiction')
+# 		non-fiction = request.form.getlist('Non-Fiction')
 		
-		data, colnames = db.purchased_selected_genres(genres);
-		return render_template( 'results.html', data=data, colnames=colnames )
+# 		data, colnames = db.purchased_selected_genres(fiction, non-fiction);
+# 		return render_template( 'results.html', data=data, colnames=colnames )
 
 # 11 
 @app.route('/user_input_string',methods=['GET', 'POST'])

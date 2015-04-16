@@ -177,7 +177,6 @@ class Database(object):
                     query_cur.execute("INSERT INTO client_book_requests(client_id, isbn, book_status, quantity, request_date, request_status) VALUES (%s, %s, %s, %s, CURDATE(), 'In Progress')",(client_ID, isbn, status, quantity))
                     query_cur.execute("DELETE FROM client_shopping_cart WHERE isbn = %s and book_status = %s",(isbn,status))
                     
-                    #TAYLOR TO JS
                     
                 else:
                     #proceed - get the number of tokens the client has and check if they can purchase
@@ -194,7 +193,6 @@ class Database(object):
                     #if there aren't enough tokens to purchase, remove it from the cart
                     if tokens < cost_of_current_purchase:
                         
-                        ## js error
                         query_cur.execute("DELETE FROM client_shopping_cart WHERE isbn = %s and book_status = %s",(isbn,status))
                         
                         error = error+1
@@ -210,8 +208,6 @@ class Database(object):
                         #if the amount they want to buy is greater than the amount there is, remove it from the cart and cancel this transaction
                         if quantity > quant_in_inventory:
                             query_cur.execute("DELETE FROM client_shopping_cart WHERE isbn = %s and book_status = %s",(isbn,status))
-                            
-                            ###TAYLOR TO JS###
                             failed = True
                             row = cur.fetchone()
                             continue
@@ -732,24 +728,23 @@ class Database(object):
         
             return data, colnames
 
-    # 10 new/used per genre - checkbox
-    # doesn't work
-    def purchased_selected_genres(self, fiction, non_fiction):
-        with self.conn:
-            cur = self.conn.cursor()
+    # # 10 new/used per genre - checkbox
+    # def purchased_selected_genres(self, fiction, non_fiction):
+    #     with self.conn:
+    #         cur = self.conn.cursor()
 
-            print fiction
-            print non_fiction
+    #         print fiction
+    #         print non_fiction
 
-            # if fiction:
-            #     genre = 'Fiction'
-            #     cur.execute("SELECT organization_name AS 'Organization' FROM clients WHERE )
+    #         if fiction and not non_fiction:
+    #             genre = 'Fiction'
+    #             cur.execute("SELECT organization_name AS 'Organization' FROM clients NATURAL JOIN client_transaction_history NATURAL JOIN WHERE  )
 
-            cur.execute("SELECT donor_first_name, donor_last_name FROM donors NATURAL JOIN cash_donations ORDER BY date_donated ASC")
-            data = cur.fetchone()
-            colnames = [desc[0] for desc in cur.description]
+    #         cur.execute("SELECT donor_first_name, donor_last_name FROM donors NATURAL JOIN cash_donations ORDER BY date_donated ASC")
+    #         data = cur.fetchone()
+    #         colnames = [desc[0] for desc in cur.description]
         
-            return data, colnames
+    #         return data, colnames
 
     # checkbox
     # <form action="demo_form.asp">

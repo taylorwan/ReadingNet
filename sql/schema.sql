@@ -127,15 +127,6 @@ CREATE TABLE book_donations(
     date_donated DATE NOT NULL,
     quantity INT NOT NULL,
     PRIMARY KEY(book_donation_id)
-    #FOREIGN KEY(donor_id)
-	#	REFERENCES donors(donor_id)
-     #   ON DELETE NO ACTION,
-    #FOREIGN KEY(isbn)
-	#	REFERENCES book_inventory(isbn)
-     #   ON DELETE NO ACTION,
-	#FOREIGN KEY (book_status)
-	#	REFERENCES book_inventory(book_status)
-     #   ON DELETE NO ACTION
 );
 
 CREATE TABLE cash_donations(
@@ -161,12 +152,6 @@ CREATE TABLE volunteer_books_purchased(
     FOREIGN KEY(volunteer_id)
 		REFERENCES volunteers(volunteer_id)
         ON DELETE NO ACTION
-	#FOREIGN KEY (isbn)
-	#	REFERENCES book_inventory(isbn)
-    #    ON DELETE NO ACTION,
-	#FOREIGN KEY (book_status)
-	#	REFERENCES book_inventory(book_status)
-    #    ON DELETE NO ACTION
 );
 
 CREATE TABLE client_book_requests(
@@ -213,12 +198,6 @@ CREATE TABLE client_transaction_history(
     FOREIGN KEY (client_id)
 		REFERENCES clients(client_id)
         ON DELETE NO ACTION
-	#FOREIGN KEY (isbn)
-	#	REFERENCES book_inventory(isbn)
-    #    ON DELETE NO ACTION,
-	#FOREIGN KEY (book_status)
-	#	REFERENCES book_inventory(book_status)
-    #    ON DELETE NO ACTION
 );
 
 CREATE TABLE client_book_purchases(

@@ -40,11 +40,7 @@ INSERT INTO clients_readinglevel(client_id, reading_level) VALUES (4, 1);
 INSERT INTO genres(genre_type, description) VALUES ("Fiction", "Interesting made up stories");
 INSERT INTO genres(genre_type, description) VALUES ("Non-Fiction", "Stories based on mostly true happenings");
 
-#insert more here
-INSERT INTO cash_reserves(cash_amount, cash_id) VALUES (0,1);
-
-# insert client_book_purchases
-# insert client_book_requests
+INSERT INTO cash_reserves(cash_amount, cash_id) VALUES (100,1);
 
 INSERT INTO book_inventory(isbn, title, reading_level, genre_type, book_status, edition, publisher, quantity)
 	VALUES (444, 'Harry Potter', 1, 'Fiction', 'New', 1, 'Random House', 1);
@@ -90,7 +86,6 @@ INSERT INTO volunteer_books_purchased( book_purchase_id, volunteer_id, isbn, dat
 INSERT INTO volunteer_books_purchased( book_purchase_id, volunteer_id, isbn, date_purchased, book_status, quantity, book_cost )
 	VALUES( 3, 3, 446, '2014-02-20', 'New', 2, 25 );
 
-# we need to make it so volunteers can approve requests
 INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )
 	VALUES ( 1, 446, 'New', 1, '2014-03-10', 'In Progress' );
 INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )

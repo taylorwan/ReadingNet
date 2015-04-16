@@ -88,18 +88,16 @@
 	</form>
 
 	<!-- 10. Allow a volunteer to select one or more genres, and display the clients who have purchased both “new” and “gently used” from ALL genres selected. For example, if a volunteer selects genre “a” and genre “b”, this query should only display clients who have purchased “gently used” books of genre “a” AND “new” books of genre “a” AND “gently used” books of genre “b” AND “new” books of genre “b”. -->
-	<form action="/purchased_selected_genres" method="POST">
+	<!-- <form action="/purchased_selected_genres" method="POST">
 		<h3 class="description">10. Allow a volunteer to select one or more genres, and display the clients who have purchased both “new” and “gently used” from ALL genres selected. For example, if a volunteer selects genre “a” and genre “b”, this query should only display clients who have purchased “gently used” books of genre “a” AND “new” books of genre “a” AND “gently used” books of genre “b” AND “new” books of genre “b”.</h3>
 		<ul>
-		<li><input type="checkbox" name="genre" value="True"> Fiction</li>
-		<li><input type="hidden" name="type" value="Fiction"></li>
-		<li><input type="checkbox" name="genre" value="True"> Non Fiction</li>
-		<li><input type="hidden" name="type" value="Non-Fiction"></li>
+		<li><input type="checkbox" name="Fiction" value="True"> Fiction</li>
+		<li><input type="checkbox" name="Non-Fiction" value="True"> Non Fiction</li>
 		<li class="button">
 			<input type="submit" value="Go" id="purchasedSelectedGenres">
 		</li>
 		</form>
-	</form>
+	</form> -->
 
 	<!-- 11. Which book titles match a user input string? Support both full and partial matches; thus, if the user inputs “apple”, it should match “apple”, “green apple”, “apple pie, ect. (It is up to you if you wish to make this case sensitive or not.) -->
 	<form action="/user_input_string" method="POST">
