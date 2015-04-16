@@ -31,18 +31,18 @@
 <form method="get" action="/checkout">
     <input type="submit" value="Proceed to Checkout" class="submit" >
 </form>
-
-    <br>
-    <br>
-
-    <form action="/add_new_cash_donation" method="POST">
+<div class="recs">
+    <form action="/get_recommendations" method="POST">
         <h3>Interested in some recomendations?</h3>
         <ul class="inputs">
-        <li>
-            <div class="title">Please enter an ISBN</div>
-            <input type="text" name="isbn_recommendations" id="recommendations" placeholder="ISBN">
-        </li>
+            <li>
+                <div class="title">Please enter an ISBN</div>
+                <input type="text" name="isbn_recommendations" id="getRecommendations" placeholder="ISBN">
+            </li>
+        </ul>
+        <input type="submit" value="Go" class="submit" >
     </form>
+</div>
 
 
 

@@ -836,20 +836,20 @@ class Database(object):
             cur = self.conn.cursor()
 
             # create views
-            cur.execute("create view cash_by_donor as (SELECT donor_id, sum(amount) FROM cash_donations GROUP BY donor_id)")
-            cur.execute("create view new_by_donor as (SELECT donor_id, 20*sum(quantity) FROM book_donations WHERE book_status = 'New' GROUP BY donor_id)")
-            cur.execute("create view used_by_donor as (SELECT donor_id, 10*sum(quantity) FROM book_donations WHERE book_status = 'Gently used' GROUP BY donor_id)")
+            # cur.execute("create view cash_by_donor as (SELECT donor_id, sum(amount) as 'total_cash_value' FROM cash_donations GROUP BY donor_id)")
+            # cur.execute("create view new_by_donor as (SELECT donor_id, 20*sum(quantity) as 'total_new_value' FROM book_donations WHERE book_status = 'New' GROUP BY donor_id)")
+            # cur.execute("create view used_by_donor as (SELECT donor_id, 10*sum(quantity) as 'total_used_value' FROM book_donations WHERE book_status = 'Gently used' GROUP BY donor_id)")
             
-            cur.execute("SELECT *, 10*sum(quantity) FROM book_donations WHERE book_status = 'Gently used' GROUP BY donor_id")
-            # cur.execute("SELECT * FROM cash_donations c RIGHT JOIN book_donations b WHERE b.donor_id = c.donor_id")
+            # cur.execute("SELECT * from cash_by_donor NATURAL JOIN new_by_donor NATURAL JOIN used_by_donor")
+            cur.execute("SELECT c.donor_id, sum(c.amount) FROM donors d NATURAL JOIN cash_donations c group by c.donor_id")
             
             data = cur.fetchall()
             colnames = [desc[0] for desc in cur.description]
 
-            # get rid of views
-            cur.execute("drop view cash_by_donor")
-            cur.execute("drop view new_by_donor")
-            cur.execute("drop view used_by_donor")
+            # # get rid of views
+            # cur.execute("drop view cash_by_donor")
+            # cur.execute("drop view new_by_donor")
+            # cur.execute("drop view used_by_donor")
         
             return data, colnames
 
@@ -889,3 +889,36 @@ class Database(object):
         
             return data, colnames
 
+
+    def get_recommendations(self, isbn):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            isbn = pymysql.escape_string( isbn )
+            isbn = int(isbn)
+
+            cur.execute("SELECT isbn_1 as 'Book 1', isbn_2 as 'Book 2', quantity as 'Quantity' from purchase_couples where isbn_1 = %s OR isbn_2 = %s HAVING quantity >= all( SELECT quantity FROM purchase_couples)", (isbn,isbn))
+            data = cur.fetchall()
+            colnames = [desc[0] for desc in cur.description]
+        
+            return data, colnames
+
+
+
+    # def new_cash_donation(self, donor_ID, amount, donation_date):
+    #     with self.conn:
+    #         cur = self.conn.cursor()
+
+    #         donor_ID = pymysql.escape_string( donor_ID )
+    #         amount = pymysql.escape_string( amount )
+    #         amount = float(amount)
+    #         donation_date = pymysql.escape_string( donation_date )
+
+    #         cur.execute("INSERT INTO cash_donations(donor_id, amount, date_donated) VALUES (%s, %s, %s)",(donor_ID, amount, donation_date))
+    #         cur.execute("SELECT * FROM cash_reserves WHERE cash_id = 1")
+            
+    #         data = cur.fetchone()
+    #         current_cash_reserves = data[0]
+    #         new_cash = current_cash_reserves + amount
+
+    #         cur.execute("UPDATE cash_reserves SET cash_amount = %s WHERE cash_id = 1",(new_cash))
