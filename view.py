@@ -388,98 +388,65 @@ def show_queries():
 # 4
 @app.route('/author_donators', methods=['GET', 'POST'])
 def author_donators():
-	if request.method == 'POST':
-		data, colnames = db.author_donators();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.author_donators();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 # 5
 @app.route('/most_recent_donor', methods=['GET', 'POST'])
 def most_recent_donor():
-	if request.method == 'POST':
-		data, colnames = db.most_recent_donor();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.most_recent_donor();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 # 6
 @app.route('/avg_tokens', methods=['GET', 'POST'])
 def avg_tokens():
-	if request.method == 'POST':
-		data, colnames = db.avg_tokens();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.avg_tokens();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 @app.route('/min_tokens', methods=['GET', 'POST'])
 def min_tokens():
-	if request.method == 'POST':
-		data, colnames = db.min_tokens();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.min_tokens();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 @app.route('/max_tokens', methods=['GET', 'POST'])
 def max_tokens():
-	if request.method == 'POST':
-		data, colnames = db.max_tokens();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.max_tokens();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 # 7
 @app.route('/book_per_genre', methods=['GET', 'POST'])
 def book_per_genre():
-	if request.method == 'POST':
-		data, colnames = db.book_per_genre();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.book_per_genre();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 @app.route('/book_per_level', methods=['GET', 'POST'])
 def book_per_level():
-	if request.method == 'POST':
-		data, colnames = db.book_per_level();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.book_per_level();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 @app.route('/book_per_genre_level', methods=['GET', 'POST'])
 def book_per_genre_level():
-	if request.method == 'POST':
-		data, colnames = db.book_per_genre_level();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.book_per_genre_level();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 
 # 8
 @app.route('/top_book', methods=['GET', 'POST'])
 def top_book():
-	if request.method == 'POST':
-		data, colnames = db.top_book();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.top_book();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 # 9
 @app.route('/target_donors', methods=['GET', 'POST'])
 def target_donors():
-	if request.method == 'POST':
-		data, colnames = db.target_donors();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.target_donors();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 # 10
 @app.route('/purchased_selected_genres', methods=['GET', 'POST'])
 def purchased_selected_genres():
-	if request.method == 'POST':
-		data, colnames = db.purchased_selected_genres();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.purchased_selected_genres();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 # 11
 # 12
@@ -487,48 +454,38 @@ def purchased_selected_genres():
 # 13
 @app.route('/volunteer_purchases_last_month', methods=['GET', 'POST'])
 def volunteer_purchases_last_month():
-	if request.method == 'POST':
-		data, colnames = db.volunteer_purchases_last_month();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.volunteer_purchases_last_month();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 # 14
+@app.route('/purchased_from_specified_author', methods=['GET', 'POST'])
+def purchased_from_specified_author():
+	data, colnames = db.purchased_from_specified_author();
+	return render_template( 'results.html', data=data, colnames=colnames )
+
 # 15
 @app.route('/publisher_filter', methods=['GET', 'POST'])
 def publisher_filter():
-	if request.method == 'POST':
-		data, colnames = db.publisher_filter();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.publisher_filter();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 # 16
 # @app.route('/#', methods=['GET', 'POST'])
 # def #():
-# 	if request.method == 'POST':
-# 		data, colnames = db.#();
-# 		return render_template( 'results.html', data=data, colnames=colnames )
-# 	else:
-# 		return render_template('/queries.html')
+	# data, colnames = db.#();
+	# return render_template( 'results.html', data=data, colnames=colnames )
 
 # 17
 @app.route('/books_clients_ratio', methods=['GET', 'POST'])
 def books_clients_ratio():
-	if request.method == 'POST':
-		data, colnames = db.books_clients_ratio();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.books_clients_ratio();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 # 18
 @app.route('/clients_with_requests', methods=['GET', 'POST'])
 def clients_with_requests():
-	if request.method == 'POST':
-		data, colnames = db.clients_with_requests();
-		return render_template( 'results.html', data=data, colnames=colnames )
-	else:
-		return render_template('/queries.html')
+	data, colnames = db.clients_with_requests();
+	return render_template( 'results.html', data=data, colnames=colnames )
 
 if __name__ == '__main__':
     app.run()

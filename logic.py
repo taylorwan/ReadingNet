@@ -1,6 +1,5 @@
 import pymysql
 import config
-import unicodedata
 
 class CursorIterator(object):
     """Iterator for the cursor object."""
@@ -740,6 +739,15 @@ class Database(object):
 
 
     # 14 purchased books from specific author - textinput
+    def purchased_from_specified_author(self):
+        with self.conn:
+            cur = self.conn.cursor()
+
+            cur.execute("SELECT donor_first_name, donor_last_name FROM donors NATURAL JOIN cash_donations ORDER BY date_donated ASC")
+            data = cur.fetchone()
+            colnames = [desc[0] for desc in cur.description]
+        
+            return data, colnames
 
     # 15 all publishers with 2+ new books and <5 used books
     def publisher_filter(self):
