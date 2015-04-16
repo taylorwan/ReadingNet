@@ -5,13 +5,13 @@
     <div class="results">
         <table id="books-list">
             <tr>
-                <td><b>Title</b></td>
-                <td><b>ISBN</b></td>
-                <td><b>Author First Name</b></td>
-                <td><b>Author Last Name</b></td>
-                <td><b>Publisher</b></td>
-                <td><b>Status</b></td>
-                <td><b>Quantity</b></td>
+                <td>Title</td>
+                <td>ISBN</td>
+                <td>Author First Name</td>
+                <td>Author Last Name</td>
+                <td>Publisher</td>
+                <td>Status</td>
+                <td>Quantity</td>
             </tr>
             {% for row in data %}
             <tr class="results">
@@ -25,12 +25,12 @@
                 <input type="hidden" name="keys" value="{{row[1]}}_{{row[5]}}">
             </tr>
             {% endfor %}
-            <input type="submit" value = "Add to Cart">
+            <input type="submit" value = "Add to Cart" class="submit">
         </div>
 </form>
-    <form method="get" action="/checkout">
-        <input type="submit" value="Proceed to Checkout" >
-    </form>
+<form method="get" action="/checkout">
+    <input type="submit" value="Proceed to Checkout" class="submit" >
+</form>
 
 
 
