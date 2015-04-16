@@ -23,7 +23,7 @@ def splash():
 def volunteer():
 	return render_template( 'volunteer.html' )
 
-@app.route( '/client', methods=['GET'] )
+@app.route( '/browse', methods=['GET'] )
 def client():
 	return render_template( 'search.html' )
 

@@ -68,7 +68,7 @@ INSERT INTO book_author(isbn, author_fn, author_ln) VALUES (447, 'Jane', 'Doe');
 INSERT INTO book_author(isbn, author_fn, author_ln) VALUES (800, 'Peter', 'Thiel');
 
 INSERT INTO book_donations ( book_donation_id, isbn, book_status, donor_id, date_donated, quantity )
-    VALUES ( 4920386, 444, 'New', 4, '2012-02-10', 1);
+    VALUES ( 4920384, 444, 'New', 4, '2012-02-10', 1);
 INSERT INTO book_donations ( book_donation_id, isbn, book_status, donor_id, date_donated, quantity )
     VALUES ( 4920385, 445, 'New', 4, '2012-02-15', 1);
 INSERT INTO book_donations ( book_donation_id, isbn, book_status, donor_id, date_donated, quantity )
@@ -101,6 +101,3 @@ INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, reques
 	VALUES ( 2, 447, 'New', 1, '2014-04-12', 'In Progress' );
 INSERT INTO client_book_requests( client_id, isbn, book_status, quantity, request_date, request_status )
 	VALUES ( 3, 444, 'New', 1, '2012-04-12', 'Approved' );
-
-
-# insert volunteer_books_purchased
